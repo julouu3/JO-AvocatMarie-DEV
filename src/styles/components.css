@@ -19,7 +19,40 @@
   color: #002FA7;
 }
 
-/* ── Button styles ──────────────────────────────────────────────────────── */
+/* ── Keyframes ─────────────────────────────────────────────────────────── */
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  15% { transform: translateX(-4px); }
+  30% { transform: translateX(4px); }
+  45% { transform: translateX(-3px); }
+  60% { transform: translateX(3px); }
+  75% { transform: translateX(-1px); }
+  90% { transform: translateX(1px); }
+}
+
+@keyframes focus-ring-pulse {
+  0% { box-shadow: 0 0 0 3px rgba(0, 47, 167, 0.25); }
+  50% { box-shadow: 0 0 0 5px rgba(0, 47, 167, 0.10); }
+  100% { box-shadow: 0 0 0 3px rgba(0, 47, 167, 0.15); }
+}
+
+@keyframes pulse-dot {
+  0% { box-shadow: 0 0 0 0 rgba(0, 47, 167, 0.45); }
+  70% { box-shadow: 0 0 0 10px rgba(0, 47, 167, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(0, 47, 167, 0); }
+}
+
+@keyframes slide-up-in {
+  from { transform: translateY(100%); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes wipe-right {
+  from { background-position: -100% 0; }
+  to { background-position: 200% 0; }
+}
+
+/* ── Button base ───────────────────────────────────────────────────────── */
 .btn-primary {
   background-color: #002FA7;
   color: #FFFFFF;
@@ -30,14 +63,48 @@
   text-transform: uppercase;
   letter-spacing: 0.06em;
   text-decoration: none;
-  transition: background-color 200ms ease;
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  position: relative;
+  overflow: hidden;
+  transition:
+    background-color 250ms cubic-bezier(0.16, 1, 0.3, 1),
+    transform 250ms cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 250ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .btn-primary:hover {
   background-color: #0038CC;
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 6px 20px rgba(0, 47, 167, 0.35);
+}
+
+.btn-primary:active {
+  transform: translateY(0) scale(0.97);
+  box-shadow: 0 2px 8px rgba(0, 47, 167, 0.2);
+  transition-duration: 100ms;
+}
+
+/* Shimmer effect on hover */
+.btn-primary::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    105deg,
+    transparent 35%,
+    rgba(255, 255, 255, 0.12) 45%,
+    rgba(255, 255, 255, 0.12) 55%,
+    transparent 65%
+  );
+  transform: translateX(-120%);
+  transition: transform 600ms cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+}
+
+.btn-primary:hover::after {
+  transform: translateX(120%);
 }
 
 .btn-primary-light {
@@ -50,14 +117,46 @@
   text-transform: uppercase;
   letter-spacing: 0.06em;
   text-decoration: none;
-  transition: background-color 200ms ease;
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  position: relative;
+  overflow: hidden;
+  transition:
+    background-color 250ms cubic-bezier(0.16, 1, 0.3, 1),
+    transform 250ms cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 250ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .btn-primary-light:hover {
   background-color: #E8EDFF;
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 6px 20px rgba(0, 47, 167, 0.18);
+}
+
+.btn-primary-light:active {
+  transform: translateY(0) scale(0.97);
+  transition-duration: 100ms;
+}
+
+.btn-primary-light::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    105deg,
+    transparent 35%,
+    rgba(0, 47, 167, 0.06) 45%,
+    rgba(0, 47, 167, 0.06) 55%,
+    transparent 65%
+  );
+  transform: translateX(-120%);
+  transition: transform 600ms cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+}
+
+.btn-primary-light:hover::after {
+  transform: translateX(120%);
 }
 
 .btn-outline {
@@ -71,15 +170,26 @@
   text-transform: uppercase;
   letter-spacing: 0.06em;
   text-decoration: none;
-  transition: background-color 200ms ease, color 200ms ease;
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  transition:
+    background-color 250ms cubic-bezier(0.16, 1, 0.3, 1),
+    color 250ms cubic-bezier(0.16, 1, 0.3, 1),
+    transform 250ms cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 250ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .btn-outline:hover {
   background-color: #002FA7;
   color: #FFFFFF;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 47, 167, 0.25);
+}
+
+.btn-outline:active {
+  transform: translateY(0) scale(0.97);
+  transition-duration: 100ms;
 }
 
 .btn-outline-white {
@@ -93,31 +203,73 @@
   text-transform: uppercase;
   letter-spacing: 0.06em;
   text-decoration: none;
-  transition: background-color 200ms ease, border-color 200ms ease;
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  transition:
+    background-color 250ms cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 250ms cubic-bezier(0.16, 1, 0.3, 1),
+    transform 250ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .btn-outline-white:hover {
   background-color: rgba(255, 255, 255, 0.10);
   border-color: rgba(255, 255, 255, 0.70);
+  transform: translateY(-2px);
+}
+
+.btn-outline-white:active {
+  transform: translateY(0) scale(0.97);
+  transition-duration: 100ms;
+}
+
+/* ── Arrow animation inside buttons / links ────────────────────────────── */
+.arrow-hover {
+  transition: transform 280ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.group:hover .arrow-hover,
+.group\/link:hover .arrow-hover {
+  transform: translateX(4px);
 }
 
 /* ── Card hover effect ──────────────────────────────────────────────────── */
 .card-hover {
-  transition: transform 200ms ease, border-color 200ms ease, box-shadow 200ms ease;
+  transition:
+    transform 300ms cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 300ms ease,
+    box-shadow 300ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .card-hover:hover {
-  transform: translateY(-4px);
+  transform: translateY(-6px) scale(1.008);
   border-color: #002FA7;
-  box-shadow: 0 8px 32px rgba(0, 47, 167, 0.12);
+  box-shadow:
+    0 12px 40px rgba(0, 47, 167, 0.12),
+    0 0 0 1px rgba(0, 47, 167, 0.08);
+}
+
+.card-hover:active {
+  transform: translateY(-2px) scale(0.995);
+  transition-duration: 120ms;
+}
+
+.card-hover-blue {
+  transition:
+    transform 300ms cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 300ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .card-hover-blue:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 32px rgba(0, 47, 167, 0.35);
+  transform: translateY(-6px) scale(1.008);
+  box-shadow:
+    0 12px 40px rgba(0, 47, 167, 0.4),
+    0 0 0 1px rgba(91, 138, 245, 0.2);
+}
+
+.card-hover-blue:active {
+  transform: translateY(-2px) scale(0.995);
+  transition-duration: 120ms;
 }
 
 /* ── Form input focus ───────────────────────────────────────────────────── */
@@ -131,21 +283,31 @@
   font-size: 15px;
   color: #060608;
   outline: none;
-  transition: border-color 150ms ease, box-shadow 150ms ease;
+  transition:
+    border-color 200ms ease,
+    box-shadow 200ms ease,
+    background-color 200ms ease;
+}
+
+.input-field:hover:not(:focus) {
+  border-color: #B0B0C0;
 }
 
 .input-field:focus {
   border-color: #002FA7;
   box-shadow: 0 0 0 3px rgba(0, 47, 167, 0.15);
+  animation: focus-ring-pulse 600ms ease-out;
 }
 
 .input-field.has-value {
   border-color: #002FA7;
+  background-color: #FAFBFF;
 }
 
 .input-field.has-error {
   border-color: #D93025;
   box-shadow: 0 0 0 3px rgba(217, 48, 37, 0.15);
+  animation: shake 400ms ease-out;
 }
 
 /* ── Filter button ──────────────────────────────────────────────────────── */
@@ -157,40 +319,157 @@
   border-radius: 3px;
   cursor: pointer;
   min-height: 44px;
-  transition: background-color 200ms ease, color 200ms ease, border-color 200ms ease;
+  transition:
+    background-color 220ms cubic-bezier(0.16, 1, 0.3, 1),
+    color 220ms ease,
+    border-color 220ms ease,
+    transform 220ms cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 220ms ease;
 }
 
 .filter-btn:not(.active):hover {
   border-color: #002FA7;
   color: #002FA7;
+  transform: translateY(-1px);
+  box-shadow: 0 3px 10px rgba(0, 47, 167, 0.1);
+}
+
+.filter-btn:active {
+  transform: scale(0.95);
+  transition-duration: 80ms;
+}
+
+.filter-btn.active {
+  transform: scale(1);
+  box-shadow: 0 2px 8px rgba(0, 47, 167, 0.3);
 }
 
 /* ── Certification card ─────────────────────────────────────────────────── */
 .cert-card {
-  transition: border-color 200ms ease;
+  transition:
+    border-color 250ms ease,
+    background-color 250ms ease,
+    transform 250ms cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 250ms ease;
+  background-size: 200% 100%;
 }
 
 .cert-card:hover {
   border-color: #002FA7;
+  background-color: #E8EDFF;
+  transform: translateY(-2px) translateX(2px);
+  box-shadow: 0 4px 12px rgba(0, 47, 167, 0.08);
+}
+
+.cert-card:active {
+  transform: translateY(0);
+  transition-duration: 80ms;
 }
 
 /* ── Consultation option ────────────────────────────────────────────────── */
 .consultation-option {
-  transition: border-color 200ms ease;
+  position: relative;
+  transition:
+    border-color 250ms ease,
+    transform 250ms cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 250ms ease;
+}
+
+.consultation-option::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%) scaleY(0);
+  width: 3px;
+  height: 60%;
+  background-color: #002FA7;
+  border-radius: 0 2px 2px 0;
+  transition: transform 250ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .consultation-option:hover {
   border-color: #002FA7;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(0, 47, 167, 0.08);
+}
+
+.consultation-option:hover::before {
+  transform: translateY(-50%) scaleY(1);
+}
+
+/* ── Tag / badge hover ──────────────────────────────────────────────────── */
+.tag-hover {
+  transition: transform 200ms cubic-bezier(0.16, 1, 0.3, 1);
+  cursor: default;
+}
+
+.tag-hover:hover {
+  transform: scale(1.06);
+}
+
+/* ── Timeline dot pulse ─────────────────────────────────────────────────── */
+.timeline-dot {
+  animation: pulse-dot 2s ease-out infinite;
+}
+
+/* ── Link with animated underline ───────────────────────────────────────── */
+.link-underline {
+  position: relative;
+  text-decoration: none;
+}
+
+.link-underline::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 100%;
+  height: 1.5px;
+  background-color: currentColor;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 300ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.link-underline:hover::after {
+  transform: scaleX(1);
 }
 
 /* ── Footer CTA ─────────────────────────────────────────────────────────── */
 .footer-cta {
-  transition: background-color 220ms ease, border-color 220ms ease;
+  transition:
+    background-color 250ms cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 250ms ease,
+    transform 250ms cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 250ms ease;
 }
 
 .footer-cta:hover {
   background-color: rgba(0, 47, 167, 0.55);
   border-color: rgba(0, 47, 167, 0.9);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(0, 47, 167, 0.3);
+}
+
+.footer-cta:active {
+  transform: translateY(0) scale(0.97);
+  transition-duration: 100ms;
+}
+
+/* ── Mobile CTA bar slide-up ────────────────────────────────────────────── */
+.mobile-cta-bar {
+  animation: slide-up-in 500ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* ── Icon bounce (for arrow icons in CTAs) ──────────────────────────────── */
+.icon-bounce {
+  transition: transform 280ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.group:hover .icon-bounce,
+.group\/link:hover .icon-bounce {
+  transform: translateX(5px);
 }
 
 /* ── Reduced motion ─────────────────────────────────────────────────────── */

@@ -296,7 +296,7 @@ export default function Navbar() {
 
       {/* ── Mobile sticky CTA bar ─────────────────────────────────────────── */}
       <div
-        className="lg:hidden fixed bottom-0 left-0 right-0 z-30 p-3"
+        className="lg:hidden fixed bottom-0 left-0 right-0 z-30 p-3 mobile-cta-bar"
         style={{
           backgroundColor: 'rgba(10,13,26,0.96)',
           backdropFilter: 'blur(12px)',

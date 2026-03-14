@@ -152,7 +152,7 @@ function HeroSection() {
               <span className="group-hover:underline" style={{ textDecorationColor: '#002FA7' }}>
                 Découvrir le cabinet
               </span>
-              <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" />
+              <ArrowRight size={16} className="icon-bounce" />
             </Link>
           </motion.div>
         </div>
@@ -220,7 +220,7 @@ function AccrocheSection() {
                 style={{ color: '#002FA7', fontSize: '15px', fontWeight: 500, textDecoration: 'none' }}
               >
                 <span className="group-hover:underline">En savoir plus</span>
-                <ArrowRight size={15} className="transition-transform group-hover:translate-x-1" />
+                <ArrowRight size={15} className="icon-bounce" />
               </Link>
             </ScrollReveal>
           </div>
@@ -314,7 +314,7 @@ function ExpertisesSection() {
               </ul>
               <Link to="/dossiers" className="group/link inline-flex items-center gap-2 mt-auto font-body" style={{ color: '#002FA7', fontSize: '14px', fontWeight: 500, textDecoration: 'none' }}>
                 <span className="group-hover/link:underline">Voir les dossiers</span>
-                <ArrowRight size={14} className="transition-transform group-hover/link:translate-x-1" />
+                <ArrowRight size={14} className="icon-bounce" />
               </Link>
             </motion.div>
           </ScrollReveal>
@@ -344,7 +344,7 @@ function ExpertisesSection() {
               </ul>
               <Link to="/dossiers" className="group/link inline-flex items-center gap-2 mt-auto font-body" style={{ color: '#FFFFFF', fontSize: '14px', fontWeight: 500, textDecoration: 'none' }}>
                 <span className="group-hover/link:underline">Voir les dossiers</span>
-                <ArrowRight size={14} className="transition-transform group-hover/link:translate-x-1" />
+                <ArrowRight size={14} className="icon-bounce" />
               </Link>
             </motion.div>
           </ScrollReveal>
@@ -399,7 +399,7 @@ function AboutSection() {
               {['Barreau de Paris', 'Master II Droit des Affaires', "12 ans d'expérience"].map((badge) => (
                 <span
                   key={badge}
-                  className="font-body"
+                  className="font-body tag-hover"
                   style={{
                     backgroundColor: 'rgba(0,47,167,0.35)', color: '#FFFFFF',
                     border: '1px solid rgba(0,47,167,0.55)',
@@ -414,7 +414,7 @@ function AboutSection() {
           <ScrollReveal delay={0.28}>
             <Link to="/profil" className="group inline-flex items-center gap-2 font-body" style={{ color: '#FFFFFF', fontSize: '15px', fontWeight: 500, textDecoration: 'none' }}>
               <span className="group-hover:underline" style={{ textDecorationColor: '#002FA7' }}>Découvrir mon parcours</span>
-              <ArrowRight size={15} className="transition-transform group-hover:translate-x-1" />
+              <ArrowRight size={15} className="icon-bounce" />
             </Link>
           </ScrollReveal>
         </div>
@@ -440,7 +440,7 @@ function DossiersSection() {
           <ScrollReveal delay={0.1}>
             <Link to="/dossiers" className="group inline-flex items-center gap-2 whitespace-nowrap font-body" style={{ color: '#002FA7', fontSize: '14px', fontWeight: 500, textDecoration: 'none' }}>
               <span className="group-hover:underline">Voir tous les dossiers</span>
-              <ArrowRight size={14} className="transition-transform group-hover:translate-x-1" />
+              <ArrowRight size={14} className="icon-bounce" />
             </Link>
           </ScrollReveal>
         </div>

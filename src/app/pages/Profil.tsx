@@ -130,7 +130,7 @@ export default function Profil() {
               {skillPills.map((pill) => (
                 <span
                   key={pill}
-                  className="font-body"
+                  className="font-body tag-hover"
                   style={{
                     backgroundColor: 'rgba(0,47,167,0.40)',
                     color: '#FFFFFF',
@@ -228,6 +228,7 @@ export default function Profil() {
                     </div>
                     <div className="relative flex-shrink-0" style={{ marginTop: '4px' }}>
                       <div
+                        className="timeline-dot"
                         style={{
                           width: '14px',
                           height: '14px',
