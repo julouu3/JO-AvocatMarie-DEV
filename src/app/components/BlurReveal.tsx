@@ -66,9 +66,11 @@ export default function BlurReveal({
 }: BlurRevealProps) {
   const containerRef = useRef<HTMLElement>(null);
 
+  // L'animation commence quand le haut de l'élément entre dans le viewport (bottom)
+  // et se termine quand le haut atteint 60% du viewport (= bien visible, pas besoin de scroller plus)
   const { scrollYProgress } = useScroll({
     target: containerRef,
-    offset: ['start end-=15%', 'end start+=25%'],
+    offset: ['start 90%', 'start 40%'],
   });
 
   // Rotation liée au scroll
@@ -79,12 +81,14 @@ export default function BlurReveal({
     return children.split(/\s+/).filter(Boolean);
   }, [children]);
 
-  // Chaque mot a sa propre tranche de progression
+  // Chaque mot a sa tranche de progression, mais avec overlap pour un effet fluide
+  // Le premier mot commence à 0 et le dernier finit à 1
+  // Chaque mot a une "fenêtre" plus large que sa tranche stricte
   const wordRanges = useMemo(() => {
     const total = words.length;
     return words.map((_, i) => {
-      const start = i / total;
-      const end = start + 1 / total;
+      const start = Math.max(0, (i / total) - 0.1);
+      const end = Math.min(1, ((i + 1) / total) + 0.1);
       return [start, end] as [number, number];
     });
   }, [words]);
