@@ -1,86 +1,128 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { Link } from 'react-router';
-import { motion, AnimatePresence } from 'motion/react';
+import { motion, AnimatePresence, useScroll, useTransform } from 'motion/react';
 import { ArrowRight } from 'lucide-react';
 import ScrollReveal from '../components/ScrollReveal';
 import { categories, allDossiers } from '@/data/dossiers';
+import { useMobile } from '@/hooks/useMobile';
 
 export default function Dossiers() {
   const [activeCategory, setActiveCategory] = useState('Tous');
+  const isMobile = useMobile();
 
   const filtered =
     activeCategory === 'Tous'
       ? allDossiers
       : allDossiers.filter((d) => d.category === activeCategory);
 
+  // Parallax hero
+  const heroRef = useRef<HTMLElement>(null);
+  const { scrollYProgress: heroProgress } = useScroll({
+    target: heroRef,
+    offset: ['start start', 'end start'],
+  });
+  const heroBgY = useTransform(heroProgress, [0, 1], ['0%', isMobile ? '0%' : '18%']);
+  const heroContentY = useTransform(heroProgress, [0, 1], ['0%', isMobile ? '0%' : '10%']);
+  const heroContentOpacity = useTransform(heroProgress, [0, 0.7], [1, 0]);
+
+  // Parallax CTA section
+  const ctaRef = useRef<HTMLElement>(null);
+  const { scrollYProgress: ctaProgress } = useScroll({
+    target: ctaRef,
+    offset: ['start end', 'end start'],
+  });
+  const ctaBgY = useTransform(ctaProgress, [0, 1], isMobile ? ['0%', '0%'] : ['0%', '15%']);
+
   return (
     <>
-      {/* === A — HERO DOSSIERS === */}
-      <section style={{ backgroundColor: '#0A0D1A', padding: 'clamp(80px, 10vw, 128px) 0 clamp(56px, 7vw, 80px)' }}>
-        <div className="max-w-[1280px] mx-auto px-5 md:px-10 lg:px-20">
-          <motion.p
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-            className="eyebrow"
-            style={{ marginBottom: '16px' }}
-          >
-            Portfolio juridique
-          </motion.p>
-          <motion.h1
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="font-heading"
-            style={{
-              fontSize: 'clamp(36px, 5vw, 56px)',
-              fontWeight: 700,
-              lineHeight: 1.1,
-              color: '#FFFFFF',
-              marginBottom: '12px',
-            }}
-          >
-            Mes Dossiers
-          </motion.h1>
-          <motion.p
-            initial={{ opacity: 0, y: 18 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.35 }}
-            className="font-body"
-            style={{
-              fontSize: 'clamp(16px, 1.5vw, 18px)',
-              color: 'rgba(255,255,255,0.70)',
-              marginBottom: '48px',
-            }}
-          >
-            Des situations complexes, des résultats concrets.
-          </motion.p>
+      {/* === A — HERO DOSSIERS (parallax) === */}
+      <section
+        ref={heroRef}
+        className="relative overflow-hidden"
+        style={{ backgroundColor: '#0A0D1A' }}
+      >
+        {/* Background parallax gradient */}
+        <motion.div
+          className="absolute inset-0"
+          style={{
+            y: heroBgY,
+            background: 'radial-gradient(ellipse at 60% 40%, rgba(0,47,167,0.12) 0%, transparent 65%)',
+          }}
+        />
 
-          <motion.div
-            className="flex flex-row flex-wrap gap-12"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.45 }}
-          >
-            {[
-              { value: '200+', label: 'dossiers traités' },
-              { value: '12 ans', label: "d'expérience" },
-              { value: '2', label: 'spécialités' },
-            ].map((m) => (
-              <div key={m.label} className="flex flex-col gap-1">
-                <span
-                  className="font-body"
-                  style={{ fontSize: 'clamp(28px, 3vw, 36px)', fontWeight: 700, color: '#FFFFFF', lineHeight: 1 }}
-                >
-                  {m.value}
-                </span>
-                <span className="font-body" style={{ fontSize: '13px', color: 'rgba(255,255,255,0.55)' }}>
-                  {m.label}
-                </span>
-              </div>
-            ))}
-          </motion.div>
-        </div>
+        <motion.div
+          className="relative z-10"
+          style={{
+            y: heroContentY,
+            opacity: heroContentOpacity,
+            padding: 'clamp(80px, 10vw, 128px) 0 clamp(56px, 7vw, 80px)',
+          }}
+        >
+          <div className="max-w-[1280px] mx-auto px-5 md:px-10 lg:px-20">
+            <motion.p
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+              className="eyebrow"
+              style={{ marginBottom: '16px' }}
+            >
+              Portfolio juridique
+            </motion.p>
+            <motion.h1
+              initial={{ opacity: 0, y: 24 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+              className="font-heading"
+              style={{
+                fontSize: 'clamp(36px, 5vw, 56px)',
+                fontWeight: 700,
+                lineHeight: 1.1,
+                color: '#FFFFFF',
+                marginBottom: '12px',
+              }}
+            >
+              Mes Dossiers
+            </motion.h1>
+            <motion.p
+              initial={{ opacity: 0, y: 18 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.35, ease: [0.16, 1, 0.3, 1] }}
+              className="font-body"
+              style={{
+                fontSize: 'clamp(16px, 1.5vw, 18px)',
+                color: 'rgba(255,255,255,0.70)',
+                marginBottom: '48px',
+              }}
+            >
+              Des situations complexes, des résultats concrets.
+            </motion.p>
+
+            <motion.div
+              className="flex flex-row flex-wrap gap-12"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.45, ease: [0.16, 1, 0.3, 1] }}
+            >
+              {[
+                { value: '200+', label: 'dossiers traités' },
+                { value: '12 ans', label: "d'expérience" },
+                { value: '2', label: 'spécialités' },
+              ].map((m) => (
+                <div key={m.label} className="flex flex-col gap-1">
+                  <span
+                    className="font-body"
+                    style={{ fontSize: 'clamp(28px, 3vw, 36px)', fontWeight: 700, color: '#FFFFFF', lineHeight: 1 }}
+                  >
+                    {m.value}
+                  </span>
+                  <span className="font-body" style={{ fontSize: '13px', color: 'rgba(255,255,255,0.55)' }}>
+                    {m.label}
+                  </span>
+                </div>
+              ))}
+            </motion.div>
+          </div>
+        </motion.div>
       </section>
 
       {/* === B — FILTRES === */}
@@ -118,7 +160,7 @@ export default function Dossiers() {
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -8 }}
-              transition={{ duration: 0.3 }}
+              transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
             >
               {filtered.map((d) => (
                 <div
@@ -196,9 +238,19 @@ export default function Dossiers() {
         </div>
       </section>
 
-      {/* === D — CTA BAS === */}
-      <section style={{ backgroundColor: '#002FA7', padding: 'clamp(56px, 7vw, 96px) 0' }}>
-        <div className="max-w-[1280px] mx-auto px-5 md:px-10 lg:px-20 text-center flex flex-col items-center">
+      {/* === D — CTA BAS (parallax) === */}
+      <section ref={ctaRef} className="relative overflow-hidden" style={{ backgroundColor: '#002FA7' }}>
+        <motion.div
+          className="absolute inset-0"
+          style={{
+            y: ctaBgY,
+            background: 'radial-gradient(ellipse at 50% 60%, rgba(255,255,255,0.07) 0%, transparent 55%)',
+          }}
+        />
+        <div
+          className="relative z-10 max-w-[1280px] mx-auto px-5 md:px-10 lg:px-20 text-center flex flex-col items-center"
+          style={{ padding: 'clamp(56px, 7vw, 96px) 0' }}
+        >
           <ScrollReveal>
             <h2
               className="font-heading"

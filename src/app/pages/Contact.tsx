@@ -1,8 +1,9 @@
-import { useState } from 'react';
-import { motion } from 'motion/react';
+import { useRef, useState } from 'react';
+import { motion, useScroll, useTransform } from 'motion/react';
 import { Mail, MapPin, Linkedin, Scale, Lock, Clock, CheckCircle2, ArrowRight } from 'lucide-react';
 import ScrollReveal from '../components/ScrollReveal';
 import { consultationOptions, etapes } from '@/data/contact';
+import { useMobile } from '@/hooks/useMobile';
 import type { FormData, FormErrors } from '@/types';
 
 export default function Contact() {
@@ -15,6 +16,25 @@ export default function Contact() {
   });
   const [errors, setErrors] = useState<FormErrors>({});
   const [submitted, setSubmitted] = useState(false);
+
+  // Parallax hero
+  const heroRef = useRef<HTMLElement>(null);
+  const isMobile = useMobile();
+  const { scrollYProgress: heroProgress } = useScroll({
+    target: heroRef,
+    offset: ['start start', 'end start'],
+  });
+  const heroBgY = useTransform(heroProgress, [0, 1], ['0%', isMobile ? '0%' : '18%']);
+  const heroContentY = useTransform(heroProgress, [0, 1], ['0%', isMobile ? '0%' : '10%']);
+  const heroContentOpacity = useTransform(heroProgress, [0, 0.7], [1, 0]);
+
+  // Parallax CTA section
+  const ctaRef = useRef<HTMLElement>(null);
+  const { scrollYProgress: ctaProgress } = useScroll({
+    target: ctaRef,
+    offset: ['start end', 'end start'],
+  });
+  const ctaY = useTransform(ctaProgress, [0, 1], isMobile ? [0, 0] : [40, -40]);
 
   const validate = (): FormErrors => {
     const e: FormErrors = {};
@@ -49,38 +69,60 @@ export default function Contact() {
 
   return (
     <>
-      {/* === A — HERO CONTACT === */}
-      <section style={{ backgroundColor: '#0A0D1A', padding: 'clamp(100px, 12vw, 128px) 0 clamp(56px, 7vw, 80px)' }}>
-        <div className="max-w-[1280px] mx-auto px-5 md:px-10 lg:px-20 text-center">
-          <motion.h1
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className="font-heading"
-            style={{
-              fontSize: 'clamp(36px, 5vw, 56px)',
-              fontWeight: 700,
-              lineHeight: 1.1,
-              color: '#FFFFFF',
-              marginBottom: '16px',
-            }}
-          >
-            Parlons de votre dossier.
-          </motion.h1>
-          <motion.p
-            initial={{ opacity: 0, y: 18 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.3 }}
-            className="font-body"
-            style={{
-              fontSize: 'clamp(16px, 1.5vw, 18px)',
-              color: 'rgba(255,255,255,0.75)',
-              lineHeight: 1.65,
-            }}
-          >
-            Premier échange confidentiel, sans engagement.
-          </motion.p>
-        </div>
+      {/* === A — HERO CONTACT (parallax) === */}
+      <section
+        ref={heroRef}
+        className="relative overflow-hidden"
+        style={{ backgroundColor: '#0A0D1A' }}
+      >
+        {/* Background parallax layer */}
+        <motion.div
+          className="absolute inset-0"
+          style={{
+            y: heroBgY,
+            background: 'radial-gradient(ellipse at 30% 50%, rgba(0,47,167,0.15) 0%, transparent 70%)',
+          }}
+        />
+
+        <motion.div
+          className="relative z-10"
+          style={{
+            y: heroContentY,
+            opacity: heroContentOpacity,
+            padding: 'clamp(100px, 12vw, 128px) 0 clamp(56px, 7vw, 80px)',
+          }}
+        >
+          <div className="max-w-[1280px] mx-auto px-5 md:px-10 lg:px-20 text-center">
+            <motion.h1
+              initial={{ opacity: 0, y: 24 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+              className="font-heading"
+              style={{
+                fontSize: 'clamp(36px, 5vw, 56px)',
+                fontWeight: 700,
+                lineHeight: 1.1,
+                color: '#FFFFFF',
+                marginBottom: '16px',
+              }}
+            >
+              Parlons de votre dossier.
+            </motion.h1>
+            <motion.p
+              initial={{ opacity: 0, y: 18 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+              className="font-body"
+              style={{
+                fontSize: 'clamp(16px, 1.5vw, 18px)',
+                color: 'rgba(255,255,255,0.75)',
+                lineHeight: 1.65,
+              }}
+            >
+              Premier échange confidentiel, sans engagement.
+            </motion.p>
+          </div>
+        </motion.div>
       </section>
 
       {/* === B — BLOC PRINCIPAL === */}
@@ -455,9 +497,15 @@ export default function Contact() {
         </div>
       </section>
 
-      {/* === D — BANDEAU RÉASSURANCE === */}
-      <section style={{ backgroundColor: '#E8EDFF', padding: '24px 0' }}>
-        <div className="max-w-[1280px] mx-auto px-5 md:px-10 lg:px-20">
+      {/* === D — BANDEAU RÉASSURANCE (parallax subtil) === */}
+      <section
+        ref={ctaRef}
+        style={{ backgroundColor: '#E8EDFF', padding: '24px 0', overflow: 'hidden' }}
+      >
+        <motion.div
+          className="max-w-[1280px] mx-auto px-5 md:px-10 lg:px-20"
+          style={{ y: ctaY }}
+        >
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 text-center">
             {[
               { Icon: Scale, label: 'Barreau de Paris' },
@@ -472,7 +520,7 @@ export default function Contact() {
               </div>
             ))}
           </div>
-        </div>
+        </motion.div>
       </section>
 
       <div className="lg:hidden" style={{ height: '64px' }} />

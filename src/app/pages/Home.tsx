@@ -85,7 +85,7 @@ function HeroSection() {
             className="flex items-center gap-3 mb-7"
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6, delay: 0.2, ease: [0.25, 0.46, 0.45, 0.94] }}
+            transition={{ duration: 0.7, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
           >
             <div className="w-8 h-[2px] bg-[#002FA7] shrink-0" />
             <span className="eyebrow" style={{ letterSpacing: '0.14em' }}>
@@ -100,7 +100,7 @@ function HeroSection() {
                 className="block font-heading"
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.7, delay: 0.4 + i * 0.1, ease: [0.25, 0.46, 0.45, 0.94] }}
+                transition={{ duration: 0.8, delay: 0.4 + i * 0.1, ease: [0.16, 1, 0.3, 1] }}
                 style={{
                   fontSize: 'clamp(44px, 6.5vw, 80px)',
                   fontWeight: 700,
@@ -118,7 +118,7 @@ function HeroSection() {
             className="mt-6 font-body"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.7, ease: [0.25, 0.46, 0.45, 0.94] }}
+            transition={{ duration: 0.7, delay: 0.7, ease: [0.16, 1, 0.3, 1] }}
             style={{
               fontSize: 'clamp(16px, 1.5vw, 18px)',
               fontWeight: 300,
@@ -135,7 +135,7 @@ function HeroSection() {
             className="flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6 mt-10 mb-16 lg:mb-0"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.9, ease: [0.25, 0.46, 0.45, 0.94] }}
+            transition={{ duration: 0.7, delay: 0.9, ease: [0.16, 1, 0.3, 1] }}
           >
             <Link
               to="/contact"
@@ -170,10 +170,18 @@ function HeroSection() {
   );
 }
 
-// === SECTION B — ACCROCHE & CHIFFRES ===
+// === SECTION B — ACCROCHE & CHIFFRES (parallax subtil) ===
 function AccrocheSection() {
+  const sectionRef = useRef<HTMLElement>(null);
+  const isMobile = useMobile();
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ['start end', 'end start'],
+  });
+  const metricsY = useTransform(scrollYProgress, [0, 1], isMobile ? [0, 0] : [40, -40]);
+
   return (
-    <section style={{ backgroundColor: '#F5F5F7', padding: 'clamp(56px, 7vw, 96px) 0' }}>
+    <section ref={sectionRef} style={{ backgroundColor: '#F5F5F7', padding: 'clamp(56px, 7vw, 96px) 0' }}>
       <div className="max-w-[1280px] mx-auto px-5 md:px-10 lg:px-20">
         <div className="grid grid-cols-1 lg:grid-cols-[3fr_2fr] gap-12 lg:gap-20 items-start">
           <div>
@@ -217,7 +225,8 @@ function AccrocheSection() {
             </ScrollReveal>
           </div>
 
-          <div className="flex flex-col gap-0">
+          {/* Metrics avec parallax */}
+          <motion.div className="flex flex-col gap-0" style={{ y: metricsY }}>
             {metrics.map((metric, i) => (
               <ScrollReveal key={metric.label} delay={i * 0.1}>
                 <div
@@ -239,17 +248,26 @@ function AccrocheSection() {
                 </div>
               </ScrollReveal>
             ))}
-          </div>
+          </motion.div>
         </div>
       </div>
     </section>
   );
 }
 
-// === SECTION C — EXPERTISES ===
+// === SECTION C — EXPERTISES (parallax cards) ===
 function ExpertisesSection() {
+  const sectionRef = useRef<HTMLElement>(null);
+  const isMobile = useMobile();
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ['start end', 'end start'],
+  });
+  const leftCardY = useTransform(scrollYProgress, [0, 1], isMobile ? [0, 0] : [30, -30]);
+  const rightCardY = useTransform(scrollYProgress, [0, 1], isMobile ? [0, 0] : [50, -20]);
+
   return (
-    <section style={{ backgroundColor: '#FFFFFF', padding: 'clamp(56px, 7vw, 96px) 0' }}>
+    <section ref={sectionRef} style={{ backgroundColor: '#FFFFFF', padding: 'clamp(56px, 7vw, 96px) 0' }}>
       <div className="max-w-[1280px] mx-auto px-5 md:px-10 lg:px-20">
         <div className="text-center mb-14">
           <ScrollReveal>
@@ -268,7 +286,7 @@ function ExpertisesSection() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Droit des affaires */}
           <ScrollReveal delay={0.1}>
-            <div
+            <motion.div
               className="card-hover h-full flex flex-col"
               style={{
                 backgroundColor: '#F5F5F7',
@@ -276,6 +294,7 @@ function ExpertisesSection() {
                 borderRadius: '4px',
                 padding: 'clamp(28px, 4vw, 40px)',
                 boxShadow: '0 2px 24px rgba(0,0,0,0.06)',
+                y: leftCardY,
               }}
             >
               <span className="eyebrow">Droit des Affaires</span>
@@ -297,14 +316,14 @@ function ExpertisesSection() {
                 <span className="group-hover/link:underline">Voir les dossiers</span>
                 <ArrowRight size={14} className="transition-transform group-hover/link:translate-x-1" />
               </Link>
-            </div>
+            </motion.div>
           </ScrollReveal>
 
           {/* Droit du travail */}
           <ScrollReveal delay={0.18}>
-            <div
+            <motion.div
               className="card-hover-blue h-full flex flex-col transition-all duration-200"
-              style={{ backgroundColor: '#002FA7', borderRadius: '4px', padding: 'clamp(28px, 4vw, 40px)' }}
+              style={{ backgroundColor: '#002FA7', borderRadius: '4px', padding: 'clamp(28px, 4vw, 40px)', y: rightCardY }}
             >
               <span className="font-body" style={{ fontSize: '11px', fontWeight: 600, color: 'rgba(255,255,255,0.6)', textTransform: 'uppercase', letterSpacing: '0.12em' }}>
                 Droit du Travail
@@ -327,7 +346,7 @@ function ExpertisesSection() {
                 <span className="group-hover/link:underline">Voir les dossiers</span>
                 <ArrowRight size={14} className="transition-transform group-hover/link:translate-x-1" />
               </Link>
-            </div>
+            </motion.div>
           </ScrollReveal>
         </div>
       </div>
@@ -335,7 +354,7 @@ function ExpertisesSection() {
   );
 }
 
-// === SECTION D — PRÉSENTATION AVOCATE ===
+// === SECTION D — PRÉSENTATION AVOCATE (parallax) ===
 function AboutSection() {
   const sectionRef = useRef<HTMLElement>(null);
   const isMobile = useMobile();
@@ -464,11 +483,30 @@ function DossiersSection() {
   );
 }
 
-// === SECTION F — CTA FINAL ===
+// === SECTION F — CTA FINAL (parallax) ===
 function CTAFinalSection() {
+  const sectionRef = useRef<HTMLElement>(null);
+  const isMobile = useMobile();
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ['start end', 'end start'],
+  });
+  const bgY = useTransform(scrollYProgress, [0, 1], isMobile ? ['0%', '0%'] : ['0%', '20%']);
+
   return (
-    <section style={{ backgroundColor: '#002FA7', padding: 'clamp(64px, 8vw, 128px) 0' }}>
-      <div className="max-w-[1280px] mx-auto px-5 md:px-10 lg:px-20 text-center flex flex-col items-center">
+    <section ref={sectionRef} className="relative overflow-hidden" style={{ backgroundColor: '#002FA7' }}>
+      {/* Parallax radial glow */}
+      <motion.div
+        className="absolute inset-0"
+        style={{
+          y: bgY,
+          background: 'radial-gradient(ellipse at 50% 30%, rgba(255,255,255,0.08) 0%, transparent 60%)',
+        }}
+      />
+      <div
+        className="relative z-10 max-w-[1280px] mx-auto px-5 md:px-10 lg:px-20 text-center flex flex-col items-center"
+        style={{ padding: 'clamp(64px, 8vw, 128px) 0' }}
+      >
         <ScrollReveal>
           <h2 className="font-heading" style={{ fontSize: 'clamp(32px, 4.5vw, 52px)', fontWeight: 700, lineHeight: 1.15, color: '#FFFFFF', marginBottom: '20px' }}>
             Votre prochain dossier commence ici.

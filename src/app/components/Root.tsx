@@ -4,16 +4,29 @@ import { motion, AnimatePresence } from 'motion/react';
 import Navbar from './Navbar';
 import Footer from './Footer';
 
-// Variants de transition pour les pages
+// Transition plus douce : fade + léger slide + subtle blur
 const pageVariants = {
-  initial: { opacity: 0, y: 22, scale: 0.992 },
-  animate: { opacity: 1, y: 0, scale: 1 },
-  exit:    { opacity: 0, y: -14, scale: 0.995 },
+  initial: {
+    opacity: 0,
+    y: 30,
+    filter: 'blur(6px)',
+  },
+  animate: {
+    opacity: 1,
+    y: 0,
+    filter: 'blur(0px)',
+  },
+  exit: {
+    opacity: 0,
+    y: -20,
+    filter: 'blur(4px)',
+  },
 };
 
 const pageTransition = {
-  duration: 0.5,
-  ease: [0.22, 1, 0.36, 1] as const,
+  duration: 0.6,
+  ease: [0.16, 1, 0.3, 1], // Custom ease-out plus smooth
+  filter: { duration: 0.4 },
 };
 
 export default function Root() {
@@ -40,7 +53,7 @@ export default function Root() {
         style={{ backgroundColor: '#002FA7', transformOrigin: 'left center' }}
         initial={{ scaleX: 0, opacity: 1 }}
         animate={{ scaleX: 1, opacity: 0 }}
-        transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1], opacity: { delay: 0.4 } }}
+        transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1], opacity: { delay: 0.5, duration: 0.2 } }}
       />
 
       <AnimatePresence mode="wait" initial={false}>
@@ -51,7 +64,7 @@ export default function Root() {
           animate="animate"
           exit="exit"
           transition={pageTransition}
-          style={{ willChange: 'opacity, transform' }}
+          style={{ willChange: 'opacity, transform, filter' }}
         >
           <Suspense fallback={null}>
             <Outlet />

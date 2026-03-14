@@ -1,7 +1,9 @@
+import { useRef } from 'react';
 import { Link } from 'react-router';
-import { motion } from 'motion/react';
+import { motion, useScroll, useTransform } from 'motion/react';
 import ScrollReveal from '../components/ScrollReveal';
 import { ImageWithFallback } from '../components/figma/ImageWithFallback';
+import { useMobile } from '@/hooks/useMobile';
 import {
   PROFIL_IMG,
   timelineItems,
@@ -12,19 +14,61 @@ import {
 } from '@/data/profil';
 
 export default function Profil() {
+  const isMobile = useMobile();
+
+  // Parallax hero image
+  const heroRef = useRef<HTMLElement>(null);
+  const { scrollYProgress: heroProgress } = useScroll({
+    target: heroRef,
+    offset: ['start start', 'end start'],
+  });
+  const heroImgY = useTransform(heroProgress, [0, 1], isMobile ? ['0%', '0%'] : ['0%', '20%']);
+  const heroImgScale = isMobile ? 1 : 1.1;
+  const heroContentY = useTransform(heroProgress, [0, 1], isMobile ? ['0%', '0%'] : ['0%', '12%']);
+  const heroOpacity = useTransform(heroProgress, [0, 0.6], [1, 0]);
+
+  // Parallax timeline section
+  const timelineRef = useRef<HTMLElement>(null);
+  const { scrollYProgress: tlProgress } = useScroll({
+    target: timelineRef,
+    offset: ['start end', 'end start'],
+  });
+  const tlLineScale = useTransform(tlProgress, [0, 0.5], [0, 1]);
+
+  // Parallax valeurs section
+  const valeursRef = useRef<HTMLElement>(null);
+  const { scrollYProgress: valProgress } = useScroll({
+    target: valeursRef,
+    offset: ['start end', 'end start'],
+  });
+  const valY = useTransform(valProgress, [0, 1], isMobile ? [0, 0] : [60, -60]);
+
+  // Parallax CTA
+  const ctaRef = useRef<HTMLElement>(null);
+  const { scrollYProgress: ctaProgress } = useScroll({
+    target: ctaRef,
+    offset: ['start end', 'end start'],
+  });
+  const ctaBgY = useTransform(ctaProgress, [0, 1], isMobile ? ['0%', '0%'] : ['0%', '15%']);
+
   return (
     <>
-      {/* === A — HERO PROFIL === */}
-      <section style={{ backgroundColor: '#0A0D1A', minHeight: '520px' }}>
+      {/* === A — HERO PROFIL (parallax) === */}
+      <section ref={heroRef} style={{ backgroundColor: '#0A0D1A', minHeight: '520px', overflow: 'hidden' }}>
         <div className="max-w-[1280px] mx-auto grid grid-cols-1 lg:grid-cols-2">
-          {/* Photo */}
+          {/* Photo avec parallax */}
           <div className="relative overflow-hidden" style={{ minHeight: 'clamp(320px, 45vw, 560px)' }}>
-            <ImageWithFallback
-              src={PROFIL_IMG}
-              alt="Sophie Lefebvre, avocate"
-              className="w-full h-full object-cover"
-              style={{ objectPosition: 'top center', minHeight: 'clamp(320px, 45vw, 560px)' }}
-            />
+            <motion.div
+              className="absolute inset-0"
+              style={{ y: heroImgY, scale: heroImgScale }}
+            >
+              <ImageWithFallback
+                src={PROFIL_IMG}
+                alt="Sophie Lefebvre, avocate"
+                className="w-full h-full object-cover"
+                style={{ objectPosition: 'top center', minHeight: 'clamp(320px, 45vw, 560px)' }}
+              />
+            </motion.div>
             <div
               className="absolute inset-0 hidden lg:block"
               style={{ background: 'linear-gradient(to right, transparent 65%, #0A0D1A)' }}
@@ -35,15 +79,19 @@ export default function Profil() {
             />
           </div>
 
-          {/* Texte */}
-          <div
+          {/* Texte avec parallax */}
+          <motion.div
             className="flex flex-col justify-center"
-            style={{ padding: 'clamp(48px, 6vw, 80px) clamp(20px, 5vw, 64px)' }}
+            style={{
+              padding: 'clamp(48px, 6vw, 80px) clamp(20px, 5vw, 64px)',
+              y: heroContentY,
+              opacity: heroOpacity,
+            }}
           >
             <motion.p
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
+              transition={{ duration: 0.6, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
               className="eyebrow"
               style={{ letterSpacing: '0.14em', marginBottom: '16px' }}
             >
@@ -52,7 +100,7 @@ export default function Profil() {
             <motion.h1
               initial={{ opacity: 0, y: 24 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.3 }}
+              transition={{ duration: 0.7, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
               className="font-heading"
               style={{
                 fontSize: 'clamp(36px, 4.5vw, 56px)',
@@ -67,7 +115,7 @@ export default function Profil() {
             <motion.p
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.4 }}
+              transition={{ duration: 0.6, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
               className="font-body"
               style={{ fontSize: '18px', color: 'rgba(255,255,255,0.70)', marginBottom: '24px' }}
             >
@@ -77,7 +125,7 @@ export default function Profil() {
               className="flex flex-wrap gap-2"
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.5 }}
+              transition={{ duration: 0.6, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
             >
               {skillPills.map((pill) => (
                 <span
@@ -97,7 +145,7 @@ export default function Profil() {
                 </span>
               ))}
             </motion.div>
-          </div>
+          </motion.div>
         </div>
       </section>
 
@@ -135,8 +183,8 @@ export default function Profil() {
         </div>
       </section>
 
-      {/* === C — PARCOURS TIMELINE === */}
-      <section style={{ backgroundColor: '#F5F5F7', padding: 'clamp(56px, 7vw, 96px) 0' }}>
+      {/* === C — PARCOURS TIMELINE (parallax animated line) === */}
+      <section ref={timelineRef} style={{ backgroundColor: '#F5F5F7', padding: 'clamp(56px, 7vw, 96px) 0' }}>
         <div className="max-w-[1280px] mx-auto px-5 md:px-10 lg:px-20">
           <div className="text-center mb-14">
             <ScrollReveal>
@@ -159,9 +207,15 @@ export default function Profil() {
           </div>
 
           <div className="relative max-w-[720px] mx-auto">
-            <div
+            {/* Animated timeline line */}
+            <motion.div
               className="absolute left-[18px] md:left-[80px] top-0 bottom-0 w-[2px]"
-              style={{ backgroundColor: '#002FA7', opacity: 0.2 }}
+              style={{
+                backgroundColor: '#002FA7',
+                opacity: 0.3,
+                scaleY: tlLineScale,
+                transformOrigin: 'top center',
+              }}
             />
             <div className="flex flex-col gap-10">
               {timelineItems.map((item, i) => (
@@ -243,8 +297,8 @@ export default function Profil() {
         </div>
       </section>
 
-      {/* === E — VALEURS === */}
-      <section style={{ backgroundColor: '#F5F5F7', padding: 'clamp(56px, 7vw, 96px) 0' }}>
+      {/* === E — VALEURS (parallax) === */}
+      <section ref={valeursRef} style={{ backgroundColor: '#F5F5F7', padding: 'clamp(56px, 7vw, 96px) 0', overflow: 'hidden' }}>
         <div className="max-w-[1280px] mx-auto px-5 md:px-10 lg:px-20">
           <ScrollReveal>
             <h3
@@ -254,7 +308,7 @@ export default function Profil() {
               Ce qui guide mon travail
             </h3>
           </ScrollReveal>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <motion.div className="grid grid-cols-1 md:grid-cols-3 gap-8" style={{ y: valY }}>
             {valeurs.map((v, i) => (
               <ScrollReveal key={v.title} delay={i * 0.1}>
                 <div className="flex flex-col items-center text-center gap-4">
@@ -283,13 +337,23 @@ export default function Profil() {
                 </div>
               </ScrollReveal>
             ))}
-          </div>
+          </motion.div>
         </div>
       </section>
 
-      {/* === F — CTA FINAL === */}
-      <section style={{ backgroundColor: '#002FA7', padding: 'clamp(64px, 8vw, 128px) 0' }}>
-        <div className="max-w-[1280px] mx-auto px-5 md:px-10 lg:px-20 text-center flex flex-col items-center">
+      {/* === F — CTA FINAL (parallax background) === */}
+      <section ref={ctaRef} className="relative overflow-hidden" style={{ backgroundColor: '#002FA7' }}>
+        <motion.div
+          className="absolute inset-0"
+          style={{
+            y: ctaBgY,
+            background: 'radial-gradient(ellipse at 70% 30%, rgba(255,255,255,0.08) 0%, transparent 60%)',
+          }}
+        />
+        <div
+          className="relative z-10 max-w-[1280px] mx-auto px-5 md:px-10 lg:px-20 text-center flex flex-col items-center"
+          style={{ padding: 'clamp(64px, 8vw, 128px) 0' }}
+        >
           <ScrollReveal>
             <h2
               className="font-heading"
