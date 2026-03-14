@@ -2,6 +2,7 @@ import { useRef } from 'react';
 import { Link } from 'react-router';
 import { motion, useScroll, useTransform } from 'motion/react';
 import ScrollReveal from '../components/ScrollReveal';
+import BlurReveal from '../components/BlurReveal';
 import { ImageWithFallback } from '../components/figma/ImageWithFallback';
 import { useMobile } from '@/hooks/useMobile';
 import {
@@ -155,21 +156,23 @@ export default function Profil() {
           <ScrollReveal>
             <p className="eyebrow" style={{ marginBottom: '16px' }}>Mon Approche</p>
           </ScrollReveal>
-          <ScrollReveal delay={0.08}>
-            <h2
-              className="font-heading"
-              style={{
-                fontSize: 'clamp(26px, 3.5vw, 40px)',
-                fontWeight: 400,
-                fontStyle: 'italic',
-                lineHeight: 1.3,
-                color: '#060608',
-                marginBottom: '32px',
-              }}
-            >
-              Le droit comme un outil stratégique, pas une contrainte.
-            </h2>
-          </ScrollReveal>
+          <BlurReveal
+            as="h2"
+            className="font-heading"
+            style={{
+              fontSize: 'clamp(26px, 3.5vw, 40px)',
+              fontWeight: 400,
+              fontStyle: 'italic',
+              lineHeight: 1.3,
+              color: '#060608',
+              marginBottom: '32px',
+            }}
+            baseOpacity={0.15}
+            enableBlur
+            blurStrength={5}
+          >
+            Le droit comme un outil stratégique, pas une contrainte.
+          </BlurReveal>
           {approachParagraphs.map((para, i) => (
             <ScrollReveal key={i} delay={0.08 + i * 0.06}>
               <p
@@ -190,20 +193,22 @@ export default function Profil() {
             <ScrollReveal>
               <p className="eyebrow" style={{ marginBottom: '12px' }}>Parcours</p>
             </ScrollReveal>
-            <ScrollReveal delay={0.07}>
-              <h2
-                className="font-heading"
-                style={{
-                  fontSize: 'clamp(26px, 3.5vw, 40px)',
-                  fontWeight: 400,
-                  fontStyle: 'italic',
-                  lineHeight: 1.3,
-                  color: '#060608',
-                }}
-              >
-                Un parcours construit sur l'exigence.
-              </h2>
-            </ScrollReveal>
+            <BlurReveal
+              as="h2"
+              className="font-heading"
+              style={{
+                fontSize: 'clamp(26px, 3.5vw, 40px)',
+                fontWeight: 400,
+                fontStyle: 'italic',
+                lineHeight: 1.3,
+                color: '#060608',
+              }}
+              baseOpacity={0.15}
+              enableBlur
+              blurStrength={5}
+            >
+              Un parcours construit sur l'exigence.
+            </BlurReveal>
           </div>
 
           <div className="relative max-w-[720px] mx-auto">
@@ -355,20 +360,22 @@ export default function Profil() {
           className="relative z-10 max-w-[1280px] mx-auto px-5 md:px-10 lg:px-20 text-center flex flex-col items-center"
           style={{ padding: 'clamp(64px, 8vw, 128px) 0' }}
         >
-          <ScrollReveal>
-            <h2
-              className="font-heading"
-              style={{
-                fontSize: 'clamp(28px, 4vw, 48px)',
-                fontWeight: 700,
-                lineHeight: 1.15,
-                color: '#FFFFFF',
-                marginBottom: '16px',
-              }}
-            >
-              Parlons de votre dossier.
-            </h2>
-          </ScrollReveal>
+          <BlurReveal
+            as="h2"
+            className="font-heading"
+            style={{
+              fontSize: 'clamp(28px, 4vw, 48px)',
+              fontWeight: 700,
+              lineHeight: 1.15,
+              color: '#FFFFFF',
+              marginBottom: '16px',
+            }}
+            baseOpacity={0.2}
+            enableBlur
+            blurStrength={4}
+          >
+            Parlons de votre dossier.
+          </BlurReveal>
           <ScrollReveal delay={0.08}>
             <p
               className="font-body"

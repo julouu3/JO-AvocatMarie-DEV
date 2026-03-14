@@ -3,6 +3,7 @@ import { Link } from 'react-router';
 import { motion, useScroll, useTransform } from 'motion/react';
 import { ArrowRight, ChevronDown } from 'lucide-react';
 import ScrollReveal from '../components/ScrollReveal';
+import BlurReveal from '../components/BlurReveal';
 import { ImageWithFallback } from '../components/figma/ImageWithFallback';
 import { useInView } from '@/hooks/useInView';
 import { useMobile } from '@/hooks/useMobile';
@@ -188,20 +189,22 @@ function AccrocheSection() {
             <ScrollReveal>
               <p className="eyebrow mb-4">Mon Approche</p>
             </ScrollReveal>
-            <ScrollReveal delay={0.08}>
-              <h2
-                className="font-heading mb-5"
-                style={{
-                  fontSize: 'clamp(28px, 3.5vw, 40px)',
-                  fontWeight: 400,
-                  fontStyle: 'italic',
-                  lineHeight: 1.3,
-                  color: '#060608',
-                }}
-              >
-                J'interviens là où les enjeux sont les plus élevés.
-              </h2>
-            </ScrollReveal>
+            <BlurReveal
+              as="h2"
+              className="font-heading mb-5"
+              style={{
+                fontSize: 'clamp(28px, 3.5vw, 40px)',
+                fontWeight: 400,
+                fontStyle: 'italic',
+                lineHeight: 1.3,
+                color: '#060608',
+              }}
+              baseOpacity={0.15}
+              enableBlur
+              blurStrength={5}
+            >
+              J'interviens là où les enjeux sont les plus élevés.
+            </BlurReveal>
             <ScrollReveal delay={0.14}>
               <p
                 className="font-body mb-6"
@@ -273,14 +276,16 @@ function ExpertisesSection() {
           <ScrollReveal>
             <p className="eyebrow mb-3">Mes Domaines</p>
           </ScrollReveal>
-          <ScrollReveal delay={0.08}>
-            <h2
-              className="font-heading"
-              style={{ fontSize: 'clamp(28px, 3.5vw, 40px)', fontWeight: 400, fontStyle: 'italic', lineHeight: 1.3, color: '#060608' }}
-            >
-              Une expertise double au service de votre activité.
-            </h2>
-          </ScrollReveal>
+          <BlurReveal
+            as="h2"
+            className="font-heading"
+            style={{ fontSize: 'clamp(28px, 3.5vw, 40px)', fontWeight: 400, fontStyle: 'italic', lineHeight: 1.3, color: '#060608' }}
+            baseOpacity={0.15}
+            enableBlur
+            blurStrength={5}
+          >
+            Une expertise double au service de votre activité.
+          </BlurReveal>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -431,11 +436,16 @@ function DossiersSection() {
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-12">
           <div>
             <ScrollReveal><p className="eyebrow mb-3">Mes Dossiers</p></ScrollReveal>
-            <ScrollReveal delay={0.06}>
-              <h2 className="font-heading" style={{ fontSize: 'clamp(26px, 3vw, 40px)', fontWeight: 400, fontStyle: 'italic', lineHeight: 1.3, color: '#060608' }}>
-                Des résultats concrets pour des enjeux complexes.
-              </h2>
-            </ScrollReveal>
+            <BlurReveal
+              as="h2"
+              className="font-heading"
+              style={{ fontSize: 'clamp(26px, 3vw, 40px)', fontWeight: 400, fontStyle: 'italic', lineHeight: 1.3, color: '#060608' }}
+              baseOpacity={0.15}
+              enableBlur
+              blurStrength={5}
+            >
+              Des résultats concrets pour des enjeux complexes.
+            </BlurReveal>
           </div>
           <ScrollReveal delay={0.1}>
             <Link to="/dossiers" className="group inline-flex items-center gap-2 whitespace-nowrap font-body" style={{ color: '#002FA7', fontSize: '14px', fontWeight: 500, textDecoration: 'none' }}>
@@ -507,16 +517,26 @@ function CTAFinalSection() {
         className="relative z-10 max-w-[1280px] mx-auto px-5 md:px-10 lg:px-20 text-center flex flex-col items-center"
         style={{ padding: 'clamp(64px, 8vw, 128px) 0' }}
       >
-        <ScrollReveal>
-          <h2 className="font-heading" style={{ fontSize: 'clamp(32px, 4.5vw, 52px)', fontWeight: 700, lineHeight: 1.15, color: '#FFFFFF', marginBottom: '20px' }}>
-            Votre prochain dossier commence ici.
-          </h2>
-        </ScrollReveal>
-        <ScrollReveal delay={0.1}>
-          <p className="font-body" style={{ fontSize: 'clamp(16px, 1.5vw, 18px)', fontWeight: 300, color: 'rgba(255,255,255,0.80)', lineHeight: 1.65, maxWidth: '480px', marginBottom: '36px' }}>
-            Prenez contact pour un premier échange confidentiel et sans engagement.
-          </p>
-        </ScrollReveal>
+        <BlurReveal
+          as="h2"
+          className="font-heading"
+          style={{ fontSize: 'clamp(32px, 4.5vw, 52px)', fontWeight: 700, lineHeight: 1.15, color: '#FFFFFF', marginBottom: '20px' }}
+          baseOpacity={0.2}
+          enableBlur
+          blurStrength={4}
+        >
+          Votre prochain dossier commence ici.
+        </BlurReveal>
+        <BlurReveal
+          as="p"
+          className="font-body"
+          style={{ fontSize: 'clamp(16px, 1.5vw, 18px)', fontWeight: 300, color: 'rgba(255,255,255,0.80)', lineHeight: 1.65, maxWidth: '480px', marginBottom: '36px' }}
+          baseOpacity={0.3}
+          enableBlur
+          blurStrength={3}
+        >
+          Prenez contact pour un premier échange confidentiel et sans engagement.
+        </BlurReveal>
         <ScrollReveal delay={0.16}>
           <Link to="/contact" className="btn-primary-light transition-all hover:scale-[1.01]" style={{ padding: '16px 40px' }}>
             Prendre RDV

@@ -3,6 +3,7 @@ import { Link } from 'react-router';
 import { motion, AnimatePresence, useScroll, useTransform } from 'motion/react';
 import { ArrowRight } from 'lucide-react';
 import ScrollReveal from '../components/ScrollReveal';
+import BlurReveal from '../components/BlurReveal';
 import { categories, allDossiers } from '@/data/dossiers';
 import { useMobile } from '@/hooks/useMobile';
 
@@ -251,20 +252,22 @@ export default function Dossiers() {
           className="relative z-10 max-w-[1280px] mx-auto px-5 md:px-10 lg:px-20 text-center flex flex-col items-center"
           style={{ padding: 'clamp(56px, 7vw, 96px) 0' }}
         >
-          <ScrollReveal>
-            <h2
-              className="font-heading"
-              style={{
-                fontSize: 'clamp(28px, 4vw, 48px)',
-                fontWeight: 700,
-                lineHeight: 1.15,
-                color: '#FFFFFF',
-                marginBottom: '16px',
-              }}
-            >
-              Votre situation mérite une expertise sur-mesure.
-            </h2>
-          </ScrollReveal>
+          <BlurReveal
+            as="h2"
+            className="font-heading"
+            style={{
+              fontSize: 'clamp(28px, 4vw, 48px)',
+              fontWeight: 700,
+              lineHeight: 1.15,
+              color: '#FFFFFF',
+              marginBottom: '16px',
+            }}
+            baseOpacity={0.2}
+            enableBlur
+            blurStrength={4}
+          >
+            Votre situation mérite une expertise sur-mesure.
+          </BlurReveal>
           <ScrollReveal delay={0.1}>
             <p
               className="font-body"
