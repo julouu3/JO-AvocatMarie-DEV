@@ -66,11 +66,10 @@ export default function BlurReveal({
 }: BlurRevealProps) {
   const containerRef = useRef<HTMLElement>(null);
 
-  // L'animation commence quand le haut de l'élément entre dans le viewport (bottom)
-  // et se termine quand le haut atteint 60% du viewport (= bien visible, pas besoin de scroller plus)
+  // Scroll-driven animation: words reveal as user scrolls down, and blur back when scrolling up
   const { scrollYProgress } = useScroll({
     target: containerRef,
-    offset: ['start 90%', 'start 40%'],
+    offset: ['start 95%', 'start 55%'],
   });
 
   // Rotation liée au scroll
@@ -87,8 +86,8 @@ export default function BlurReveal({
   const wordRanges = useMemo(() => {
     const total = words.length;
     return words.map((_, i) => {
-      const start = Math.max(0, (i / total) - 0.1);
-      const end = Math.min(1, ((i + 1) / total) + 0.1);
+      const start = Math.max(0, (i / total) - 0.08);
+      const end = Math.min(1, ((i + 1) / total) + 0.08);
       return [start, end] as [number, number];
     });
   }, [words]);

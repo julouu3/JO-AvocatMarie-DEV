@@ -112,7 +112,6 @@ export default function MentionsLegales() {
         </div>
       </section>
 
-      <div className="lg:hidden" style={{ height: '64px' }} />
     </>
   );
 }

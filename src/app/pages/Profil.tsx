@@ -65,7 +65,7 @@ export default function Profil() {
             >
               <ImageWithFallback
                 src={PROFIL_IMG}
-                alt="Sophie Lefebvre, avocate"
+                alt="Marie Odin, avocate"
                 className="w-full h-full object-cover"
                 style={{ objectPosition: 'top center', minHeight: 'clamp(320px, 45vw, 560px)' }}
               />
@@ -111,7 +111,7 @@ export default function Profil() {
                 marginBottom: '8px',
               }}
             >
-              Sophie Lefebvre
+              Marie Odin
             </motion.h1>
             <motion.p
               initial={{ opacity: 0, y: 20 }}
@@ -156,23 +156,21 @@ export default function Profil() {
           <ScrollReveal>
             <p className="eyebrow" style={{ marginBottom: '16px' }}>Mon Approche</p>
           </ScrollReveal>
-          <BlurReveal
-            as="h2"
-            className="font-heading"
-            style={{
-              fontSize: 'clamp(26px, 3.5vw, 40px)',
-              fontWeight: 400,
-              fontStyle: 'italic',
-              lineHeight: 1.3,
-              color: '#060608',
-              marginBottom: '32px',
-            }}
-            baseOpacity={0.15}
-            enableBlur
-            blurStrength={5}
-          >
-            Le droit comme un outil stratégique, pas une contrainte.
-          </BlurReveal>
+          <ScrollReveal delay={0.06}>
+            <h2
+              className="font-heading"
+              style={{
+                fontSize: 'clamp(26px, 3.5vw, 40px)',
+                fontWeight: 400,
+                fontStyle: 'italic',
+                lineHeight: 1.3,
+                color: '#060608',
+                marginBottom: '32px',
+              }}
+            >
+              Le droit comme un outil stratégique, pas une contrainte.
+            </h2>
+          </ScrollReveal>
           {approachParagraphs.map((para, i) => (
             <ScrollReveal key={i} delay={0.08 + i * 0.06}>
               <p
@@ -412,7 +410,6 @@ export default function Profil() {
         </div>
       </section>
 
-      <div className="lg:hidden" style={{ height: '64px' }} />
     </>
   );
 }

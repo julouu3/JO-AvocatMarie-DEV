@@ -3,6 +3,7 @@ import { motion } from 'motion/react';
 import { Linkedin, Mail, MapPin, Scale, ArrowUpRight } from 'lucide-react';
 import ScrollReveal from './ScrollReveal';
 import { CABINET_NAME, navLinks } from '@/data/navigation';
+import { CONTACT_INFO } from '@/data/contact-info';
 
 // ── Lien de navigation footer avec animation hover ──────────────────────────
 function FooterNavLink({ href, label }: { href: string; label: string }) {
@@ -98,7 +99,7 @@ function FooterLegalLink({ to, label }: { to: string; label: string }) {
 // ── Composant principal ──────────────────────────────────────────────────────
 export default function Footer() {
   return (
-    <footer style={{ backgroundColor: '#0A0D1A', position: 'relative' }}>
+    <footer style={{ backgroundColor: '#0A0D1A', position: 'relative' }} className="pb-16 lg:pb-0">
       <div style={{ height: '2px', backgroundColor: '#002FA7', width: '100%' }} />
 
       <div className="max-w-[1280px] mx-auto px-5 md:px-10 lg:px-20 py-16 lg:py-20">
@@ -118,7 +119,7 @@ export default function Footer() {
                   }}
                 >
                   <span className="font-heading" style={{ color: '#fff', fontSize: '18px', fontWeight: 700 }}>
-                    L
+                    M
                   </span>
                 </div>
                 <span className="font-heading" style={{ fontSize: '21px', fontWeight: 700, color: '#FFFFFF', letterSpacing: '-0.01em' }}>
@@ -126,13 +127,13 @@ export default function Footer() {
                 </span>
               </div>
 
-              <p className="font-body" style={{ fontSize: '15px', color: 'rgba(255,255,255,0.72)', lineHeight: 1.75, maxWidth: '260px' }}>
-                Droit des affaires & droit du travail.
+              <p className="font-body" style={{ fontSize: '15px', color: 'rgba(255,255,255,0.72)', lineHeight: 1.75, maxWidth: '280px' }}>
+                {CONTACT_INFO.tagline}
                 <br />
-                Expertise au service des dirigeants.
+                Conseil aux entreprises et dirigeants.
               </p>
 
-              <FooterExternalLink href="https://linkedin.com" icon={Linkedin} label="LinkedIn" />
+              <FooterExternalLink href={CONTACT_INFO.linkedin} icon={Linkedin} label="LinkedIn" />
 
               <p className="font-body" style={{ fontSize: '13px', color: 'rgba(255,255,255,0.42)', marginTop: '8px' }}>
                 © {new Date().getFullYear()} {CABINET_NAME}
@@ -142,7 +143,7 @@ export default function Footer() {
 
           {/* ── Col 2 : Navigation ────────────────────────────────────── */}
           <ScrollReveal delay={0.08} y={16}>
-            <div className="flex flex-col gap-4">
+            <nav aria-label="Navigation footer" className="flex flex-col gap-4">
               <h4
                 className="font-body"
                 style={{
@@ -159,7 +160,7 @@ export default function Footer() {
               {navLinks.map((link) => (
                 <FooterNavLink key={link.href} href={link.href} label={link.label} />
               ))}
-            </div>
+            </nav>
           </ScrollReveal>
 
           {/* ── Col 3 : Contact ───────────────────────────────────────── */}
@@ -182,23 +183,23 @@ export default function Footer() {
               <div className="flex items-center gap-3">
                 <Scale size={15} style={{ color: '#002FA7', flexShrink: 0 }} />
                 <span className="font-body" style={{ fontSize: '14px', color: 'rgba(255,255,255,0.78)', lineHeight: 1.5 }}>
-                  Barreau de Paris
+                  {CONTACT_INFO.barreau}
                 </span>
               </div>
 
               <div className="flex items-center gap-3">
                 <MapPin size={15} style={{ color: '#002FA7', flexShrink: 0 }} />
                 <span className="font-body" style={{ fontSize: '14px', color: 'rgba(255,255,255,0.78)', lineHeight: 1.5 }}>
-                  Paris, Île-de-France
+                  {CONTACT_INFO.address}
                 </span>
               </div>
 
               <div className="flex items-start gap-3">
                 <Mail size={15} style={{ color: '#002FA7', flexShrink: 0, marginTop: '2px' }} />
                 <FooterExternalLink
-                  href="mailto:contact@lefebvre-avocats.fr"
+                  href={`mailto:${CONTACT_INFO.email}`}
                   icon={() => null}
-                  label="contact@lefebvre-avocats.fr"
+                  label={CONTACT_INFO.email}
                 />
               </div>
 
@@ -236,7 +237,7 @@ export default function Footer() {
           style={{ borderTop: '1px solid rgba(255,255,255,0.1)' }}
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
+          viewport={{ once: false }}
           transition={{ duration: 0.6, delay: 0.2 }}
         >
           <p className="font-body" style={{ fontSize: '12px', color: 'rgba(255,255,255,0.45)' }}>
@@ -244,7 +245,7 @@ export default function Footer() {
           </p>
           <div className="flex gap-6">
             <FooterLegalLink to="/mentions-legales" label="Mentions légales" />
-            <FooterLegalLink to="/mentions-legales" label="Politique de confidentialité" />
+            <FooterLegalLink to="/mentions-legales#confidentialite" label="Politique de confidentialité" />
           </div>
         </motion.div>
       </div>

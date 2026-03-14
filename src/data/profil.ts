@@ -6,41 +6,40 @@ export const PROFIL_IMG =
 
 export const timelineItems: TimelineItem[] = [
   {
-    year: '2007',
-    title: 'Master I — Droit privé',
-    institution: 'Université Paris I Panthéon-Sorbonne',
+    year: '2017',
+    title: 'Magistère — Droit franco-britannique des affaires',
+    institution: 'Université de Rennes',
   },
   {
-    year: '2009',
-    title: 'Master II — Droit des affaires et fiscalité',
-    institution: 'Université Paris II Panthéon-Assas',
-  },
-  {
-    year: '2011',
-    title: "Serment d'avocat",
-    institution: 'Barreau de Paris — École de Formation du Barreau (EFB)',
-  },
-  {
-    year: '2011–2018',
-    title: 'Collaboratrice senior',
-    institution: 'Cabinet Gide Loyrette Nouel, Paris',
-    description: 'Spécialisée droit social et restructurations',
+    year: '2018',
+    title: 'Master of Laws (LLM) — International Commercial Law',
+    institution: 'University of Exeter, Royaume-Uni',
   },
   {
     year: '2019',
-    title: 'Création de Lefebvre Avocats',
-    institution: 'Cabinet libéral, Paris',
-    description: 'Droit des affaires & droit du travail',
+    title: 'Master II — Droit des affaires et fiscalité',
+    institution: 'Université Paris I Panthéon-Sorbonne',
+  },
+  {
+    year: '2022',
+    title: "Prestation de serment",
+    institution: 'Barreau de Paris',
+  },
+  {
+    year: '2022–présent',
+    title: 'Avocate — Compliance, Corporate & Pénal des affaires',
+    institution: 'Paris 8e',
+    description: 'Accompagnement de sociétés, fonds d\'investissement et dirigeants',
   },
 ];
 
 export const certifications: Certification[] = [
-  { icon: GraduationCap, label: 'Université Paris I Panthéon-Sorbonne' },
-  { icon: GraduationCap, label: 'Université Paris II Panthéon-Assas' },
-  { icon: Award, label: 'CAPA — École de Formation du Barreau' },
-  { icon: Scale, label: 'Barreau de Paris — Avocat inscrit' },
-  { icon: Award, label: 'Médiation — Institut de Médiation' },
-  { icon: Globe, label: 'Français · Anglais professionnel' },
+  { icon: GraduationCap, label: 'Université Paris I Panthéon-Sorbonne — M2 Droit des affaires' },
+  { icon: GraduationCap, label: 'University of Exeter — LLM International Commercial Law' },
+  { icon: GraduationCap, label: 'Université de Rennes — Magistère Droit franco-britannique' },
+  { icon: Scale, label: 'Barreau de Paris — Avocate inscrite (2022)' },
+  { icon: Award, label: 'Bredin Prat — Équipe Contentieux (4 ans)' },
+  { icon: Globe, label: 'Français · Anglais courant' },
 ];
 
 export const valeurs: Valeur[] = [
@@ -62,12 +61,12 @@ export const valeurs: Valeur[] = [
 ];
 
 export const approachParagraphs = [
-  "Depuis le début de ma carrière, j'ai fait le choix de travailler en cabinet libéral, au plus proche de mes clients. Cette proximité n'est pas un hasard : elle correspond à ma vision de l'exercice juridique. Un avocat doit comprendre l'entreprise de son client, ses enjeux, sa culture, avant de lui proposer une stratégie.",
-  "En droit des affaires, j'accompagne les dirigeants dans leurs opérations les plus stratégiques : acquisitions, cessions, restructurations, contentieux commerciaux. Chaque opération est unique, chaque solution doit l'être aussi.",
-  "En droit du travail, mon approche est préventive autant que défensive. Je travaille en amont pour identifier les risques, construire des process robustes, et former les équipes dirigeantes. Quand le contentieux est inévitable, je m'engage avec détermination.",
-  "Ce qui me distingue, c'est mon engagement personnel. Je connais mes clients, leurs équipes, leurs contraintes. Cette connaissance intime est ce qui me permet de défendre leurs intérêts avec la précision et la force qui font la différence.",
+  "Formée en droit des affaires entre la France et le Royaume-Uni, j'ai développé une approche rigoureuse et transversale du droit. Mon parcours au sein du cabinet Bredin Prat, au sein de l'équipe contentieux, m'a forgée au contact des dossiers les plus exigeants.",
+  "En compliance et droit pénal des affaires, j'accompagne les entreprises dans la mise en conformité de leurs pratiques, la gestion des risques réglementaires et la défense de leurs intérêts en cas de mise en cause.",
+  "En droit des sociétés, j'interviens sur les opérations courantes et exceptionnelles : structurations, transformations, cessions, et accompagnement des dirigeants dans leur gouvernance.",
+  "Ma clientèle est diverse : sociétés de toute taille, prestataires de services d'investissement, fonds, actionnaires et dirigeants. Chaque client bénéficie d'un accompagnement sur-mesure, avec la même exigence et le même engagement personnel.",
 ];
 
-export const skillPills = ['Droit des affaires', 'Droit du travail', 'Contentieux'];
+export const skillPills = ['Compliance', 'Corporate', 'Pénal des affaires'];
 
-export const badges = ["Barreau de Paris", "Master II Droit des Affaires", "12 ans d'expérience"];
+export const badges = ["Barreau de Paris", "M2 Droit des Affaires — Paris I", "Bredin Prat Alumni"];

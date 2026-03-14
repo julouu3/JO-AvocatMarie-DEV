@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react';
 import { motion, useScroll, useTransform } from 'motion/react';
-import { Mail, MapPin, Linkedin, Scale, Lock, Clock, CheckCircle2, ArrowRight } from 'lucide-react';
+import { Scale, Lock, Clock, CheckCircle2, ArrowRight } from 'lucide-react';
 import ScrollReveal from '../components/ScrollReveal';
 import { consultationOptions, etapes } from '@/data/contact';
 import { useMobile } from '@/hooks/useMobile';
@@ -27,14 +27,6 @@ export default function Contact() {
   const heroBgY = useTransform(heroProgress, [0, 1], ['0%', isMobile ? '0%' : '18%']);
   const heroContentY = useTransform(heroProgress, [0, 1], ['0%', isMobile ? '0%' : '10%']);
   const heroContentOpacity = useTransform(heroProgress, [0, 0.7], [1, 0]);
-
-  // Parallax CTA section
-  const ctaRef = useRef<HTMLElement>(null);
-  const { scrollYProgress: ctaProgress } = useScroll({
-    target: ctaRef,
-    offset: ['start end', 'end start'],
-  });
-  const ctaY = useTransform(ctaProgress, [0, 1], isMobile ? [0, 0] : [40, -40]);
 
   const validate = (): FormErrors => {
     const e: FormErrors = {};
@@ -128,8 +120,44 @@ export default function Contact() {
       {/* === B — BLOC PRINCIPAL === */}
       <section style={{ backgroundColor: '#FFFFFF', padding: 'clamp(48px, 6vw, 80px) 0' }}>
         <div className="max-w-[1280px] mx-auto px-5 md:px-10 lg:px-20">
-          <div className="grid grid-cols-1 lg:grid-cols-[3fr_2fr] gap-12 lg:gap-16">
-            {/* Gauche — Calendly placeholder + formulaire */}
+          {/* Étapes — au-dessus du formulaire */}
+          <ScrollReveal delay={0.05}>
+            <div className="max-w-[820px] mx-auto mb-12 lg:mb-16">
+              <h3 className="font-body" style={{ fontSize: '16px', fontWeight: 600, color: '#060608', marginBottom: '20px' }}>
+                À quoi s'attendre
+              </h3>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                {etapes.map((e) => (
+                  <div key={e.num} className="flex gap-4 items-start">
+                    <div
+                      className="flex items-center justify-center flex-shrink-0"
+                      style={{
+                        width: '32px',
+                        height: '32px',
+                        backgroundColor: '#002FA7',
+                        borderRadius: '50%',
+                      }}
+                    >
+                      <span className="font-body" style={{ fontSize: '13px', fontWeight: 600, color: '#FFFFFF' }}>
+                        {e.num}
+                      </span>
+                    </div>
+                    <div>
+                      <p className="font-body" style={{ fontSize: '15px', fontWeight: 600, color: '#060608', lineHeight: 1.4, marginBottom: '2px' }}>
+                        {e.title}
+                      </p>
+                      <p className="font-body" style={{ fontSize: '14px', color: '#6B6C7A' }}>
+                        {e.desc}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </ScrollReveal>
+
+          {/* Formulaire centré */}
+          <div className="max-w-[820px] mx-auto">
             <div>
               {/* Calendly placeholder */}
               <ScrollReveal>
@@ -290,7 +318,7 @@ export default function Contact() {
                           className={inputCls('nom')}
                         />
                         {errors.nom && (
-                          <p className="font-body" style={{ fontSize: '12px', color: '#D93025', marginTop: '4px' }}>
+                          <p role="alert" className="font-body" style={{ fontSize: '12px', color: '#D93025', marginTop: '4px' }}>
                             {errors.nom}
                           </p>
                         )}
@@ -309,7 +337,7 @@ export default function Contact() {
                           className={inputCls('email')}
                         />
                         {errors.email && (
-                          <p className="font-body" style={{ fontSize: '12px', color: '#D93025', marginTop: '4px' }}>
+                          <p role="alert" className="font-body" style={{ fontSize: '12px', color: '#D93025', marginTop: '4px' }}>
                             {errors.email}
                           </p>
                         )}
@@ -344,7 +372,7 @@ export default function Contact() {
                         className={inputCls('sujet')}
                       />
                       {errors.sujet && (
-                        <p className="font-body" style={{ fontSize: '12px', color: '#D93025', marginTop: '4px' }}>
+                        <p role="alert" className="font-body" style={{ fontSize: '12px', color: '#D93025', marginTop: '4px' }}>
                           {errors.sujet}
                         </p>
                       )}
@@ -364,7 +392,7 @@ export default function Contact() {
                         style={{ resize: 'vertical' }}
                       />
                       {errors.message && (
-                        <p className="font-body" style={{ fontSize: '12px', color: '#D93025', marginTop: '4px' }}>
+                        <p role="alert" className="font-body" style={{ fontSize: '12px', color: '#D93025', marginTop: '4px' }}>
                           {errors.message}
                         </p>
                       )}
@@ -386,125 +414,16 @@ export default function Contact() {
                 </ScrollReveal>
               )}
             </div>
-
-            {/* Droite — Infos contact + étapes */}
-            <div className="flex flex-col gap-10">
-              <ScrollReveal delay={0.05}>
-                <div
-                  style={{
-                    border: '1px solid #E0E0E8',
-                    borderRadius: '4px',
-                    padding: '28px',
-                    boxShadow: '0 2px 24px rgba(0,0,0,0.06)',
-                  }}
-                >
-                  <h3 className="font-body" style={{ fontSize: '16px', fontWeight: 600, color: '#060608', marginBottom: '20px' }}>
-                    Autres façons de me contacter
-                  </h3>
-                  <div className="flex flex-col gap-5">
-                    <a
-                      href="mailto:contact@lefebvre-avocats.fr"
-                      className="flex items-center gap-3 group"
-                      style={{ textDecoration: 'none' }}
-                    >
-                      <div
-                        className="flex items-center justify-center flex-shrink-0"
-                        style={{ width: '36px', height: '36px', backgroundColor: '#E8EDFF', borderRadius: '4px' }}
-                      >
-                        <Mail size={16} style={{ color: '#002FA7' }} />
-                      </div>
-                      <div>
-                        <p className="font-body" style={{ fontSize: '13px', color: '#6B6C7A' }}>Email</p>
-                        <p className="font-body group-hover:underline" style={{ fontSize: '15px', fontWeight: 500, color: '#002FA7' }}>
-                          contact@lefebvre-avocats.fr
-                        </p>
-                      </div>
-                    </a>
-                    <a
-                      href="https://linkedin.com"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center gap-3 group"
-                      style={{ textDecoration: 'none' }}
-                    >
-                      <div
-                        className="flex items-center justify-center flex-shrink-0"
-                        style={{ width: '36px', height: '36px', backgroundColor: '#E8EDFF', borderRadius: '4px' }}
-                      >
-                        <Linkedin size={16} style={{ color: '#002FA7' }} />
-                      </div>
-                      <div>
-                        <p className="font-body" style={{ fontSize: '13px', color: '#6B6C7A' }}>LinkedIn</p>
-                        <p className="font-body group-hover:underline" style={{ fontSize: '15px', fontWeight: 500, color: '#002FA7' }}>
-                          Sophie Lefebvre
-                        </p>
-                      </div>
-                    </a>
-                    <div className="flex items-center gap-3">
-                      <div
-                        className="flex items-center justify-center flex-shrink-0"
-                        style={{ width: '36px', height: '36px', backgroundColor: '#E8EDFF', borderRadius: '4px' }}
-                      >
-                        <MapPin size={16} style={{ color: '#002FA7' }} />
-                      </div>
-                      <div>
-                        <p className="font-body" style={{ fontSize: '13px', color: '#6B6C7A' }}>Adresse</p>
-                        <p className="font-body" style={{ fontSize: '15px', fontWeight: 400, color: '#060608' }}>
-                          Paris 8e, Île-de-France
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </ScrollReveal>
-
-              <ScrollReveal delay={0.1}>
-                <div>
-                  <h3 className="font-body" style={{ fontSize: '16px', fontWeight: 600, color: '#060608', marginBottom: '20px' }}>
-                    À quoi s'attendre
-                  </h3>
-                  <div className="flex flex-col gap-6">
-                    {etapes.map((e) => (
-                      <div key={e.num} className="flex gap-4 items-start">
-                        <div
-                          className="flex items-center justify-center flex-shrink-0"
-                          style={{
-                            width: '32px',
-                            height: '32px',
-                            backgroundColor: '#002FA7',
-                            borderRadius: '50%',
-                          }}
-                        >
-                          <span className="font-body" style={{ fontSize: '13px', fontWeight: 600, color: '#FFFFFF' }}>
-                            {e.num}
-                          </span>
-                        </div>
-                        <div>
-                          <p className="font-body" style={{ fontSize: '15px', fontWeight: 600, color: '#060608', lineHeight: 1.4, marginBottom: '2px' }}>
-                            {e.title}
-                          </p>
-                          <p className="font-body" style={{ fontSize: '14px', color: '#6B6C7A' }}>
-                            {e.desc}
-                          </p>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </ScrollReveal>
-            </div>
           </div>
         </div>
       </section>
 
-      {/* === D — BANDEAU RÉASSURANCE (parallax subtil) === */}
+      {/* === D — BANDEAU RÉASSURANCE === */}
       <section
-        ref={ctaRef}
-        style={{ backgroundColor: '#E8EDFF', padding: '24px 0', overflow: 'hidden' }}
+        style={{ backgroundColor: '#E8EDFF', padding: '24px 0' }}
       >
-        <motion.div
+        <div
           className="max-w-[1280px] mx-auto px-5 md:px-10 lg:px-20"
-          style={{ y: ctaY }}
         >
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 text-center">
             {[
@@ -520,10 +439,9 @@ export default function Contact() {
               </div>
             ))}
           </div>
-        </motion.div>
+        </div>
       </section>
 
-      <div className="lg:hidden" style={{ height: '64px' }} />
     </>
   );
 }

@@ -6,59 +6,57 @@ export const HERO_IMG =
 export const ABOUT_IMG =
   'https://images.unsplash.com/photo-1736939678218-bd648b5ef3bb?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxwcm9mZXNzaW9uYWwlMjBmZW1hbGUlMjBsYXd5ZXIlMjBwb3J0cmFpdCUyMG9mZmljZXxlbnwxfHx8fDE3NzM0OTAwNzV8MA&ixlib=rb-4.1.0&q=80&w=1080';
 
-export const heroLines = ['Votre droit.', 'Votre force.'];
-
 export const metrics: Metric[] = [
-  { value: 12, suffix: '+', label: "ans d'expérience" },
-  { value: 200, suffix: '+', label: 'dossiers traités' },
-  { value: 2, suffix: '', label: 'spécialités maîtrisées' },
+  { value: 5, suffix: '', label: "domaines d'expertise" },
+  { value: 3, suffix: '', label: 'diplômes internationaux' },
+  { value: 100, suffix: '%', label: 'engagement client' },
 ];
 
-export const expertiseAffaires = [
-  'Cessions & acquisitions (M&A)',
-  'Rédaction et négociation de contrats',
-  'Création et restructuration de sociétés',
-  'Litiges commerciaux et contentieux',
-  'Contrats commerciaux internationaux',
+export const expertiseCompliance = [
+  'Cartographie des risques et plans de conformité',
+  'Lutte anti-corruption (loi Sapin II)',
+  'Mise en conformité RGPD et réglementaire',
+  'Procédures internes et codes de conduite',
+  'Enquêtes internes et audits de conformité',
 ];
 
-export const expertiseTravail = [
-  "Plans de sauvegarde de l'emploi (PSE)",
-  'Ruptures conventionnelles collectives (RCC)',
-  "Négociations collectives & accords d'entreprise",
-  'Licenciements et contentieux prud\'homaux',
-  'Audits sociaux & conformité RH',
+export const expertiseCorporate = [
+  'Droit des sociétés et gouvernance',
+  'Opérations de cession et acquisition (M&A)',
+  'Droit des transports et droit douanier',
+  'Droit pénal des affaires',
+  'Responsabilité du fait des produits',
 ];
 
 export const dossiersVedette: Dossier[] = [
   {
     id: 1,
-    tag: 'DROIT DU TRAVAIL',
-    category: 'Droit du travail',
+    tag: 'COMPLIANCE',
+    category: 'Compliance',
     featured: true,
-    title: "Restructuration d'une ETI industrielle",
+    title: "Mise en conformité Sapin II d'un groupe industriel",
     context:
-      "Accompagnement d'une ETI de 200 salariés dans un PSE. Négociation avec les partenaires sociaux, rédaction des accords, validation DREETS.",
-    result: 'PSE homologué sans recours · Délais respectés',
+      "Accompagnement d'un groupe de 500 collaborateurs dans le déploiement de son programme de conformité anti-corruption : cartographie des risques, code de conduite, formation des équipes.",
+    result: 'Programme validé par l\'AFA · Zéro non-conformité',
   },
   {
     id: 2,
-    tag: 'DROIT DES AFFAIRES',
-    category: 'Droit des affaires',
+    tag: 'CORPORATE',
+    category: 'Corporate',
     featured: true,
-    title: "Cession d'une PME familiale",
+    title: "Restructuration d'un fonds d'investissement",
     context:
-      "Structuration et sécurisation juridique de la cession d'une PME du secteur distribution. Accompagnement du dirigeant de la LOI au signing.",
-    result: 'Transaction sécurisée · Garanties de passif négociées',
+      "Structuration juridique et accompagnement d'un fonds dans la réorganisation de ses participations. Coordination multi-juridictionnelle France / Royaume-Uni.",
+    result: 'Opération bouclée en 4 mois · Fiscalité optimisée',
   },
   {
     id: 3,
-    tag: 'CONTENTIEUX',
-    category: 'Contentieux',
+    tag: 'PÉNAL DES AFFAIRES',
+    category: 'Pénal des affaires',
     featured: true,
-    title: 'Litige commercial entre associés',
+    title: "Défense d'un dirigeant en enquête préliminaire",
     context:
-      "Représentation d'un dirigeant dans un conflit portant sur l'exclusion et la valorisation des parts sociales. Procédure en urgence.",
-    result: 'Transaction amiable · Préjudice évité > 800K€',
+      "Représentation d'un dirigeant de société dans le cadre d'une enquête préliminaire pour abus de biens sociaux. Stratégie de défense et négociation.",
+    result: 'Classement sans suite · Réputation préservée',
   },
 ];

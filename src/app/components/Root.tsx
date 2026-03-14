@@ -1,33 +1,8 @@
 import { Outlet, useLocation } from 'react-router';
 import { useEffect, Suspense } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
+import { motion } from 'motion/react';
 import Navbar from './Navbar';
 import Footer from './Footer';
-
-// Transition plus douce : fade + léger slide + subtle blur
-const pageVariants = {
-  initial: {
-    opacity: 0,
-    y: 30,
-    filter: 'blur(6px)',
-  },
-  animate: {
-    opacity: 1,
-    y: 0,
-    filter: 'blur(0px)',
-  },
-  exit: {
-    opacity: 0,
-    y: -20,
-    filter: 'blur(4px)',
-  },
-};
-
-const pageTransition = {
-  duration: 0.6,
-  ease: [0.16, 1, 0.3, 1], // Custom ease-out plus smooth
-  filter: { duration: 0.4 },
-};
 
 export default function Root() {
   const location = useLocation();
@@ -56,21 +31,26 @@ export default function Root() {
         transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1], opacity: { delay: 0.5, duration: 0.2 } }}
       />
 
-      <AnimatePresence mode="wait" initial={false}>
-        <motion.main
-          key={location.pathname}
-          variants={pageVariants}
-          initial="initial"
-          animate="animate"
-          exit="exit"
-          transition={pageTransition}
-          style={{ willChange: 'opacity, transform, filter' }}
+      <main>
+        <Suspense
+          fallback={
+            <div className="flex items-center justify-center" style={{ minHeight: '100vh' }}>
+              <div
+                style={{
+                  width: '32px',
+                  height: '32px',
+                  border: '2.5px solid #E0E0E8',
+                  borderTopColor: '#002FA7',
+                  borderRadius: '50%',
+                  animation: 'spin 0.7s linear infinite',
+                }}
+              />
+            </div>
+          }
         >
-          <Suspense fallback={null}>
-            <Outlet />
-          </Suspense>
-        </motion.main>
-      </AnimatePresence>
+          <Outlet />
+        </Suspense>
+      </main>
 
       <Footer />
     </div>

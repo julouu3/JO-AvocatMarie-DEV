@@ -1,6 +1,6 @@
 import type { NavLinkItem } from '@/types';
 
-export const CABINET_NAME = 'Lefebvre Avocats';
+export const CABINET_NAME = 'Marie Odin';
 
 export const navLinks: NavLinkItem[] = [
   { label: 'Accueil', href: '/' },

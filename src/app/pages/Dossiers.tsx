@@ -105,9 +105,9 @@ export default function Dossiers() {
               transition={{ duration: 0.6, delay: 0.45, ease: [0.16, 1, 0.3, 1] }}
             >
               {[
-                { value: '200+', label: 'dossiers traités' },
-                { value: '12 ans', label: "d'expérience" },
-                { value: '2', label: 'spécialités' },
+                { value: '5', label: "domaines d'expertise" },
+                { value: '3', label: 'diplômes internationaux' },
+                { value: '3', label: 'spécialités' },
               ].map((m) => (
                 <div key={m.label} className="flex flex-col gap-1">
                   <span
@@ -296,7 +296,6 @@ export default function Dossiers() {
         </div>
       </section>
 
-      <div className="lg:hidden" style={{ height: '64px' }} />
     </>
   );
 }

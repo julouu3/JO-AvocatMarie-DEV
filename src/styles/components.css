@@ -472,6 +472,11 @@
   transform: translateX(5px);
 }
 
+/* ── Loading spinner ───────────────────────────────────────────────────── */
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
 /* ── Reduced motion ─────────────────────────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
   *,
