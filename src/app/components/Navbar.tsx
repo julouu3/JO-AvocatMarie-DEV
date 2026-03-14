@@ -2,15 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router';
 import { motion, AnimatePresence } from 'motion/react';
 import { Menu, X } from 'lucide-react';
-
-const CABINET_NAME = 'Lefebvre Avocats';
-
-const navLinks = [
-  { label: 'Accueil', href: '/' },
-  { label: 'Profil', href: '/profil' },
-  { label: 'Mes Dossiers', href: '/dossiers' },
-  { label: 'Contact', href: '/contact' },
-];
+import { CABINET_NAME, navLinks } from '@/data/navigation';
 
 // ── NavLink desktop avec underline animé ────────────────────────────────────
 function NavLink({ href, label, scrolled }: { href: string; label: string; scrolled: boolean }) {
@@ -20,9 +12,8 @@ function NavLink({ href, label, scrolled }: { href: string; label: string; scrol
   return (
     <Link
       to={href}
-      className="group relative"
+      className="group relative font-body"
       style={{
-        fontFamily: "'DM Sans', sans-serif",
         fontSize: '14px',
         fontWeight: isActive ? 600 : 450,
         letterSpacing: '0.03em',
@@ -40,7 +31,6 @@ function NavLink({ href, label, scrolled }: { href: string; label: string; scrol
         {label}
       </motion.span>
 
-      {/* Underline animée via motion layout */}
       <span
         style={{
           position: 'absolute',
@@ -75,31 +65,11 @@ function NavCTA() {
     <motion.div whileHover={{ scale: 1.025 }} whileTap={{ scale: 0.97 }}>
       <Link
         to="/contact"
+        className="btn-primary"
         style={{
-          display: 'inline-flex',
-          alignItems: 'center',
-          backgroundColor: '#002FA7',
-          color: '#FFFFFF',
-          borderRadius: '2px',
           padding: '11px 26px',
-          fontFamily: "'DM Sans', sans-serif",
-          fontSize: '13px',
-          fontWeight: 500,
-          textTransform: 'uppercase',
           letterSpacing: '0.07em',
-          textDecoration: 'none',
-          transition: 'background-color 220ms ease, box-shadow 220ms ease',
           boxShadow: '0 0 0 0 rgba(0,47,167,0)',
-        }}
-        onMouseEnter={(e) => {
-          const el = e.currentTarget as HTMLElement;
-          el.style.backgroundColor = '#0038CC';
-          el.style.boxShadow = '0 4px 20px rgba(0,47,167,0.45)';
-        }}
-        onMouseLeave={(e) => {
-          const el = e.currentTarget as HTMLElement;
-          el.style.backgroundColor = '#002FA7';
-          el.style.boxShadow = '0 0 0 0 rgba(0,47,167,0)';
         }}
       >
         Prendre RDV
@@ -184,26 +154,11 @@ export default function Navbar() {
                 }}
                 transition={{ duration: 0.22 }}
               >
-                <span
-                  style={{
-                    color: '#fff',
-                    fontFamily: "'Cormorant Garamond', serif",
-                    fontSize: '17px',
-                    fontWeight: 700,
-                  }}
-                >
+                <span className="font-heading" style={{ color: '#fff', fontSize: '17px', fontWeight: 700 }}>
                   L
                 </span>
               </motion.div>
-              <span
-                style={{
-                  fontFamily: "'Cormorant Garamond', serif",
-                  fontSize: '20px',
-                  fontWeight: 700,
-                  color: '#FFFFFF',
-                  letterSpacing: '-0.01em',
-                }}
-              >
+              <span className="font-heading" style={{ fontSize: '20px', fontWeight: 700, color: '#FFFFFF', letterSpacing: '-0.01em' }}>
                 {CABINET_NAME}
               </span>
             </Link>
@@ -259,7 +214,7 @@ export default function Navbar() {
         </div>
       </motion.header>
 
-      {/* ── Menu mobile fullscreen (slide depuis le haut) ─────────────────── */}
+      {/* ── Menu mobile fullscreen ─────────────────────────────────────── */}
       <AnimatePresence>
         {mobileOpen && (
           <motion.div
@@ -270,7 +225,6 @@ export default function Navbar() {
             exit={{ clipPath: 'inset(0 0 100% 0)' }}
             transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
           >
-            {/* Accent line */}
             <div
               style={{
                 position: 'absolute',
@@ -296,8 +250,8 @@ export default function Navbar() {
               >
                 <Link
                   to={link.href}
+                  className="font-body"
                   style={{
-                    fontFamily: "'DM Sans', sans-serif",
                     fontSize: '22px',
                     fontWeight: isActive(link.href) ? 600 : 400,
                     color: isActive(link.href) ? '#5B8AF5' : '#FFFFFF',
@@ -326,20 +280,10 @@ export default function Navbar() {
             >
               <Link
                 to="/contact"
+                className="btn-primary"
                 style={{
-                  backgroundColor: '#002FA7',
-                  color: '#FFFFFF',
-                  borderRadius: '2px',
                   padding: '14px 48px',
-                  fontFamily: "'DM Sans', sans-serif",
-                  fontSize: '13px',
-                  fontWeight: 500,
-                  textTransform: 'uppercase',
                   letterSpacing: '0.07em',
-                  textDecoration: 'none',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
                   minHeight: '44px',
                 }}
               >
@@ -361,25 +305,12 @@ export default function Navbar() {
       >
         <Link
           to="/contact"
+          className="btn-primary w-full"
           style={{
-            backgroundColor: '#002FA7',
-            color: '#FFFFFF',
-            borderRadius: '2px',
             padding: '14px',
-            fontFamily: "'DM Sans', sans-serif",
-            fontSize: '13px',
-            fontWeight: 500,
-            textTransform: 'uppercase',
             letterSpacing: '0.07em',
-            textDecoration: 'none',
             minHeight: '44px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            transition: 'background-color 200ms ease',
           }}
-          onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.backgroundColor = '#0038CC'; }}
-          onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.backgroundColor = '#002FA7'; }}
         >
           Prendre RDV
         </Link>

@@ -1,5 +1,5 @@
 import { Outlet, useLocation } from 'react-router';
-import { useEffect } from 'react';
+import { useEffect, Suspense } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import Navbar from './Navbar';
 import Footer from './Footer';
@@ -53,7 +53,9 @@ export default function Root() {
           transition={pageTransition}
           style={{ willChange: 'opacity, transform' }}
         >
-          <Outlet />
+          <Suspense fallback={null}>
+            <Outlet />
+          </Suspense>
         </motion.main>
       </AnimatePresence>
 

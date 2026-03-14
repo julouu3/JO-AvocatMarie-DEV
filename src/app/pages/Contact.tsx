@@ -2,21 +2,8 @@ import { useState } from 'react';
 import { motion } from 'motion/react';
 import { Mail, MapPin, Linkedin, Scale, Lock, Clock, CheckCircle2, ArrowRight } from 'lucide-react';
 import ScrollReveal from '../components/ScrollReveal';
-
-interface FormData {
-  nom: string;
-  email: string;
-  entreprise: string;
-  sujet: string;
-  message: string;
-}
-
-interface FormErrors {
-  nom?: string;
-  email?: string;
-  sujet?: string;
-  message?: string;
-}
+import { consultationOptions, etapes } from '@/data/contact';
+import type { FormData, FormErrors } from '@/types';
 
 export default function Contact() {
   const [form, setForm] = useState<FormData>({
@@ -57,37 +44,8 @@ export default function Contact() {
     setSubmitted(true);
   };
 
-  const inputStyle = (hasError?: boolean): React.CSSProperties => ({
-    width: '100%',
-    border: `1px solid ${hasError ? '#D93025' : '#E0E0E8'}`,
-    backgroundColor: '#FFFFFF',
-    borderRadius: '2px',
-    padding: '12px 16px',
-    fontFamily: "'DM Sans', sans-serif",
-    fontSize: '15px',
-    color: '#060608',
-    outline: 'none',
-    boxShadow: hasError ? '0 0 0 3px rgba(217,48,37,0.15)' : 'none',
-    transition: 'border-color 150ms ease, box-shadow 150ms ease',
-  });
-
-  const etapes = [
-    {
-      num: '1',
-      title: 'Vous choisissez un créneau',
-      desc: 'Premier échange libre et confidentiel',
-    },
-    {
-      num: '2',
-      title: "J'analyse votre demande",
-      desc: 'Je prépare nos échanges en amont',
-    },
-    {
-      num: '3',
-      title: 'On avance ensemble',
-      desc: 'Stratégie claire dès la première consultation',
-    },
-  ];
+  const inputCls = (field: keyof FormErrors) =>
+    `input-field${errors[field] ? ' has-error' : form[field] ? ' has-value' : ''}`;
 
   return (
     <>
@@ -98,8 +56,8 @@ export default function Contact() {
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.1 }}
+            className="font-heading"
             style={{
-              fontFamily: "'Cormorant Garamond', serif",
               fontSize: 'clamp(36px, 5vw, 56px)',
               fontWeight: 700,
               lineHeight: 1.1,
@@ -113,8 +71,8 @@ export default function Contact() {
             initial={{ opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.3 }}
+            className="font-body"
             style={{
-              fontFamily: "'DM Sans', sans-serif",
               fontSize: 'clamp(16px, 1.5vw, 18px)',
               color: 'rgba(255,255,255,0.75)',
               lineHeight: 1.65,
@@ -134,8 +92,8 @@ export default function Contact() {
               {/* Calendly placeholder */}
               <ScrollReveal>
                 <h2
+                  className="font-body"
                   style={{
-                    fontFamily: "'DM Sans', sans-serif",
                     fontSize: 'clamp(18px, 1.8vw, 22px)',
                     fontWeight: 600,
                     color: '#060608',
@@ -155,7 +113,6 @@ export default function Contact() {
                     marginBottom: '48px',
                   }}
                 >
-                  {/* Calendly simulation */}
                   <div
                     style={{
                       backgroundColor: '#F5F5F7',
@@ -163,104 +120,49 @@ export default function Contact() {
                       borderBottom: '1px solid #E0E0E8',
                     }}
                   >
-                    <p
-                      style={{
-                        fontFamily: "'DM Sans', sans-serif",
-                        fontSize: '13px',
-                        fontWeight: 500,
-                        color: '#6B6C7A',
-                      }}
-                    >
+                    <p className="font-body" style={{ fontSize: '13px', fontWeight: 500, color: '#6B6C7A' }}>
                       Sélectionnez un type de consultation
                     </p>
                   </div>
                   <div className="p-6 flex flex-col gap-4">
-                    {[
-                      {
-                        title: 'Appel découverte',
-                        duration: '30 min',
-                        price: 'Gratuit',
-                        desc: 'Pour évaluer si je peux vous aider et quel accompagnement est adapté.',
-                        highlight: false,
-                      },
-                      {
-                        title: 'Consultation approfondie',
-                        duration: '1 heure',
-                        price: 'Sur devis',
-                        desc: 'Analyse détaillée de votre situation juridique et recommandations stratégiques.',
-                        highlight: true,
-                      },
-                    ].map((opt) => (
+                    {consultationOptions.map((opt) => (
                       <div
                         key={opt.title}
-                        className="flex flex-col sm:flex-row sm:items-start justify-between gap-4 p-5 cursor-pointer transition-all duration-200"
+                        className="consultation-option flex flex-col sm:flex-row sm:items-start justify-between gap-4 p-5 cursor-pointer"
                         style={{
                           border: `1.5px solid ${opt.highlight ? '#002FA7' : '#E0E0E8'}`,
                           borderRadius: '4px',
                           backgroundColor: opt.highlight ? '#F5F8FF' : '#FFFFFF',
                         }}
-                        onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.borderColor = '#002FA7'; }}
-                        onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.borderColor = opt.highlight ? '#002FA7' : '#E0E0E8'; }}
                       >
                         <div>
                           <div className="flex items-center gap-2 mb-1">
-                            <span
-                              style={{
-                                fontFamily: "'DM Sans', sans-serif",
-                                fontSize: '15px',
-                                fontWeight: 600,
-                                color: '#060608',
-                              }}
-                            >
+                            <span className="font-body" style={{ fontSize: '15px', fontWeight: 600, color: '#060608' }}>
                               {opt.title}
                             </span>
                             {opt.highlight && (
                               <span
+                                className="eyebrow"
                                 style={{
                                   backgroundColor: '#E8EDFF',
-                                  color: '#002FA7',
-                                  fontFamily: "'DM Sans', sans-serif",
-                                  fontSize: '11px',
-                                  fontWeight: 600,
                                   padding: '2px 8px',
                                   borderRadius: '3px',
-                                  textTransform: 'uppercase',
-                                  letterSpacing: '0.06em',
+                                  fontSize: '11px',
                                 }}
                               >
                                 Recommandé
                               </span>
                             )}
                           </div>
-                          <p
-                            style={{
-                              fontFamily: "'DM Sans', sans-serif",
-                              fontSize: '14px',
-                              color: '#6B6C7A',
-                              lineHeight: 1.55,
-                            }}
-                          >
+                          <p className="font-body" style={{ fontSize: '14px', color: '#6B6C7A', lineHeight: 1.55 }}>
                             {opt.desc}
                           </p>
                         </div>
                         <div className="text-right flex-shrink-0">
-                          <p
-                            style={{
-                              fontFamily: "'DM Sans', sans-serif",
-                              fontSize: '14px',
-                              fontWeight: 600,
-                              color: '#060608',
-                            }}
-                          >
+                          <p className="font-body" style={{ fontSize: '14px', fontWeight: 600, color: '#060608' }}>
                             {opt.price}
                           </p>
-                          <p
-                            style={{
-                              fontFamily: "'DM Sans', sans-serif",
-                              fontSize: '13px',
-                              color: '#6B6C7A',
-                            }}
-                          >
+                          <p className="font-body" style={{ fontSize: '13px', color: '#6B6C7A' }}>
                             {opt.duration}
                           </p>
                         </div>
@@ -274,36 +176,15 @@ export default function Contact() {
                         border: '1px solid #E0E0E8',
                       }}
                     >
-                      <p
-                        style={{
-                          fontFamily: "'DM Sans', sans-serif",
-                          fontSize: '14px',
-                          color: '#6B6C7A',
-                          marginBottom: '12px',
-                        }}
-                      >
+                      <p className="font-body" style={{ fontSize: '14px', color: '#6B6C7A', marginBottom: '12px' }}>
                         Intégration Calendly — Sélectionnez un créneau dans votre espace
                       </p>
                       <a
                         href="https://calendly.com"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center gap-2 transition-all hover:scale-[1.01]"
-                        style={{
-                          backgroundColor: '#002FA7',
-                          color: '#FFFFFF',
-                          borderRadius: '2px',
-                          padding: '12px 24px',
-                          fontFamily: "'DM Sans', sans-serif",
-                          fontSize: '13px',
-                          fontWeight: 500,
-                          textTransform: 'uppercase',
-                          letterSpacing: '0.06em',
-                          textDecoration: 'none',
-                          transition: 'background-color 200ms ease',
-                        }}
-                        onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.backgroundColor = '#0038CC'; }}
-                        onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.backgroundColor = '#002FA7'; }}
+                        className="btn-primary gap-2"
+                        style={{ padding: '12px 24px' }}
                       >
                         Voir les créneaux disponibles
                         <ArrowRight size={14} />
@@ -316,8 +197,8 @@ export default function Contact() {
               {/* Formulaire */}
               <ScrollReveal delay={0.1}>
                 <h3
+                  className="font-body"
                   style={{
-                    fontFamily: "'DM Sans', sans-serif",
                     fontSize: 'clamp(15px, 1.5vw, 18px)',
                     fontWeight: 600,
                     color: '#060608',
@@ -340,24 +221,10 @@ export default function Contact() {
                   >
                     <CheckCircle2 size={24} style={{ color: '#002FA7', flexShrink: 0, marginTop: '2px' }} />
                     <div>
-                      <p
-                        style={{
-                          fontFamily: "'DM Sans', sans-serif",
-                          fontSize: '16px',
-                          fontWeight: 600,
-                          color: '#060608',
-                          marginBottom: '6px',
-                        }}
-                      >
+                      <p className="font-body" style={{ fontSize: '16px', fontWeight: 600, color: '#060608', marginBottom: '6px' }}>
                         Message envoyé avec succès
                       </p>
-                      <p
-                        style={{
-                          fontFamily: "'DM Sans', sans-serif",
-                          fontSize: '14px',
-                          color: '#6B6C7A',
-                        }}
-                      >
+                      <p className="font-body" style={{ fontSize: '14px', color: '#6B6C7A' }}>
                         Je vous répondrai dans les 24h ouvrées. À très bientôt.
                       </p>
                     </div>
@@ -368,17 +235,7 @@ export default function Contact() {
                   <form onSubmit={handleSubmit} noValidate className="flex flex-col gap-5">
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                       <div>
-                        <label
-                          htmlFor="nom"
-                          style={{
-                            fontFamily: "'DM Sans', sans-serif",
-                            fontSize: '13px',
-                            fontWeight: 500,
-                            color: '#060608',
-                            display: 'block',
-                            marginBottom: '6px',
-                          }}
-                        >
+                        <label htmlFor="nom" className="font-body block mb-1.5" style={{ fontSize: '13px', fontWeight: 500, color: '#060608' }}>
                           Votre nom <span style={{ color: '#D93025' }}>*</span>
                         </label>
                         <input
@@ -388,45 +245,16 @@ export default function Contact() {
                           placeholder="Jean Dupont"
                           value={form.nom}
                           onChange={handleChange}
-                          style={inputStyle(!!errors.nom)}
-                          onFocus={(e) => {
-                            if (!errors.nom) {
-                              e.target.style.borderColor = '#002FA7';
-                              e.target.style.boxShadow = '0 0 0 3px rgba(0,47,167,0.15)';
-                            }
-                          }}
-                          onBlur={(e) => {
-                            if (!errors.nom) {
-                              e.target.style.borderColor = form.nom ? '#002FA7' : '#E0E0E8';
-                              e.target.style.boxShadow = 'none';
-                            }
-                          }}
+                          className={inputCls('nom')}
                         />
                         {errors.nom && (
-                          <p
-                            style={{
-                              fontFamily: "'DM Sans', sans-serif",
-                              fontSize: '12px',
-                              color: '#D93025',
-                              marginTop: '4px',
-                            }}
-                          >
+                          <p className="font-body" style={{ fontSize: '12px', color: '#D93025', marginTop: '4px' }}>
                             {errors.nom}
                           </p>
                         )}
                       </div>
                       <div>
-                        <label
-                          htmlFor="email"
-                          style={{
-                            fontFamily: "'DM Sans', sans-serif",
-                            fontSize: '13px',
-                            fontWeight: 500,
-                            color: '#060608',
-                            display: 'block',
-                            marginBottom: '6px',
-                          }}
-                        >
+                        <label htmlFor="email" className="font-body block mb-1.5" style={{ fontSize: '13px', fontWeight: 500, color: '#060608' }}>
                           Votre email <span style={{ color: '#D93025' }}>*</span>
                         </label>
                         <input
@@ -436,46 +264,17 @@ export default function Contact() {
                           placeholder="jean@entreprise.fr"
                           value={form.email}
                           onChange={handleChange}
-                          style={inputStyle(!!errors.email)}
-                          onFocus={(e) => {
-                            if (!errors.email) {
-                              e.target.style.borderColor = '#002FA7';
-                              e.target.style.boxShadow = '0 0 0 3px rgba(0,47,167,0.15)';
-                            }
-                          }}
-                          onBlur={(e) => {
-                            if (!errors.email) {
-                              e.target.style.borderColor = form.email ? '#002FA7' : '#E0E0E8';
-                              e.target.style.boxShadow = 'none';
-                            }
-                          }}
+                          className={inputCls('email')}
                         />
                         {errors.email && (
-                          <p
-                            style={{
-                              fontFamily: "'DM Sans', sans-serif",
-                              fontSize: '12px',
-                              color: '#D93025',
-                              marginTop: '4px',
-                            }}
-                          >
+                          <p className="font-body" style={{ fontSize: '12px', color: '#D93025', marginTop: '4px' }}>
                             {errors.email}
                           </p>
                         )}
                       </div>
                     </div>
                     <div>
-                      <label
-                        htmlFor="entreprise"
-                        style={{
-                          fontFamily: "'DM Sans', sans-serif",
-                          fontSize: '13px',
-                          fontWeight: 500,
-                          color: '#060608',
-                          display: 'block',
-                          marginBottom: '6px',
-                        }}
-                      >
+                      <label htmlFor="entreprise" className="font-body block mb-1.5" style={{ fontSize: '13px', fontWeight: 500, color: '#060608' }}>
                         Votre entreprise{' '}
                         <span style={{ color: '#6B6C7A', fontWeight: 400 }}>(optionnel)</span>
                       </label>
@@ -486,29 +285,11 @@ export default function Contact() {
                         placeholder="Nom de votre société"
                         value={form.entreprise}
                         onChange={handleChange}
-                        style={inputStyle()}
-                        onFocus={(e) => {
-                          e.target.style.borderColor = '#002FA7';
-                          e.target.style.boxShadow = '0 0 0 3px rgba(0,47,167,0.15)';
-                        }}
-                        onBlur={(e) => {
-                          e.target.style.borderColor = form.entreprise ? '#002FA7' : '#E0E0E8';
-                          e.target.style.boxShadow = 'none';
-                        }}
+                        className={`input-field${form.entreprise ? ' has-value' : ''}`}
                       />
                     </div>
                     <div>
-                      <label
-                        htmlFor="sujet"
-                        style={{
-                          fontFamily: "'DM Sans', sans-serif",
-                          fontSize: '13px',
-                          fontWeight: 500,
-                          color: '#060608',
-                          display: 'block',
-                          marginBottom: '6px',
-                        }}
-                      >
+                      <label htmlFor="sujet" className="font-body block mb-1.5" style={{ fontSize: '13px', fontWeight: 500, color: '#060608' }}>
                         Sujet <span style={{ color: '#D93025' }}>*</span>
                       </label>
                       <input
@@ -518,45 +299,16 @@ export default function Contact() {
                         placeholder="Objet de votre demande"
                         value={form.sujet}
                         onChange={handleChange}
-                        style={inputStyle(!!errors.sujet)}
-                        onFocus={(e) => {
-                          if (!errors.sujet) {
-                            e.target.style.borderColor = '#002FA7';
-                            e.target.style.boxShadow = '0 0 0 3px rgba(0,47,167,0.15)';
-                          }
-                        }}
-                        onBlur={(e) => {
-                          if (!errors.sujet) {
-                            e.target.style.borderColor = form.sujet ? '#002FA7' : '#E0E0E8';
-                            e.target.style.boxShadow = 'none';
-                          }
-                        }}
+                        className={inputCls('sujet')}
                       />
                       {errors.sujet && (
-                        <p
-                          style={{
-                            fontFamily: "'DM Sans', sans-serif",
-                            fontSize: '12px',
-                            color: '#D93025',
-                            marginTop: '4px',
-                          }}
-                        >
+                        <p className="font-body" style={{ fontSize: '12px', color: '#D93025', marginTop: '4px' }}>
                           {errors.sujet}
                         </p>
                       )}
                     </div>
                     <div>
-                      <label
-                        htmlFor="message"
-                        style={{
-                          fontFamily: "'DM Sans', sans-serif",
-                          fontSize: '13px',
-                          fontWeight: 500,
-                          color: '#060608',
-                          display: 'block',
-                          marginBottom: '6px',
-                        }}
-                      >
+                      <label htmlFor="message" className="font-body block mb-1.5" style={{ fontSize: '13px', fontWeight: 500, color: '#060608' }}>
                         Votre message <span style={{ color: '#D93025' }}>*</span>
                       </label>
                       <textarea
@@ -566,29 +318,11 @@ export default function Contact() {
                         placeholder="Décrivez brièvement votre situation..."
                         value={form.message}
                         onChange={handleChange}
-                        style={{ ...inputStyle(!!errors.message), resize: 'vertical' }}
-                        onFocus={(e) => {
-                          if (!errors.message) {
-                            e.target.style.borderColor = '#002FA7';
-                            e.target.style.boxShadow = '0 0 0 3px rgba(0,47,167,0.15)';
-                          }
-                        }}
-                        onBlur={(e) => {
-                          if (!errors.message) {
-                            e.target.style.borderColor = form.message ? '#002FA7' : '#E0E0E8';
-                            e.target.style.boxShadow = 'none';
-                          }
-                        }}
+                        className={inputCls('message')}
+                        style={{ resize: 'vertical' }}
                       />
                       {errors.message && (
-                        <p
-                          style={{
-                            fontFamily: "'DM Sans', sans-serif",
-                            fontSize: '12px',
-                            color: '#D93025',
-                            marginTop: '4px',
-                          }}
-                        >
+                        <p className="font-body" style={{ fontSize: '12px', color: '#D93025', marginTop: '4px' }}>
                           {errors.message}
                         </p>
                       )}
@@ -596,36 +330,13 @@ export default function Contact() {
                     <div>
                       <button
                         type="submit"
-                        className="w-full flex items-center justify-center gap-2 transition-all hover:scale-[1.005]"
-                        style={{
-                          backgroundColor: '#002FA7',
-                          color: '#FFFFFF',
-                          borderRadius: '2px',
-                          padding: '14px 32px',
-                          fontFamily: "'DM Sans', sans-serif",
-                          fontSize: '13px',
-                          fontWeight: 500,
-                          textTransform: 'uppercase',
-                          letterSpacing: '0.06em',
-                          border: 'none',
-                          cursor: 'pointer',
-                          transition: 'background-color 200ms ease',
-                          minHeight: '44px',
-                        }}
-                        onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.backgroundColor = '#0038CC'; }}
-                        onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.backgroundColor = '#002FA7'; }}
+                        className="btn-primary w-full gap-2"
+                        style={{ padding: '14px 32px', border: 'none', cursor: 'pointer', minHeight: '44px' }}
                       >
                         Envoyer mon message
                         <ArrowRight size={14} />
                       </button>
-                      <p
-                        className="text-center mt-3"
-                        style={{
-                          fontFamily: "'DM Sans', sans-serif",
-                          fontSize: '13px',
-                          color: '#6B6C7A',
-                        }}
-                      >
+                      <p className="font-body text-center mt-3" style={{ fontSize: '13px', color: '#6B6C7A' }}>
                         Réponse garantie sous 24h ouvrées
                       </p>
                     </div>
@@ -636,7 +347,6 @@ export default function Contact() {
 
             {/* Droite — Infos contact + étapes */}
             <div className="flex flex-col gap-10">
-              {/* Autres façons de me contacter */}
               <ScrollReveal delay={0.05}>
                 <div
                   style={{
@@ -646,15 +356,7 @@ export default function Contact() {
                     boxShadow: '0 2px 24px rgba(0,0,0,0.06)',
                   }}
                 >
-                  <h3
-                    style={{
-                      fontFamily: "'DM Sans', sans-serif",
-                      fontSize: '16px',
-                      fontWeight: 600,
-                      color: '#060608',
-                      marginBottom: '20px',
-                    }}
-                  >
+                  <h3 className="font-body" style={{ fontSize: '16px', fontWeight: 600, color: '#060608', marginBottom: '20px' }}>
                     Autres façons de me contacter
                   </h3>
                   <div className="flex flex-col gap-5">
@@ -664,39 +366,14 @@ export default function Contact() {
                       style={{ textDecoration: 'none' }}
                     >
                       <div
-                        style={{
-                          width: '36px',
-                          height: '36px',
-                          backgroundColor: '#E8EDFF',
-                          borderRadius: '4px',
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          flexShrink: 0,
-                        }}
+                        className="flex items-center justify-center flex-shrink-0"
+                        style={{ width: '36px', height: '36px', backgroundColor: '#E8EDFF', borderRadius: '4px' }}
                       >
                         <Mail size={16} style={{ color: '#002FA7' }} />
                       </div>
                       <div>
-                        <p
-                          style={{
-                            fontFamily: "'DM Sans', sans-serif",
-                            fontSize: '13px',
-                            color: '#6B6C7A',
-                          }}
-                        >
-                          Email
-                        </p>
-                        <p
-                          className="group-hover:underline"
-                          style={{
-                            fontFamily: "'DM Sans', sans-serif",
-                            fontSize: '15px',
-                            fontWeight: 500,
-                            color: '#002FA7',
-                            textDecorationColor: '#002FA7',
-                          }}
-                        >
+                        <p className="font-body" style={{ fontSize: '13px', color: '#6B6C7A' }}>Email</p>
+                        <p className="font-body group-hover:underline" style={{ fontSize: '15px', fontWeight: 500, color: '#002FA7' }}>
                           contact@lefebvre-avocats.fr
                         </p>
                       </div>
@@ -709,63 +386,28 @@ export default function Contact() {
                       style={{ textDecoration: 'none' }}
                     >
                       <div
-                        style={{
-                          width: '36px',
-                          height: '36px',
-                          backgroundColor: '#E8EDFF',
-                          borderRadius: '4px',
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          flexShrink: 0,
-                        }}
+                        className="flex items-center justify-center flex-shrink-0"
+                        style={{ width: '36px', height: '36px', backgroundColor: '#E8EDFF', borderRadius: '4px' }}
                       >
                         <Linkedin size={16} style={{ color: '#002FA7' }} />
                       </div>
                       <div>
-                        <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '13px', color: '#6B6C7A' }}>
-                          LinkedIn
-                        </p>
-                        <p
-                          className="group-hover:underline"
-                          style={{
-                            fontFamily: "'DM Sans', sans-serif",
-                            fontSize: '15px',
-                            fontWeight: 500,
-                            color: '#002FA7',
-                          }}
-                        >
+                        <p className="font-body" style={{ fontSize: '13px', color: '#6B6C7A' }}>LinkedIn</p>
+                        <p className="font-body group-hover:underline" style={{ fontSize: '15px', fontWeight: 500, color: '#002FA7' }}>
                           Sophie Lefebvre
                         </p>
                       </div>
                     </a>
                     <div className="flex items-center gap-3">
                       <div
-                        style={{
-                          width: '36px',
-                          height: '36px',
-                          backgroundColor: '#E8EDFF',
-                          borderRadius: '4px',
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          flexShrink: 0,
-                        }}
+                        className="flex items-center justify-center flex-shrink-0"
+                        style={{ width: '36px', height: '36px', backgroundColor: '#E8EDFF', borderRadius: '4px' }}
                       >
                         <MapPin size={16} style={{ color: '#002FA7' }} />
                       </div>
                       <div>
-                        <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: '13px', color: '#6B6C7A' }}>
-                          Adresse
-                        </p>
-                        <p
-                          style={{
-                            fontFamily: "'DM Sans', sans-serif",
-                            fontSize: '15px',
-                            fontWeight: 400,
-                            color: '#060608',
-                          }}
-                        >
+                        <p className="font-body" style={{ fontSize: '13px', color: '#6B6C7A' }}>Adresse</p>
+                        <p className="font-body" style={{ fontSize: '15px', fontWeight: 400, color: '#060608' }}>
                           Paris 8e, Île-de-France
                         </p>
                       </div>
@@ -774,66 +416,32 @@ export default function Contact() {
                 </div>
               </ScrollReveal>
 
-              {/* À quoi s'attendre */}
               <ScrollReveal delay={0.1}>
                 <div>
-                  <h3
-                    style={{
-                      fontFamily: "'DM Sans', sans-serif",
-                      fontSize: '16px',
-                      fontWeight: 600,
-                      color: '#060608',
-                      marginBottom: '20px',
-                    }}
-                  >
+                  <h3 className="font-body" style={{ fontSize: '16px', fontWeight: 600, color: '#060608', marginBottom: '20px' }}>
                     À quoi s'attendre
                   </h3>
                   <div className="flex flex-col gap-6">
                     {etapes.map((e) => (
                       <div key={e.num} className="flex gap-4 items-start">
                         <div
+                          className="flex items-center justify-center flex-shrink-0"
                           style={{
                             width: '32px',
                             height: '32px',
                             backgroundColor: '#002FA7',
                             borderRadius: '50%',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            flexShrink: 0,
                           }}
                         >
-                          <span
-                            style={{
-                              fontFamily: "'DM Sans', sans-serif",
-                              fontSize: '13px',
-                              fontWeight: 600,
-                              color: '#FFFFFF',
-                            }}
-                          >
+                          <span className="font-body" style={{ fontSize: '13px', fontWeight: 600, color: '#FFFFFF' }}>
                             {e.num}
                           </span>
                         </div>
                         <div>
-                          <p
-                            style={{
-                              fontFamily: "'DM Sans', sans-serif",
-                              fontSize: '15px',
-                              fontWeight: 600,
-                              color: '#060608',
-                              lineHeight: 1.4,
-                              marginBottom: '2px',
-                            }}
-                          >
+                          <p className="font-body" style={{ fontSize: '15px', fontWeight: 600, color: '#060608', lineHeight: 1.4, marginBottom: '2px' }}>
                             {e.title}
                           </p>
-                          <p
-                            style={{
-                              fontFamily: "'DM Sans', sans-serif",
-                              fontSize: '14px',
-                              color: '#6B6C7A',
-                            }}
-                          >
+                          <p className="font-body" style={{ fontSize: '14px', color: '#6B6C7A' }}>
                             {e.desc}
                           </p>
                         </div>
@@ -858,14 +466,7 @@ export default function Contact() {
             ].map(({ Icon, label }) => (
               <div key={label} className="flex items-center justify-center gap-2">
                 <Icon size={16} style={{ color: '#002FA7', flexShrink: 0 }} />
-                <span
-                  style={{
-                    fontFamily: "'DM Sans', sans-serif",
-                    fontSize: '13px',
-                    fontWeight: 500,
-                    color: '#002FA7',
-                  }}
-                >
+                <span className="font-body" style={{ fontSize: '13px', fontWeight: 500, color: '#002FA7' }}>
                   {label}
                 </span>
               </div>
@@ -874,7 +475,6 @@ export default function Contact() {
         </div>
       </section>
 
-      {/* Mobile sticky spacer */}
       <div className="lg:hidden" style={{ height: '64px' }} />
     </>
   );

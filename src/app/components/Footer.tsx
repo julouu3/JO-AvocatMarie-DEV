@@ -1,44 +1,36 @@
-import { useState } from 'react';
 import { Link } from 'react-router';
 import { motion } from 'motion/react';
 import { Linkedin, Mail, MapPin, Scale, ArrowUpRight } from 'lucide-react';
 import ScrollReveal from './ScrollReveal';
-
-const CABINET_NAME = 'Lefebvre Avocats';
+import { CABINET_NAME, navLinks } from '@/data/navigation';
 
 // ── Lien de navigation footer avec animation hover ──────────────────────────
 function FooterNavLink({ href, label }: { href: string; label: string }) {
-  const [hovered, setHovered] = useState(false);
-
   return (
     <motion.div
-      style={{ display: 'flex', alignItems: 'center', gap: '6px', cursor: 'pointer' }}
-      animate={{ x: hovered ? 5 : 0 }}
+      className="flex items-center gap-1.5 cursor-pointer group"
+      whileHover={{ x: 5 }}
       transition={{ duration: 0.22, ease: 'easeOut' }}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
     >
-      {/* Tiret indicateur */}
       <motion.span
+        className="block flex-shrink-0"
         style={{
-          display: 'block',
           width: '14px',
           height: '1.5px',
           backgroundColor: '#002FA7',
-          flexShrink: 0,
+          transformOrigin: 'left',
         }}
-        animate={{ scaleX: hovered ? 1 : 0, opacity: hovered ? 1 : 0 }}
         initial={{ scaleX: 0, opacity: 0 }}
+        whileHover={{ scaleX: 1, opacity: 1 }}
         transition={{ duration: 0.2 }}
-        style2={{ transformOrigin: 'left' }}
       />
       <Link
         to={href}
+        className="font-body group-hover:text-white"
         style={{
-          fontFamily: "'DM Sans', sans-serif",
           fontSize: '15px',
           fontWeight: 400,
-          color: hovered ? '#FFFFFF' : 'rgba(255,255,255,0.78)',
+          color: 'rgba(255,255,255,0.78)',
           textDecoration: 'none',
           transition: 'color 200ms ease',
           lineHeight: 1.5,
@@ -60,59 +52,43 @@ function FooterExternalLink({
   icon: React.ElementType;
   label: string;
 }) {
-  const [hovered, setHovered] = useState(false);
-
   return (
     <motion.a
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      className="inline-flex items-center gap-2"
+      className="inline-flex items-center gap-2 group"
       style={{
-        color: hovered ? '#FFFFFF' : 'rgba(255,255,255,0.72)',
+        color: 'rgba(255,255,255,0.72)',
         textDecoration: 'none',
         transition: 'color 200ms ease',
       }}
-      whileHover={{ x: 3 }}
+      whileHover={{ x: 3, color: '#FFFFFF' }}
       transition={{ duration: 0.2 }}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
     >
-      <Icon size={18} style={{ color: hovered ? '#5B8AF5' : '#002FA7', transition: 'color 200ms ease' }} />
-      <span
-        style={{
-          fontFamily: "'DM Sans', sans-serif",
-          fontSize: '14px',
-          fontWeight: 500,
-        }}
-      >
+      <Icon size={18} className="transition-colors duration-200 text-[#002FA7] group-hover:text-[#5B8AF5]" />
+      <span className="font-body" style={{ fontSize: '14px', fontWeight: 500 }}>
         {label}
       </span>
-      <motion.span
-        animate={{ opacity: hovered ? 1 : 0, x: hovered ? 0 : -4 }}
-        transition={{ duration: 0.18 }}
-      >
-        <ArrowUpRight size={13} style={{ opacity: 0.6 }} />
-      </motion.span>
+      <span className="opacity-0 -translate-x-1 group-hover:opacity-60 group-hover:translate-x-0 transition-all duration-200">
+        <ArrowUpRight size={13} />
+      </span>
     </motion.a>
   );
 }
 
 // ── Lien légal du bas ────────────────────────────────────────────────────────
 function FooterLegalLink({ to, label }: { to: string; label: string }) {
-  const [hovered, setHovered] = useState(false);
   return (
     <Link
       to={to}
+      className="font-body hover:text-white/75"
       style={{
-        fontFamily: "'DM Sans', sans-serif",
         fontSize: '12px',
-        color: hovered ? 'rgba(255,255,255,0.75)' : 'rgba(255,255,255,0.5)',
+        color: 'rgba(255,255,255,0.5)',
         textDecoration: 'none',
         transition: 'color 200ms ease',
       }}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
     >
       {label}
     </Link>
@@ -123,7 +99,6 @@ function FooterLegalLink({ to, label }: { to: string; label: string }) {
 export default function Footer() {
   return (
     <footer style={{ backgroundColor: '#0A0D1A', position: 'relative' }}>
-      {/* Top accent — ligne bleue */}
       <div style={{ height: '2px', backgroundColor: '#002FA7', width: '100%' }} />
 
       <div className="max-w-[1280px] mx-auto px-5 md:px-10 lg:px-20 py-16 lg:py-20">
@@ -132,71 +107,34 @@ export default function Footer() {
           {/* ── Col 1 : Logo + tagline ─────────────────────────────────── */}
           <ScrollReveal delay={0} y={16}>
             <div className="flex flex-col gap-5 md:col-span-2 lg:col-span-1">
-              {/* Logo */}
               <div className="flex items-center gap-3">
                 <div
+                  className="flex items-center justify-center flex-shrink-0"
                   style={{
                     width: '32px',
                     height: '32px',
                     backgroundColor: '#002FA7',
                     borderRadius: '2px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    flexShrink: 0,
                   }}
                 >
-                  <span
-                    style={{
-                      color: '#fff',
-                      fontFamily: "'Cormorant Garamond', serif",
-                      fontSize: '18px',
-                      fontWeight: 700,
-                    }}
-                  >
+                  <span className="font-heading" style={{ color: '#fff', fontSize: '18px', fontWeight: 700 }}>
                     L
                   </span>
                 </div>
-                <span
-                  style={{
-                    fontFamily: "'Cormorant Garamond', serif",
-                    fontSize: '21px',
-                    fontWeight: 700,
-                    color: '#FFFFFF',
-                    letterSpacing: '-0.01em',
-                  }}
-                >
+                <span className="font-heading" style={{ fontSize: '21px', fontWeight: 700, color: '#FFFFFF', letterSpacing: '-0.01em' }}>
                   {CABINET_NAME}
                 </span>
               </div>
 
-              {/* Tagline */}
-              <p
-                style={{
-                  fontFamily: "'DM Sans', sans-serif",
-                  fontSize: '15px',
-                  color: 'rgba(255,255,255,0.72)',
-                  lineHeight: 1.75,
-                  maxWidth: '260px',
-                }}
-              >
+              <p className="font-body" style={{ fontSize: '15px', color: 'rgba(255,255,255,0.72)', lineHeight: 1.75, maxWidth: '260px' }}>
                 Droit des affaires & droit du travail.
                 <br />
                 Expertise au service des dirigeants.
               </p>
 
-              {/* LinkedIn */}
               <FooterExternalLink href="https://linkedin.com" icon={Linkedin} label="LinkedIn" />
 
-              {/* Copyright */}
-              <p
-                style={{
-                  fontFamily: "'DM Sans', sans-serif",
-                  fontSize: '13px',
-                  color: 'rgba(255,255,255,0.42)',
-                  marginTop: '8px',
-                }}
-              >
+              <p className="font-body" style={{ fontSize: '13px', color: 'rgba(255,255,255,0.42)', marginTop: '8px' }}>
                 © {new Date().getFullYear()} {CABINET_NAME}
               </p>
             </div>
@@ -206,8 +144,8 @@ export default function Footer() {
           <ScrollReveal delay={0.08} y={16}>
             <div className="flex flex-col gap-4">
               <h4
+                className="font-body"
                 style={{
-                  fontFamily: "'DM Sans', sans-serif",
                   fontSize: '11px',
                   fontWeight: 600,
                   color: '#5B8AF5',
@@ -218,12 +156,7 @@ export default function Footer() {
               >
                 Navigation
               </h4>
-              {[
-                { label: 'Accueil', href: '/' },
-                { label: 'Profil', href: '/profil' },
-                { label: 'Mes Dossiers', href: '/dossiers' },
-                { label: 'Contact', href: '/contact' },
-              ].map((link) => (
+              {navLinks.map((link) => (
                 <FooterNavLink key={link.href} href={link.href} label={link.label} />
               ))}
             </div>
@@ -233,8 +166,8 @@ export default function Footer() {
           <ScrollReveal delay={0.14} y={16}>
             <div className="flex flex-col gap-4">
               <h4
+                className="font-body"
                 style={{
-                  fontFamily: "'DM Sans', sans-serif",
                   fontSize: '11px',
                   fontWeight: 600,
                   color: '#5B8AF5',
@@ -246,37 +179,20 @@ export default function Footer() {
                 Contact
               </h4>
 
-              {/* Barreau */}
               <div className="flex items-center gap-3">
                 <Scale size={15} style={{ color: '#002FA7', flexShrink: 0 }} />
-                <span
-                  style={{
-                    fontFamily: "'DM Sans', sans-serif",
-                    fontSize: '14px',
-                    color: 'rgba(255,255,255,0.78)',
-                    lineHeight: 1.5,
-                  }}
-                >
+                <span className="font-body" style={{ fontSize: '14px', color: 'rgba(255,255,255,0.78)', lineHeight: 1.5 }}>
                   Barreau de Paris
                 </span>
               </div>
 
-              {/* Localisation */}
               <div className="flex items-center gap-3">
                 <MapPin size={15} style={{ color: '#002FA7', flexShrink: 0 }} />
-                <span
-                  style={{
-                    fontFamily: "'DM Sans', sans-serif",
-                    fontSize: '14px',
-                    color: 'rgba(255,255,255,0.78)',
-                    lineHeight: 1.5,
-                  }}
-                >
+                <span className="font-body" style={{ fontSize: '14px', color: 'rgba(255,255,255,0.78)', lineHeight: 1.5 }}>
                   Paris, Île-de-France
                 </span>
               </div>
 
-              {/* Email */}
               <div className="flex items-start gap-3">
                 <Mail size={15} style={{ color: '#002FA7', flexShrink: 0, marginTop: '2px' }} />
                 <FooterExternalLink
@@ -286,10 +202,10 @@ export default function Footer() {
                 />
               </div>
 
-              {/* CTA contact */}
               <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.97 }} className="mt-2">
                 <Link
                   to="/contact"
+                  className="footer-cta"
                   style={{
                     display: 'inline-flex',
                     alignItems: 'center',
@@ -305,17 +221,6 @@ export default function Footer() {
                     textTransform: 'uppercase',
                     letterSpacing: '0.07em',
                     textDecoration: 'none',
-                    transition: 'background-color 220ms ease, border-color 220ms ease',
-                  }}
-                  onMouseEnter={(e) => {
-                    const el = e.currentTarget as HTMLElement;
-                    el.style.backgroundColor = 'rgba(0,47,167,0.55)';
-                    el.style.borderColor = 'rgba(0,47,167,0.9)';
-                  }}
-                  onMouseLeave={(e) => {
-                    const el = e.currentTarget as HTMLElement;
-                    el.style.backgroundColor = 'rgba(0,47,167,0.25)';
-                    el.style.borderColor = 'rgba(0,47,167,0.55)';
                   }}
                 >
                   Prendre RDV
@@ -334,14 +239,8 @@ export default function Footer() {
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.2 }}
         >
-          <p
-            style={{
-              fontFamily: "'DM Sans', sans-serif",
-              fontSize: '12px',
-              color: 'rgba(255,255,255,0.45)',
-            }}
-          >
-            Cabinet inscrit au Barreau de Paris · N° SIREN : [000 000 000]
+          <p className="font-body" style={{ fontSize: '12px', color: 'rgba(255,255,255,0.45)' }}>
+            Cabinet inscrit au Barreau de Paris · N° SIREN : en attente
           </p>
           <div className="flex gap-6">
             <FooterLegalLink to="/mentions-legales" label="Mentions légales" />

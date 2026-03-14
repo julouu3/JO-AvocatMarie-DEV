@@ -1,10 +1,12 @@
 import { createBrowserRouter } from 'react-router';
+import { lazy } from 'react';
 import Root from './components/Root';
-import Home from './pages/Home';
-import Profil from './pages/Profil';
-import Dossiers from './pages/Dossiers';
-import Contact from './pages/Contact';
-import MentionsLegales from './pages/MentionsLegales';
+
+const Home = lazy(() => import('./pages/Home'));
+const Profil = lazy(() => import('./pages/Profil'));
+const Dossiers = lazy(() => import('./pages/Dossiers'));
+const Contact = lazy(() => import('./pages/Contact'));
+const MentionsLegales = lazy(() => import('./pages/MentionsLegales'));
 
 export const router = createBrowserRouter([
   {
