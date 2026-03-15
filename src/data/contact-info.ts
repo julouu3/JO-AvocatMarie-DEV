@@ -7,7 +7,7 @@ export const CONTACT_INFO = {
   email: 'modin@svz.fr',
   address: '16 cours Albert 1er, 75008 Paris',
   barreau: 'Barreau de Paris',
-  linkedin: 'https://www.linkedin.com/in/marie-odin-a4b45a141/',
+  linkedin: 'https://www.linkedin.com/in/marie-odin-673485113/',
   calendly: 'https://calendly.com', // TODO: remplacer par l'URL réelle
-  tagline: 'Compliance, corporate & pénal des affaires.',
+  tagline: 'Contentieux, compliance & droit pénal des affaires.',
 } as const;

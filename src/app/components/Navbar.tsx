@@ -30,11 +30,13 @@ function NavLink({ href, label, scrolled, lightHero }: { href: string; label: st
         textDecoration: 'none',
         paddingBottom: '4px',
         display: 'inline-block',
-        transition: 'color 250ms ease',
+        transition: 'color 550ms cubic-bezier(0.4, 0, 0.2, 1)',
       }}
     >
       <motion.span
+        animate={{ color: baseColor }}
         whileHover={{ color: hoverColor }}
+        transition={{ duration: 0.55, ease: [0.4, 0, 0.2, 1] }}
         style={{ display: 'inline-block', position: 'relative' }}
       >
         {label}
@@ -123,7 +125,9 @@ export default function Navbar() {
         animate={{
           backgroundColor: scrolled || mobileOpen
             ? 'rgba(10, 13, 26, 0.92)'
-            : 'rgba(10, 13, 26, 0)',
+            : lightHero
+              ? 'rgba(250, 251, 255, 0.95)'
+              : 'rgba(10, 13, 26, 0)',
           backdropFilter: scrolled || mobileOpen ? 'blur(18px) saturate(160%)' : 'blur(0px)',
           borderBottomColor: scrolled
             ? 'rgba(255, 255, 255, 0.07)'
@@ -132,7 +136,7 @@ export default function Navbar() {
             ? '0 1px 48px rgba(0,0,0,0.3)'
             : '0 0 0 rgba(0,0,0,0)',
         }}
-        transition={{ duration: 0.35, ease: 'easeOut' }}
+        transition={{ duration: 0.55, ease: [0.4, 0, 0.2, 1] }}
         style={{ borderBottom: '1px solid rgba(255,255,255,0)' }}
       >
         <div
@@ -178,7 +182,7 @@ export default function Navbar() {
                   fontWeight: 700,
                   color: (lightHero && !mobileOpen) ? '#060608' : '#FFFFFF',
                   letterSpacing: '-0.01em',
-                  transition: 'color 300ms ease',
+                  transition: 'color 550ms cubic-bezier(0.4, 0, 0.2, 1)',
                 }}
               >
                 {CABINET_NAME}

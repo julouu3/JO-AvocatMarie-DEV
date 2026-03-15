@@ -7,7 +7,7 @@ export const ABOUT_IMG =
   'https://images.unsplash.com/photo-1736939678218-bd648b5ef3bb?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxwcm9mZXNzaW9uYWwlMjBmZW1hbGUlMjBsYXd5ZXIlMjBwb3J0cmFpdCUyMG9mZmljZXxlbnwxfHx8fDE3NzM0OTAwNzV8MA&ixlib=rb-4.1.0&q=80&w=1080';
 
 export const metrics: Metric[] = [
-  { value: 5, suffix: '', label: "domaines d'expertise" },
+  { value: 7, suffix: '+', label: "cabinets d'expérience" },
   { value: 3, suffix: '', label: 'diplômes internationaux' },
   { value: 100, suffix: '%', label: 'engagement client' },
 ];
