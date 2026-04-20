@@ -54,100 +54,80 @@ export default function Profil() {
 
   return (
     <>
-      {/* === A — HERO PROFIL (parallax) === */}
-      <section ref={heroRef} style={{ backgroundColor: '#0A0D1A', minHeight: '520px', overflow: 'hidden' }}>
-        <div className="max-w-[1280px] mx-auto grid grid-cols-1 lg:grid-cols-2">
-          {/* Photo avec parallax */}
-          <div className="relative overflow-hidden" style={{ minHeight: 'clamp(320px, 45vw, 560px)' }}>
-            <motion.div
-              className="absolute inset-0"
-              style={{ y: heroImgY, scale: heroImgScale }}
-            >
-              <ImageWithFallback
-                src={PROFIL_IMG}
-                alt="Marie Odin, avocate"
-                className="w-full h-full object-cover"
-                style={{ objectPosition: 'top center', minHeight: 'clamp(320px, 45vw, 560px)' }}
-              />
-            </motion.div>
-            <div
-              className="absolute inset-0 hidden lg:block"
-              style={{ background: 'linear-gradient(to right, transparent 65%, #0A0D1A)' }}
-            />
-            <div
-              className="absolute inset-0 lg:hidden"
-              style={{ background: 'linear-gradient(to bottom, transparent 70%, #0A0D1A)' }}
-            />
-          </div>
-
-          {/* Texte avec parallax */}
-          <motion.div
-            className="flex flex-col justify-center"
+      {/* === A — HERO PROFIL (full-width photo, name overlaid bottom-left) === */}
+      <section
+        ref={heroRef}
+        className="relative overflow-hidden"
+        style={{ backgroundColor: '#0A0D1A' }}
+      >
+        {/* Photo — full-width with parallax */}
+        <motion.div
+          className="relative"
+          style={{ y: heroImgY }}
+        >
+          <ImageWithFallback
+            src={PROFIL_IMG}
+            alt="Marie Odin, avocate"
+            className="w-full object-cover"
             style={{
-              padding: 'clamp(48px, 6vw, 80px) clamp(20px, 5vw, 64px)',
-              y: heroContentY,
-              opacity: heroOpacity,
+              height: 'clamp(500px, 70vh, 780px)',
+              objectPosition: 'top center',
             }}
-          >
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-              className="eyebrow"
-              style={{ letterSpacing: '0.14em', marginBottom: '16px' }}
-            >
-              L'Avocate
-            </motion.p>
+          />
+          {/* Bottom gradient for text readability */}
+          <div
+            className="absolute inset-0 pointer-events-none"
+            style={{
+              background: `
+                linear-gradient(to top, rgba(10,13,26,0.85) 0%, rgba(10,13,26,0.35) 35%, transparent 60%),
+                linear-gradient(to top, rgba(10,13,26,0.5) 0%, transparent 20%)
+              `,
+            }}
+          />
+        </motion.div>
+
+        {/* Name + subtitle — overlaid at bottom-left */}
+        <motion.div
+          className="absolute bottom-0 left-0 right-0 z-10 max-w-[1280px] mx-auto px-5 md:px-10 lg:px-20"
+          style={{
+            paddingBottom: 'clamp(32px, 4vw, 56px)',
+            y: heroContentY,
+            opacity: heroOpacity,
+          }}
+        >
+          <div className="overflow-hidden">
             <motion.h1
-              initial={{ opacity: 0, y: 24 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
               className="font-heading"
+              initial={{ y: '110%' }}
+              animate={{ y: '0%' }}
+              transition={{ duration: 0.9, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
               style={{
-                fontSize: 'clamp(36px, 4.5vw, 56px)',
-                fontWeight: 700,
-                lineHeight: 1.1,
+                fontSize: 'clamp(40px, 7vw, 88px)',
+                fontWeight: 400,
+                lineHeight: 1.05,
                 color: '#FFFFFF',
-                marginBottom: '8px',
+                letterSpacing: '-0.01em',
               }}
             >
               Marie Odin
             </motion.h1>
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
-              className="font-body"
-              style={{ fontSize: '18px', color: 'rgba(255,255,255,0.70)', marginBottom: '24px' }}
-            >
-              Avocate au Barreau de Paris
-            </motion.p>
-            <motion.div
-              className="flex flex-wrap gap-2"
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
-            >
-              {skillPills.map((pill) => (
-                <span
-                  key={pill}
-                  className="font-body tag-hover"
-                  style={{
-                    backgroundColor: 'rgba(0,47,167,0.40)',
-                    color: '#FFFFFF',
-                    border: '1px solid rgba(0,47,167,0.60)',
-                    fontSize: '12px',
-                    fontWeight: 500,
-                    padding: '5px 12px',
-                    borderRadius: '3px',
-                  }}
-                >
-                  {pill}
-                </span>
-              ))}
-            </motion.div>
-          </motion.div>
-        </div>
+          </div>
+          <motion.p
+            className="font-body"
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
+            style={{
+              fontSize: '14px',
+              fontWeight: 400,
+              color: 'rgba(255,255,255,0.75)',
+              marginTop: '8px',
+              letterSpacing: '0.02em',
+            }}
+          >
+            Avocate au Barreau de Paris
+          </motion.p>
+        </motion.div>
       </section>
 
       {/* === B — PHILOSOPHIE & APPROCHE === */}
@@ -270,33 +250,99 @@ export default function Profil() {
       {/* === D — FORMATIONS & CERTIFICATIONS === */}
       <section style={{ backgroundColor: '#FFFFFF', padding: 'clamp(48px, 6vw, 80px) 0' }}>
         <div className="max-w-[1280px] mx-auto px-5 md:px-10 lg:px-20">
-          <ScrollReveal>
-            <h3
-              className="font-body mb-8"
-              style={{ fontSize: 'clamp(18px, 2vw, 22px)', fontWeight: 600, color: '#060608', lineHeight: 1.3 }}
-            >
-              Formations & Certifications
-            </h3>
-          </ScrollReveal>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {certifications.map((cert, i) => (
-              <ScrollReveal key={i} delay={i * 0.07}>
-                <div
-                  className="cert-card flex items-center gap-3"
-                  style={{
-                    backgroundColor: '#F0F0F5',
-                    border: '1px solid #E0E0E8',
-                    borderRadius: '4px',
-                    padding: '14px 18px',
-                  }}
-                >
-                  <cert.icon size={16} style={{ color: '#002FA7', flexShrink: 0 }} />
-                  <span className="font-body" style={{ fontSize: '13px', fontWeight: 500, color: '#060608' }}>
-                    {cert.label}
-                  </span>
-                </div>
-              </ScrollReveal>
-            ))}
+          {/* Section header */}
+          <div className="flex items-center gap-4 mb-10">
+            <motion.div
+              initial={{ scaleX: 0 }}
+              whileInView={{ scaleX: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
+              style={{
+                width: '40px',
+                height: '1.5px',
+                backgroundColor: '#002FA7',
+                transformOrigin: 'left',
+                flexShrink: 0,
+              }}
+            />
+            <ScrollReveal>
+              <h3
+                className="font-heading"
+                style={{
+                  fontSize: 'clamp(22px, 2.5vw, 30px)',
+                  fontWeight: 400,
+                  fontStyle: 'italic',
+                  color: '#060608',
+                  lineHeight: 1.3,
+                }}
+              >
+                Formations & Certifications
+              </h3>
+            </ScrollReveal>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-5">
+            {certifications.map((cert, i) => {
+              const parts = cert.label.split(' | ');
+              const institution = parts[0];
+              const detail = parts[1] || '';
+              return (
+                <ScrollReveal key={i} delay={i * 0.06}>
+                  <div
+                    className="group flex gap-4 items-start"
+                    style={{
+                      padding: '18px 0',
+                      borderBottom: '1px solid #EBEBF0',
+                      transition: 'border-color 0.3s ease',
+                    }}
+                  >
+                    <div
+                      style={{
+                        width: '36px',
+                        height: '36px',
+                        borderRadius: '50%',
+                        backgroundColor: '#F0F2F8',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        flexShrink: 0,
+                        transition: 'background-color 0.3s ease',
+                      }}
+                      className="group-hover:!bg-[#002FA7]/10"
+                    >
+                      <cert.icon size={15} style={{ color: '#002FA7' }} />
+                    </div>
+                    <div style={{ paddingTop: '2px' }}>
+                      <p
+                        className="font-body"
+                        style={{
+                          fontSize: '14px',
+                          fontWeight: 600,
+                          color: '#060608',
+                          lineHeight: 1.35,
+                          marginBottom: detail ? '2px' : 0,
+                        }}
+                      >
+                        {institution}
+                      </p>
+                      {detail && (
+                        <p
+                          className="font-body"
+                          style={{
+                            fontSize: '12.5px',
+                            fontWeight: 400,
+                            color: '#8A8A98',
+                            lineHeight: 1.4,
+                          }}
+                        >
+                          {detail}
+                        </p>
+                      )}
+                    </div>
+                  </div>
+                </ScrollReveal>
+              );
+            })}
           </div>
         </div>
       </section>

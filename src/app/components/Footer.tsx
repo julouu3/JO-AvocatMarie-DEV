@@ -1,6 +1,6 @@
 import { Link } from 'react-router';
 import { motion } from 'motion/react';
-import { Linkedin, Mail, MapPin, Scale, ArrowUpRight } from 'lucide-react';
+import { Linkedin, Mail, MapPin, Scale, Phone, ArrowUpRight } from 'lucide-react';
 import ScrollReveal from './ScrollReveal';
 import { CABINET_NAME, navLinks } from '@/data/navigation';
 import { CONTACT_INFO } from '@/data/contact-info';
@@ -130,7 +130,7 @@ export default function Footer() {
               <p className="font-body" style={{ fontSize: '15px', color: 'rgba(255,255,255,0.72)', lineHeight: 1.75, maxWidth: '280px' }}>
                 {CONTACT_INFO.tagline}
                 <br />
-                Conseil aux entreprises et dirigeants.
+                Conseil et représentation des sociétés et dirigeants.
               </p>
 
               <FooterExternalLink href={CONTACT_INFO.linkedin} icon={Linkedin} label="LinkedIn" />
@@ -192,6 +192,17 @@ export default function Footer() {
                 <span className="font-body" style={{ fontSize: '14px', color: 'rgba(255,255,255,0.78)', lineHeight: 1.5 }}>
                   {CONTACT_INFO.address}
                 </span>
+              </div>
+
+              <div className="flex items-center gap-3">
+                <Phone size={15} style={{ color: '#002FA7', flexShrink: 0 }} />
+                <a
+                  href={`tel:+33${CONTACT_INFO.phone.replace(/\s/g, '').slice(1)}`}
+                  className="font-body"
+                  style={{ fontSize: '14px', color: 'rgba(255,255,255,0.78)', textDecoration: 'none', transition: 'color 200ms ease' }}
+                >
+                  {CONTACT_INFO.phone}
+                </a>
               </div>
 
               <div className="flex items-start gap-3">

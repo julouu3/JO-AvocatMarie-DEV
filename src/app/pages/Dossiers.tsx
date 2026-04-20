@@ -1,11 +1,23 @@
 import { useRef, useState } from 'react';
 import { Link } from 'react-router';
 import { motion, AnimatePresence, useScroll, useTransform } from 'motion/react';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, Shield, Building2, Scale, Gavel } from 'lucide-react';
 import ScrollReveal from '../components/ScrollReveal';
 import BlurReveal from '../components/BlurReveal';
+import { ImageWithFallback } from '../components/figma/ImageWithFallback';
 import { categories, allDossiers } from '@/data/dossiers';
 import { useMobile } from '@/hooks/useMobile';
+
+const DOSSIERS_IMG = '/images/Dossiers.png';
+
+// ── Category styling map ────────────────────────────────────────────────────
+const categoryStyle: Record<string, { bg: string; color: string; border: string; icon: React.ElementType }> = {
+  Compliance:          { bg: '#FFF0E6', color: '#FF6B00', border: '#FFB380', icon: Shield },
+  Corporate:           { bg: '#F0F0F0', color: '#1A1A1A', border: '#D0D0D0', icon: Building2 },
+  'Pénal des affaires': { bg: '#E8EDFF', color: '#002FA7', border: '#B3C4F5', icon: Gavel },
+  Contentieux:         { bg: '#E8EDFF', color: '#002FA7', border: '#B3C4F5', icon: Scale },
+};
+const defaultStyle = { bg: '#F5F5F7', color: '#6B6C7A', border: '#E0E0E8', icon: Scale };
 
 export default function Dossiers() {
   const [activeCategory, setActiveCategory] = useState('Tous');
@@ -36,93 +48,79 @@ export default function Dossiers() {
 
   return (
     <>
-      {/* === A — HERO DOSSIERS (parallax) === */}
+      {/* === A — HERO DOSSIERS (full-width photo, text overlaid bottom-left) === */}
       <section
         ref={heroRef}
         className="relative overflow-hidden"
         style={{ backgroundColor: '#0A0D1A' }}
       >
-        {/* Background parallax gradient */}
+        {/* Photo — full-width with parallax */}
         <motion.div
-          className="absolute inset-0"
-          style={{
-            y: heroBgY,
-            background: 'radial-gradient(ellipse at 60% 40%, rgba(0,47,167,0.12) 0%, transparent 65%)',
-          }}
-        />
+          className="relative"
+          style={{ y: heroBgY }}
+        >
+          <ImageWithFallback
+            src={DOSSIERS_IMG}
+            alt="Dossiers juridiques"
+            className="w-full object-cover"
+            style={{
+              height: 'clamp(500px, 70vh, 780px)',
+              objectPosition: 'center center',
+            }}
+          />
+          {/* Bottom gradient for text readability */}
+          <div
+            className="absolute inset-0 pointer-events-none"
+            style={{
+              background: `
+                linear-gradient(to top, rgba(10,13,26,0.85) 0%, rgba(10,13,26,0.35) 35%, transparent 60%),
+                linear-gradient(to top, rgba(10,13,26,0.5) 0%, transparent 20%)
+              `,
+            }}
+          />
+        </motion.div>
 
+        {/* Title + subtitle — overlaid at bottom-left */}
         <motion.div
-          className="relative z-10"
+          className="absolute bottom-0 left-0 right-0 z-10 max-w-[1280px] mx-auto px-5 md:px-10 lg:px-20"
           style={{
+            paddingBottom: 'clamp(32px, 4vw, 56px)',
             y: heroContentY,
             opacity: heroContentOpacity,
-            padding: 'clamp(80px, 10vw, 128px) 0 clamp(56px, 7vw, 80px)',
           }}
         >
-          <div className="max-w-[1280px] mx-auto px-5 md:px-10 lg:px-20">
-            <motion.p
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-              className="eyebrow"
-              style={{ marginBottom: '16px' }}
-            >
-              Portfolio juridique
-            </motion.p>
+          <div className="overflow-hidden">
             <motion.h1
-              initial={{ opacity: 0, y: 24 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
               className="font-heading"
+              initial={{ y: '110%' }}
+              animate={{ y: '0%' }}
+              transition={{ duration: 0.9, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
               style={{
-                fontSize: 'clamp(36px, 5vw, 56px)',
-                fontWeight: 700,
-                lineHeight: 1.1,
+                fontSize: 'clamp(40px, 7vw, 88px)',
+                fontWeight: 400,
+                lineHeight: 1.05,
                 color: '#FFFFFF',
-                marginBottom: '12px',
+                letterSpacing: '-0.01em',
               }}
             >
               Mes Dossiers
             </motion.h1>
-            <motion.p
-              initial={{ opacity: 0, y: 18 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.35, ease: [0.16, 1, 0.3, 1] }}
-              className="font-body"
-              style={{
-                fontSize: 'clamp(16px, 1.5vw, 18px)',
-                color: 'rgba(255,255,255,0.70)',
-                marginBottom: '48px',
-              }}
-            >
-              Des situations complexes, des résultats concrets.
-            </motion.p>
-
-            <motion.div
-              className="flex flex-row flex-wrap gap-12"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.45, ease: [0.16, 1, 0.3, 1] }}
-            >
-              {[
-                { value: '5', label: "domaines d'expertise" },
-                { value: '3', label: 'diplômes internationaux' },
-                { value: '3', label: 'spécialités' },
-              ].map((m) => (
-                <div key={m.label} className="flex flex-col gap-1">
-                  <span
-                    className="font-body"
-                    style={{ fontSize: 'clamp(28px, 3vw, 36px)', fontWeight: 700, color: '#FFFFFF', lineHeight: 1 }}
-                  >
-                    {m.value}
-                  </span>
-                  <span className="font-body" style={{ fontSize: '13px', color: 'rgba(255,255,255,0.55)' }}>
-                    {m.label}
-                  </span>
-                </div>
-              ))}
-            </motion.div>
           </div>
+          <motion.p
+            className="font-body"
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
+            style={{
+              fontSize: '14px',
+              fontWeight: 400,
+              color: 'rgba(255,255,255,0.75)',
+              marginTop: '8px',
+              letterSpacing: '0.02em',
+            }}
+          >
+            Des situations complexes, des résultats concrets.
+          </motion.p>
         </motion.div>
       </section>
 
@@ -133,20 +131,40 @@ export default function Dossiers() {
             <span className="font-body flex-shrink-0" style={{ fontSize: '13px', fontWeight: 500, color: '#6B6C7A' }}>
               Filtrer par :
             </span>
-            {categories.map((cat) => (
-              <button
-                key={cat}
-                onClick={() => setActiveCategory(cat)}
-                className={`filter-btn${activeCategory === cat ? ' active' : ''}`}
-                style={{
-                  backgroundColor: activeCategory === cat ? '#002FA7' : '#F5F5F7',
-                  color: activeCategory === cat ? '#FFFFFF' : '#060608',
-                  border: `1px solid ${activeCategory === cat ? '#002FA7' : '#E0E0E8'}`,
-                }}
-              >
-                {cat}
-              </button>
-            ))}
+            {categories.map((cat) => {
+              const cs = categoryStyle[cat as string];
+              const isActive = activeCategory === cat;
+              return (
+                <button
+                  key={cat}
+                  onClick={() => setActiveCategory(cat)}
+                  className={`filter-btn${isActive ? ' active' : ''}`}
+                  style={{
+                    backgroundColor: isActive
+                      ? (cs ? cs.color : '#002FA7')
+                      : '#F5F5F7',
+                    color: isActive ? '#FFFFFF' : '#060608',
+                    border: `1px solid ${isActive ? (cs ? cs.color : '#002FA7') : '#E0E0E8'}`,
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '6px',
+                  }}
+                >
+                  {cs && (
+                    <span
+                      style={{
+                        width: '8px',
+                        height: '8px',
+                        borderRadius: '50%',
+                        backgroundColor: isActive ? '#FFFFFF' : cs.color,
+                        flexShrink: 0,
+                      }}
+                    />
+                  )}
+                  {cat}
+                </button>
+              );
+            })}
           </div>
         </div>
       </section>
@@ -163,77 +181,137 @@ export default function Dossiers() {
               exit={{ opacity: 0, y: -8 }}
               transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
             >
-              {filtered.map((d) => (
+              {filtered.map((d) => {
+                const cs = categoryStyle[d.category] || defaultStyle;
+                const Icon = cs.icon;
+                return (
                 <div
                   key={d.id}
                   className="card-hover flex flex-col"
                   style={{
-                    backgroundColor: '#FFFFFF',
-                    border: '1px solid #E0E0E8',
-                    borderRadius: '4px',
-                    padding: '28px',
-                    boxShadow: '0 2px 24px rgba(0,0,0,0.06)',
+                    backgroundColor: '#F8F9FC',
+                    borderRadius: '6px',
+                    padding: '32px',
+                    border: `1px solid #E8E8EE`,
+                    borderTop: `3px solid ${cs.color}`,
+                    boxShadow: '0 2px 8px rgba(0,0,0,0.04)',
+                    transition: 'box-shadow 0.35s ease, transform 0.35s ease',
                   }}
                 >
-                  <span
-                    style={{
-                      display: 'inline-block',
-                      backgroundColor: '#E8EDFF',
-                      color: '#002FA7',
-                      fontFamily: "'DM Sans', sans-serif",
-                      fontSize: '11px',
-                      fontWeight: 600,
-                      textTransform: 'uppercase',
-                      letterSpacing: '0.08em',
-                      padding: '3px 9px',
-                      borderRadius: '3px',
-                    }}
-                  >
-                    {d.tag}
-                  </span>
+                  {/* Category tag + icon */}
+                  <div className="flex items-center gap-2 mb-5">
+                    <span
+                      style={{
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        width: '28px',
+                        height: '28px',
+                        backgroundColor: cs.bg,
+                        borderRadius: '6px',
+                        flexShrink: 0,
+                      }}
+                    >
+                      <Icon size={14} style={{ color: cs.color }} />
+                    </span>
+                    <span
+                      className="font-body"
+                      style={{
+                        fontSize: '11px',
+                        fontWeight: 600,
+                        textTransform: 'uppercase',
+                        letterSpacing: '0.1em',
+                        color: cs.color,
+                        backgroundColor: cs.bg,
+                        border: `1px solid ${cs.border}`,
+                        padding: '4px 10px',
+                        borderRadius: '2px',
+                      }}
+                    >
+                      {d.tag}
+                    </span>
+                  </div>
+
+                  {/* Title — serif */}
                   <h3
-                    className="font-body mt-3 mb-2"
-                    style={{ fontSize: '17px', fontWeight: 600, lineHeight: 1.4, color: '#060608' }}
+                    className="font-heading mb-3"
+                    style={{ fontSize: 'clamp(20px, 2vw, 24px)', fontWeight: 500, lineHeight: 1.25, color: '#060608' }}
                   >
                     {d.title}
                   </h3>
+
+                  {/* Context */}
                   <p
                     className="font-body flex-1"
-                    style={{ fontSize: '14px', color: '#6B6C7A', lineHeight: 1.6 }}
+                    style={{ fontSize: '14px', color: '#6B6C7A', lineHeight: 1.65 }}
                   >
                     {d.context}
                   </p>
-                  <div style={{ borderTop: '1px solid #E0E0E8', margin: '16px 0' }} />
-                  <p
-                    className="eyebrow"
-                    style={{ fontSize: '10px', letterSpacing: '0.10em', marginBottom: '4px' }}
+
+                  {/* Result block */}
+                  <div
+                    style={{
+                      marginTop: '20px',
+                      paddingTop: '16px',
+                      borderTop: '1px solid #E8E8EE',
+                    }}
                   >
-                    Résultat
-                  </p>
-                  <p
-                    className="font-body"
-                    style={{ fontSize: '14px', fontWeight: 600, color: '#060608', lineHeight: 1.5, marginBottom: '16px' }}
-                  >
-                    {d.result}
-                  </p>
+                    <div className="flex items-start gap-3">
+                      <div
+                        style={{
+                          width: '3px',
+                          minHeight: '32px',
+                          backgroundColor: cs.color,
+                          borderRadius: '2px',
+                          opacity: 0.4,
+                          flexShrink: 0,
+                        }}
+                      />
+                      <div>
+                        <p
+                          className="font-body"
+                          style={{
+                            fontSize: '10px',
+                            fontWeight: 600,
+                            textTransform: 'uppercase',
+                            letterSpacing: '0.1em',
+                            color: cs.color,
+                            marginBottom: '4px',
+                          }}
+                        >
+                          Résultat
+                        </p>
+                        <p
+                          className="font-body"
+                          style={{ fontSize: '14px', fontWeight: 600, color: '#060608', lineHeight: 1.45 }}
+                        >
+                          {d.result}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* CTA */}
                   <Link
                     to="/contact"
-                    className="group/link inline-flex items-center gap-1 font-body"
+                    className="group/link inline-flex items-center gap-2 mt-5 font-body"
                     style={{
-                      color: '#002FA7',
+                      color: cs.color,
                       fontSize: '13px',
                       fontWeight: 500,
                       textDecoration: 'none',
                       marginTop: 'auto',
-                      transition: 'opacity 150ms ease',
+                      paddingTop: '12px',
                     }}
                   >
-                    <span className="group-hover/link:underline" style={{ textDecorationColor: '#002FA7' }}>
-                      → Dossier similaire ?
+                    <span className="group-hover/link:underline" style={{ textDecorationColor: cs.color }}>
+                      Dossier similaire ?
                     </span>
+                    <ArrowRight size={12} />
                   </Link>
                 </div>
-              ))}
+                );
+              })}
             </motion.div>
           </AnimatePresence>
         </div>

@@ -113,31 +113,29 @@ export default function Navbar() {
   const isActive = (href: string) =>
     href === '/' ? location.pathname === '/' : location.pathname.startsWith(href);
 
-  // Home page has a light hero — navbar needs dark text before scroll
+  // Pages with light hero — navbar needs dark text before scroll
   const isHomePage = location.pathname === '/';
-  const lightHero = isHomePage && !scrolled;
+  const isProfilPage = location.pathname === '/profil';
+  const lightHero = (isHomePage || isProfilPage) && !scrolled;
+  // Only Home gets the semi-opaque white bg; Profil stays fully transparent
+  const lightHeroBg = isHomePage && !scrolled;
 
   return (
     <>
       {/* ── Header principal ─────────────────────────────────────────────── */}
-      <motion.header
+      <header
         className="fixed top-0 left-0 right-0 z-50"
-        animate={{
+        style={{
           backgroundColor: scrolled || mobileOpen
             ? 'rgba(10, 13, 26, 0.92)'
-            : lightHero
-              ? 'rgba(250, 251, 255, 0.95)'
+            : lightHeroBg
+              ? 'rgba(250, 251, 255, 0.85)'
               : 'rgba(10, 13, 26, 0)',
           backdropFilter: scrolled || mobileOpen ? 'blur(18px) saturate(160%)' : 'blur(0px)',
-          borderBottomColor: scrolled
-            ? 'rgba(255, 255, 255, 0.07)'
-            : 'rgba(255, 255, 255, 0)',
-          boxShadow: scrolled
-            ? '0 1px 48px rgba(0,0,0,0.3)'
-            : '0 0 0 rgba(0,0,0,0)',
+          borderBottom: `1px solid ${scrolled ? 'rgba(255,255,255,0.07)' : 'rgba(255,255,255,0)'}`,
+          boxShadow: scrolled ? '0 1px 32px rgba(0,0,0,0.18)' : '0 0 0 rgba(0,0,0,0)',
+          transition: 'background-color 0.4s cubic-bezier(0.4,0,0.2,1), backdrop-filter 0.4s cubic-bezier(0.4,0,0.2,1), border-bottom-color 0.4s ease, box-shadow 0.4s ease',
         }}
-        transition={{ duration: 0.55, ease: [0.4, 0, 0.2, 1] }}
-        style={{ borderBottom: '1px solid rgba(255,255,255,0)' }}
       >
         <div
           className="max-w-[1280px] mx-auto px-5 md:px-10 lg:px-20 flex items-center justify-between"
@@ -238,7 +236,7 @@ export default function Navbar() {
             </AnimatePresence>
           </motion.button>
         </div>
-      </motion.header>
+      </header>
 
       {/* ── Menu mobile fullscreen (splash-style blue panels reveal) ──── */}
       <AnimatePresence>

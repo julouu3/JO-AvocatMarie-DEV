@@ -1,23 +1,22 @@
 import { GraduationCap, Award, Globe, Scale } from 'lucide-react';
 import type { TimelineItem, Certification, Valeur } from '@/types';
 
-export const PROFIL_IMG =
-  'https://images.unsplash.com/photo-1758600587730-a11917c13b85?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxidXNpbmVzc3dvbWFuJTIwcHJvZmVzc2lvbmFsJTIwY29uZmlkZW50JTIwcG9ydHJhaXQlMjBkYXJrJTIwYmFja2dyb3VuZHxlbnwxfHx8fDE3NzM0OTAwNzl8MA&ixlib=rb-4.1.0&q=80&w=1080';
+export const PROFIL_IMG = '/images/MarieODIN-large.png';
 
 export const timelineItems: TimelineItem[] = [
   {
     year: '2017',
-    title: 'Magistère — Droit franco-britannique des affaires',
+    title: 'Magistère, Droit franco-britannique des affaires',
     institution: 'Université de Rennes',
   },
   {
     year: '2018',
-    title: 'Master of Laws (LLM) — International Commercial Law',
+    title: 'Master of Laws (LLM), International Commercial Law',
     institution: 'University of Exeter, Royaume-Uni',
   },
   {
     year: '2019',
-    title: 'Master II — Droit des affaires et fiscalité',
+    title: 'Master II, Droit des affaires et fiscalité',
     institution: 'Université Paris I Panthéon-Sorbonne',
   },
   {
@@ -27,26 +26,51 @@ export const timelineItems: TimelineItem[] = [
   },
   {
     year: '2021–2025',
-    title: 'Avocate à la Cour — Contentieux des affaires',
+    title: 'Avocate à la Cour, Contentieux des affaires',
     institution: 'Bredin Prat',
     description: 'Contentieux des affaires au sein d\'un cabinet de premier plan',
   },
   {
     year: '2025–présent',
-    title: 'Avocate à la Cour — Contentieux et droit pénal des affaires',
+    title: 'Avocate à la Cour, Contentieux et droit pénal des affaires',
     institution: 'Sekri Valentin Zerrouk',
-    description: 'Compliance, corporate & pénal des affaires',
+    description: 'Contentieux et droit pénal des affaires',
   },
 ];
 
 export const certifications: Certification[] = [
-  { icon: GraduationCap, label: 'Université Paris I Panthéon-Sorbonne — M2 Droit des affaires' },
-  { icon: GraduationCap, label: 'University of Exeter — LLM International Commercial Law' },
-  { icon: GraduationCap, label: 'Université de Rennes — Magistère Droit franco-britannique' },
-  { icon: Scale, label: 'Barreau de Paris — Avocate inscrite (2021)' },
-  { icon: Award, label: 'Bredin Prat — Contentieux des affaires (4 ans)' },
-  { icon: Award, label: 'Sekri Valentin Zerrouk — Contentieux & pénal des affaires' },
+  { icon: GraduationCap, label: 'Université Paris I Panthéon-Sorbonne | M2 Droit des affaires' },
+  { icon: GraduationCap, label: 'University of Exeter | LLM International Commercial Law' },
+  { icon: GraduationCap, label: 'Université de Rennes | Magistère Droit franco-britannique' },
+  { icon: Scale, label: 'Barreau de Paris | Avocate inscrite (2021)' },
+  { icon: Award, label: 'Bredin Prat | Contentieux des affaires (4 ans)' },
+  { icon: Award, label: 'Sekri Valentin Zerrouk | Contentieux & pénal des affaires' },
   { icon: Globe, label: 'Français · Anglais courant' },
+];
+
+export const formationGroups = [
+  {
+    category: 'Formation',
+    items: [
+      { institution: 'Paris I Panthéon-Sorbonne', detail: 'Master 2, Droit des affaires & fiscalité' },
+      { institution: 'University of Exeter', detail: 'LL.M, International Business Law' },
+      { institution: 'Université de Rennes 1', detail: 'Magistère Juriste d\'Affaires Franco-britannique' },
+    ],
+  },
+  {
+    category: 'Expérience',
+    items: [
+      { institution: 'Sekri Valentin Zerrouk', detail: 'Contentieux & droit pénal des affaires' },
+      { institution: 'Bredin Prat', detail: 'Contentieux des affaires (4 ans)' },
+    ],
+  },
+  {
+    category: 'Barreau & Langues',
+    items: [
+      { institution: 'Barreau de Paris', detail: 'Avocate inscrite depuis 2021' },
+      { institution: 'Langues', detail: 'Français · Anglais courant' },
+    ],
+  },
 ];
 
 export const valeurs: Valeur[] = [
@@ -68,12 +92,12 @@ export const valeurs: Valeur[] = [
 ];
 
 export const approachParagraphs = [
-  "Formée en droit des affaires entre la France et le Royaume-Uni, j'ai développé une approche rigoureuse et transversale du droit. Mon parcours au sein de cabinets de premier plan — Bredin Prat, Veil Jourde, Willkie Farr & Gallagher, Dechert, Herbert Smith Freehills, Clifford Chance — m'a forgée au contact des dossiers les plus exigeants.",
-  "En compliance et droit pénal des affaires, j'accompagne les entreprises dans la mise en conformité de leurs pratiques, la gestion des risques réglementaires et la défense de leurs intérêts en cas de mise en cause.",
-  "En droit des sociétés, j'interviens sur les opérations courantes et exceptionnelles : structurations, transformations, cessions, et accompagnement des dirigeants dans leur gouvernance.",
-  "Ma clientèle est diverse : sociétés de toute taille, prestataires de services d'investissement, fonds, actionnaires et dirigeants. Chaque client bénéficie d'un accompagnement sur-mesure, avec la même exigence et le même engagement personnel.",
+  "Inscrite au barreau de Paris depuis 2021, Marie est diplômée de l'Université Paris 1 Panthéon-Sorbonne (Master 2, droit des affaires et fiscalité), de l'Université anglaise d'Exeter (LL.M International Business Law) et de l'Université de Rennes 1 (Magistère Juriste d'Affaires Franco-britannique).",
+  "Avant de rejoindre le cabinet Sekri Valentin Zerrouk, où elle exerce au sein de l'équipe Contentieux et droit pénal des affaires, Marie a développé une solide expérience pendant plus de quatre années au sein de l'équipe Contentieux des affaires du cabinet Bredin Prat.",
+  "Forte de son expérience, Marie Odin conseille et représente les sociétés et leurs dirigeants devant les juridictions civiles, commerciales et pénales. Elle intervient à tous les stades de la procédure, tant en amont, dans une logique de prévention et de gestion du risque, que dans le cadre de procédures contentieuses.",
+  "Plus récemment, Marie a développé une activité en droit pénal général. Sa clientèle est diverse : sociétés de toute taille, dirigeants et particuliers. Chaque client bénéficie d'un accompagnement sur-mesure, avec la même exigence et le même engagement personnel.",
 ];
 
-export const skillPills = ['Compliance', 'Corporate', 'Pénal des affaires'];
+export const skillPills = ['Contentieux des affaires', 'Droit pénal des affaires', 'Droit pénal général'];
 
-export const badges = ["Barreau de Paris", "M2 Droit des Affaires — Paris I", "Bredin Prat", "Sekri Valentin Zerrouk"];
+export const badges = ["Barreau de Paris", "M2 Droit des Affaires, Paris I", "Bredin Prat", "Sekri Valentin Zerrouk"];

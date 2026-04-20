@@ -21,16 +21,16 @@ export const etapes: Etape[] = [
   {
     num: '1',
     title: 'Vous choisissez un créneau',
-    desc: 'Premier échange libre et confidentiel',
+    desc: 'Sélectionnez le format qui vous convient : appel découverte gratuit ou consultation approfondie. Premier échange libre et confidentiel.',
   },
   {
     num: '2',
     title: "J'analyse votre demande",
-    desc: 'Je prépare nos échanges en amont',
+    desc: "Je prends connaissance de votre situation en amont pour préparer nos échanges et vous apporter des premières pistes de réflexion dès notre rendez-vous.",
   },
   {
     num: '3',
     title: 'On avance ensemble',
-    desc: 'Stratégie claire dès la première consultation',
+    desc: "Vous repartez avec une stratégie claire, un plan d'action concret et un interlocuteur dédié pour la suite de votre dossier.",
   },
 ];

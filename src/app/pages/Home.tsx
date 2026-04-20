@@ -4,12 +4,11 @@ import { motion, useScroll, useTransform, animate } from 'motion/react';
 import { ArrowRight, Scale, Shield, Briefcase, CheckCircle2 } from 'lucide-react';
 import ScrollReveal from '../components/ScrollReveal';
 import BlurReveal from '../components/BlurReveal';
-import { ImageWithFallback } from '../components/figma/ImageWithFallback';
 import { useInView } from '@/hooks/useInView';
 import { useMobile } from '@/hooks/useMobile';
 import {
-  ABOUT_IMG, metrics,
-  expertiseCompliance, expertiseCorporate, dossiersVedette,
+  metrics,
+  expertiseContentieux, expertisePenalAffaires, expertisePenalGeneral, dossiersVedette,
 } from '@/data/home';
 
 // ─── Animated counter (unified) ──────────────────────────────────────────────
@@ -133,7 +132,7 @@ function HeroSection() {
             >
               <Scale size={14} style={{ color: '#002FA7' }} />
               <span className="eyebrow" style={{ letterSpacing: '0.14em' }}>
-                Avocate au Barreau de Paris · Compliance · Corporate
+                Avocate au Barreau de Paris · Contentieux · Pénal des affaires
               </span>
             </motion.div>
 
@@ -191,8 +190,8 @@ function HeroSection() {
                 marginBottom: '32px',
               }}
             >
-              Compliance, corporate et pénal des affaires.
-              J'accompagne les entreprises et dirigeants avec rigueur, clarté et engagement personnel.
+              Contentieux et droit pénal des affaires.
+              Je conseille et représente les sociétés et leurs dirigeants devant les juridictions civiles, commerciales et pénales.
             </motion.p>
 
             {/* CTAs */}
@@ -207,7 +206,7 @@ function HeroSection() {
                 className="w-full sm:w-auto btn-primary transition-transform hover:scale-[1.01] active:scale-[0.97]"
                 style={{ padding: '14px 32px' }}
               >
-                Consultation gratuite
+                Prendre contact
                 <ArrowRight size={14} className="ml-2" />
               </Link>
               <Link
@@ -319,7 +318,7 @@ function HeroSection() {
                       Domaines
                     </span>
                     <div className="flex gap-1.5 mt-1">
-                      {['Compliance', 'Corporate', 'Pénal'].map((tag) => (
+                      {['Contentieux', 'Pénal', 'Général'].map((tag) => (
                         <span
                           key={tag}
                           className="font-body"
@@ -404,8 +403,8 @@ function AccrocheSection() {
               >
                 Formée entre Paris et le Royaume-Uni, passée par le cabinet Bredin Prat,
                 j'ai construit ma pratique autour d'une conviction : chaque client mérite un
-                accompagnement juridique à la hauteur de ses enjeux. Compliance, corporate,
-                pénal des affaires — chaque dossier est traité avec la même exigence.
+                accompagnement juridique à la hauteur de ses enjeux. Contentieux des affaires,
+                droit pénal des affaires et droit pénal général. Chaque dossier est traité avec la même exigence.
               </p>
             </ScrollReveal>
             <ScrollReveal delay={0.18}>
@@ -450,91 +449,279 @@ function AccrocheSection() {
   );
 }
 
-// === SECTION C — EXPERTISES ===
-function ExpertisesSection() {
+// === SECTION C — EXPERTISES (editorial columns) ===
+const expertiseDomains = [
+  {
+    num: '01',
+    title: 'Contentieux\ndes affaires',
+    subtitle: 'Défendre vos intérêts devant les juridictions.',
+    desc: 'Conseil et représentation des sociétés et dirigeants devant les juridictions civiles et commerciales.',
+    items: expertiseContentieux,
+    link: '/dossiers',
+    linkLabel: 'Voir les dossiers',
+  },
+  {
+    num: '02',
+    title: 'Droit pénal\ndes affaires',
+    subtitle: 'Protéger vos intérêts en cas de mise en cause.',
+    desc: 'Défense des sociétés et dirigeants dans les procédures pénales liées à la vie des affaires.',
+    items: expertisePenalAffaires,
+    link: '/dossiers',
+    linkLabel: 'Voir les dossiers',
+  },
+  {
+    num: '03',
+    title: 'Droit pénal\ngénéral',
+    subtitle: 'Défendre les personnes, assister les victimes.',
+    desc: 'Défense pénale et assistance aux victimes pour les atteintes aux personnes et aux biens.',
+    items: expertisePenalGeneral,
+    link: '/contact',
+    linkLabel: 'Me contacter',
+  },
+];
+
+function ExpertiseColumn({
+  domain,
+  index,
+  isActive,
+  onHover,
+  onLeave,
+}: {
+  domain: typeof expertiseDomains[0];
+  index: number;
+  isActive: boolean;
+  onHover: () => void;
+  onLeave: () => void;
+}) {
+  // isActive = this card is hovered. When another card is hovered, this one dims.
+  // When nothing is hovered, all cards are neutral (no dim).
+
   return (
-    <section style={{ backgroundColor: '#FFFFFF', padding: 'clamp(56px, 7vw, 96px) 0' }}>
-      <div className="max-w-[1280px] mx-auto px-5 md:px-10 lg:px-20">
-        <div className="text-center mb-14">
-          <ScrollReveal>
-            <p className="eyebrow mb-3">Mes Domaines</p>
-          </ScrollReveal>
-          <BlurReveal
-            as="h2"
+    <ScrollReveal delay={index * 0.15} y={40} blur>
+      <motion.div
+        className="h-full flex flex-col"
+        onMouseEnter={onHover}
+        onMouseLeave={onLeave}
+        animate={{
+          scale: isActive ? 1.02 : 1,
+          y: isActive ? -6 : 0,
+        }}
+        transition={{ duration: 0.4, ease: [0.25, 0.46, 0.45, 0.94] }}
+        style={{
+          cursor: 'default',
+          padding: 'clamp(28px, 3vw, 40px)',
+          borderRadius: '6px',
+          backgroundColor: isActive ? '#FAFBFF' : 'transparent',
+          boxShadow: isActive
+            ? '0 12px 48px rgba(0,47,167,0.10), 0 2px 12px rgba(0,0,0,0.04)'
+            : '0 0 0 rgba(0,0,0,0)',
+          borderLeft: isActive ? '3px solid #002FA7' : '3px solid transparent',
+          transition: 'background-color 0.4s ease, box-shadow 0.45s ease, border-color 0.3s ease',
+        }}
+      >
+        {/* Number + accent line */}
+        <div className="flex items-center gap-4 mb-6">
+          <span
             className="font-heading"
-            style={{ fontSize: 'clamp(28px, 3.5vw, 40px)', fontWeight: 400, fontStyle: 'italic', lineHeight: 1.3, color: '#060608' }}
-            baseOpacity={0.15}
-            enableBlur
-            blurStrength={5}
+            style={{
+              fontSize: 'clamp(40px, 4vw, 56px)',
+              fontWeight: 300,
+              fontStyle: 'italic',
+              color: isActive ? '#002FA7' : '#D0D0D8',
+              lineHeight: 1,
+              transition: 'color 0.35s ease',
+            }}
           >
-            Une expertise transversale au service de votre activité.
-          </BlurReveal>
+            {domain.num}
+          </span>
+          <div
+            style={{
+              flex: 1,
+              height: '1px',
+              background: isActive
+                ? 'linear-gradient(to right, #002FA7, transparent)'
+                : 'linear-gradient(to right, #D0D0D8, transparent)',
+              opacity: isActive ? 0.7 : 0.25,
+              transition: 'opacity 0.4s ease',
+            }}
+          />
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {/* Compliance & Conformité */}
-          <ScrollReveal delay={0.15} y={50} blur>
-            <div
-              className="card-hover h-full flex flex-col"
+        {/* Title */}
+        <h3
+          className="font-heading"
+          style={{
+            fontSize: 'clamp(26px, 2.8vw, 34px)',
+            fontWeight: 400,
+            lineHeight: 1.15,
+            color: '#060608',
+            marginBottom: '16px',
+            whiteSpace: 'pre-line',
+            textTransform: 'uppercase',
+            letterSpacing: '0.01em',
+          }}
+        >
+          {domain.title}
+        </h3>
+
+        {/* Subtitle */}
+        <p
+          className="font-heading"
+          style={{
+            fontSize: 'clamp(15px, 1.4vw, 17px)',
+            fontWeight: 400,
+            fontStyle: 'italic',
+            color: '#002FA7',
+            lineHeight: 1.45,
+            marginBottom: '14px',
+            opacity: isActive ? 1 : 0.55,
+            transition: 'opacity 0.35s ease',
+          }}
+        >
+          {domain.subtitle}
+        </p>
+
+        {/* Description */}
+        <p
+          className="font-body"
+          style={{
+            fontSize: '14px',
+            color: isActive ? '#4A4A5A' : '#9A9AA8',
+            lineHeight: 1.7,
+            marginBottom: '24px',
+            transition: 'color 0.35s ease',
+          }}
+        >
+          {domain.desc}
+        </p>
+
+        {/* Competency list */}
+        <ul className="flex flex-col gap-3 mb-8 flex-1">
+          {domain.items.map((item, i) => (
+            <motion.li
+              key={item}
+              className="flex items-start gap-3"
+              initial={{ opacity: 0.6 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.4, delay: 0.3 + i * 0.08 }}
+            >
+              <div
+                className="shrink-0"
+                style={{
+                  width: isActive ? '20px' : '12px',
+                  height: '1px',
+                  backgroundColor: '#002FA7',
+                  marginTop: '11px',
+                  opacity: isActive ? 0.6 : 0.2,
+                  transition: 'width 0.35s ease, opacity 0.35s ease',
+                }}
+              />
+              <span
+                className="font-body"
+                style={{
+                  fontSize: '14px',
+                  color: isActive ? '#060608' : '#8A8A98',
+                  lineHeight: 1.55,
+                  transition: 'color 0.35s ease',
+                }}
+              >
+                {item}
+              </span>
+            </motion.li>
+          ))}
+        </ul>
+
+        {/* CTA link */}
+        <Link
+          to={domain.link}
+          className="group/link inline-flex items-center gap-2 mt-auto font-body"
+          style={{
+            color: '#002FA7',
+            fontSize: '13px',
+            fontWeight: 500,
+            textDecoration: 'none',
+            opacity: isActive ? 1 : 0.5,
+            transition: 'opacity 0.35s ease',
+          }}
+        >
+          <span
+            style={{
+              display: 'inline-block',
+              width: isActive ? '24px' : '0px',
+              height: '1px',
+              backgroundColor: '#002FA7',
+              transition: 'width 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), margin 0.4s ease',
+              marginRight: isActive ? '8px' : '0px',
+            }}
+          />
+          <span className="group-hover/link:underline">{domain.linkLabel}</span>
+          <ArrowRight size={13} className="icon-bounce" />
+        </Link>
+      </motion.div>
+    </ScrollReveal>
+  );
+}
+
+function ExpertisesSection() {
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+
+  return (
+    <section style={{ backgroundColor: '#FFFFFF', padding: 'clamp(64px, 8vw, 112px) 0' }}>
+      <div className="max-w-[1280px] mx-auto px-5 md:px-10 lg:px-20">
+        {/* Header */}
+        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-6">
+          <div>
+            <ScrollReveal>
+              <p className="eyebrow mb-4">Expertise</p>
+            </ScrollReveal>
+            <BlurReveal
+              as="h2"
+              className="font-heading"
               style={{
-                backgroundColor: '#F5F5F7',
-                border: '1px solid #E0E0E8',
-                borderRadius: '4px',
-                padding: 'clamp(28px, 4vw, 40px)',
-                boxShadow: '0 2px 24px rgba(0,0,0,0.06)',
+                fontSize: 'clamp(32px, 4.5vw, 52px)',
+                fontWeight: 400,
+                fontStyle: 'italic',
+                lineHeight: 1.15,
+                color: '#060608',
+              }}
+              baseOpacity={0.15}
+              enableBlur
+              blurStrength={5}
+            >
+              Le détail de mes compétences.
+            </BlurReveal>
+          </div>
+          <ScrollReveal delay={0.1}>
+            <p
+              className="font-body"
+              style={{
+                fontSize: '15px',
+                color: '#6B6C7A',
+                lineHeight: 1.65,
+                maxWidth: '380px',
               }}
             >
-              <span className="eyebrow">Compliance & Conformité</span>
-              <h3 className="mt-4 mb-4 font-body" style={{ fontSize: 'clamp(18px, 2vw, 22px)', fontWeight: 600, lineHeight: 1.3, color: '#060608' }}>
-                Anticiper les risques, sécuriser vos pratiques.
-              </h3>
-              <p className="mb-6 font-body" style={{ fontSize: '15px', color: '#6B6C7A', lineHeight: 1.65 }}>
-                Accompagnement des entreprises dans la mise en conformité réglementaire, la prévention des risques et la gestion des enquêtes internes.
-              </p>
-              <ul className="flex flex-col gap-3 mb-8 flex-1">
-                {expertiseCompliance.map((item) => (
-                  <li key={item} className="flex items-start gap-3">
-                    <div className="w-1.5 h-1.5 bg-[#002FA7] rounded-full mt-[7px] shrink-0" />
-                    <span className="font-body" style={{ fontSize: '15px', color: '#060608', lineHeight: 1.5 }}>{item}</span>
-                  </li>
-                ))}
-              </ul>
-              <Link to="/dossiers" className="group/link inline-flex items-center gap-2 mt-auto font-body" style={{ color: '#002FA7', fontSize: '14px', fontWeight: 500, textDecoration: 'none' }}>
-                <span className="group-hover/link:underline">Voir les dossiers</span>
-                <ArrowRight size={14} className="icon-bounce" />
-              </Link>
-            </div>
+              J'interviens à tous les stades de la procédure, en prévention comme en contentieux.
+            </p>
           </ScrollReveal>
+        </div>
 
-          {/* Corporate & Pénal des affaires */}
-          <ScrollReveal delay={0.45} y={50} blur>
-            <div
-              className="card-hover-blue h-full flex flex-col transition-all duration-200"
-              style={{ backgroundColor: '#002FA7', borderRadius: '4px', padding: 'clamp(28px, 4vw, 40px)' }}
-            >
-              <span className="font-body" style={{ fontSize: '11px', fontWeight: 600, color: 'rgba(255,255,255,0.6)', textTransform: 'uppercase', letterSpacing: '0.12em' }}>
-                Corporate & Pénal des Affaires
-              </span>
-              <h3 className="mt-4 mb-4 font-body" style={{ fontSize: 'clamp(18px, 2vw, 22px)', fontWeight: 600, lineHeight: 1.3, color: '#FFFFFF' }}>
-                Structurer votre activité, défendre vos intérêts.
-              </h3>
-              <p className="mb-6 font-body" style={{ fontSize: '15px', color: 'rgba(255,255,255,0.80)', lineHeight: 1.65 }}>
-                Conseil en droit des sociétés, opérations de M&A, et défense en droit pénal des affaires pour sociétés et dirigeants.
-              </p>
-              <ul className="flex flex-col gap-3 mb-8 flex-1">
-                {expertiseCorporate.map((item) => (
-                  <li key={item} className="flex items-start gap-3">
-                    <div className="w-1.5 h-1.5 bg-white/70 rounded-full mt-[7px] shrink-0" />
-                    <span className="font-body" style={{ fontSize: '15px', color: 'rgba(255,255,255,0.80)', lineHeight: 1.5 }}>{item}</span>
-                  </li>
-                ))}
-              </ul>
-              <Link to="/dossiers" className="group/link inline-flex items-center gap-2 mt-auto font-body" style={{ color: '#FFFFFF', fontSize: '14px', fontWeight: 500, textDecoration: 'none' }}>
-                <span className="group-hover/link:underline">Voir les dossiers</span>
-                <ArrowRight size={14} className="icon-bounce" />
-              </Link>
-            </div>
-          </ScrollReveal>
+        {/* Separator */}
+        <div style={{ height: '2px', backgroundColor: '#060608', marginBottom: 'clamp(36px, 5vw, 56px)' }} />
+
+        {/* 3 editorial columns */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 lg:gap-6">
+          {expertiseDomains.map((domain, i) => (
+            <ExpertiseColumn
+              key={domain.num}
+              domain={domain}
+              index={i}
+              isActive={hoveredIndex === null || hoveredIndex === i}
+              onHover={() => setHoveredIndex(i)}
+              onLeave={() => setHoveredIndex(null)}
+            />
+          ))}
         </div>
       </div>
     </section>
@@ -550,16 +737,19 @@ function AboutSection() {
 
   return (
     <section ref={sectionRef} style={{ backgroundColor: '#0A0D1A', position: 'relative' }}>
-      <div className="max-w-[1280px] mx-auto grid grid-cols-1 lg:grid-cols-2">
+      <div className="grid grid-cols-1 lg:grid-cols-2">
+        {/* Image — full bleed à gauche */}
         <div className="relative overflow-hidden" style={{ minHeight: 'clamp(350px, 50vw, 600px)' }}>
           <motion.div className="absolute inset-0" style={{ y: imgY, scale: isMobile ? 1 : 1.15 }}>
-            <ImageWithFallback src={ABOUT_IMG} alt="Marie Odin, avocate" className="w-full h-full object-cover" style={{ objectPosition: 'top center' }} />
+            <img src="/images/Paris1.jpeg" alt="Université Paris 1 Panthéon-Sorbonne" className="w-full h-full object-cover" style={{ objectPosition: 'center center' }} />
           </motion.div>
-          <div className="absolute inset-0 hidden lg:block" style={{ background: 'linear-gradient(to right, transparent 70%, #0A0D1A)' }} />
+          {/* Fondu progressif vers le fond sombre — pas de coupure nette */}
+          <div className="absolute inset-0 hidden lg:block" style={{ background: 'linear-gradient(to right, transparent 50%, #0A0D1A)' }} />
           <div className="absolute inset-0 lg:hidden" style={{ background: 'linear-gradient(to bottom, transparent 70%, #0A0D1A)' }} />
         </div>
 
-        <div className="flex flex-col justify-center" style={{ padding: 'clamp(48px, 6vw, 80px) clamp(20px, 5vw, 64px)' }}>
+        {/* Texte — centré dans le max-w */}
+        <div className="flex flex-col justify-center" style={{ padding: 'clamp(48px, 6vw, 80px) clamp(20px, 5vw, 64px)', maxWidth: '640px' }}>
           <ScrollReveal><p className="eyebrow mb-4" style={{ letterSpacing: '0.14em' }}>L'Avocate</p></ScrollReveal>
           <ScrollReveal delay={0.08}>
             <h2 className="font-heading" style={{ fontSize: 'clamp(36px, 4vw, 48px)', fontWeight: 700, lineHeight: 1.1, color: '#FFFFFF', marginBottom: '8px' }}>
@@ -573,7 +763,7 @@ function AboutSection() {
           </ScrollReveal>
           <ScrollReveal delay={0.16}>
             <p className="font-body" style={{ fontSize: '16px', color: 'rgba(255,255,255,0.80)', lineHeight: 1.75, marginBottom: '20px' }}>
-              Formée entre Paris et le Royaume-Uni, passée par le cabinet Bredin Prat, j'accompagne entreprises, fonds d'investissement et dirigeants en compliance, corporate et pénal des affaires.
+              Inscrite au barreau de Paris depuis 2021, passée par le cabinet Bredin Prat, j'accompagne les sociétés et leurs dirigeants en contentieux et droit pénal des affaires.
             </p>
           </ScrollReveal>
           <ScrollReveal delay={0.2}>
@@ -583,7 +773,7 @@ function AboutSection() {
           </ScrollReveal>
           <ScrollReveal delay={0.24}>
             <div className="flex flex-wrap gap-2 mb-8">
-              {['Barreau de Paris', 'M2 Droit des Affaires — Paris I', 'Bredin Prat Alumni'].map((badge) => (
+              {['Barreau de Paris', 'M2 Droit des Affaires, Paris I', 'Bredin Prat', 'Sekri Valentin Zerrouk'].map((badge) => (
                 <span
                   key={badge}
                   className="font-body tag-hover"
@@ -611,74 +801,265 @@ function AboutSection() {
 }
 
 // === SECTION E — DOSSIERS EN VEDETTE ===
-function DossiersSection() {
+// Category accent colors (consistent with Dossiers page)
+const dossierAccent: Record<string, { color: string; bg: string }> = {
+  Compliance: { color: '#FF6B00', bg: '#FFF0E6' },
+  Corporate: { color: '#1A1A1A', bg: '#F0F0F0' },
+  'Pénal des affaires': { color: '#002FA7', bg: '#E8EDFF' },
+  Contentieux: { color: '#002FA7', bg: '#E8EDFF' },
+};
+
+function DossierCard({
+  d,
+  index,
+  isActive,
+  onHover,
+  onLeave,
+}: {
+  d: typeof dossiersVedette[0];
+  index: number;
+  isActive: boolean;
+  onHover: () => void;
+  onLeave: () => void;
+}) {
+  const accent = dossierAccent[d.category] || { color: '#002FA7', bg: '#E8EDFF' };
+
   return (
-    <section style={{ backgroundColor: '#F5F5F7', padding: 'clamp(56px, 7vw, 96px) 0' }}>
+    <motion.div
+      initial={{ opacity: 0, y: 50 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: '-60px' }}
+      transition={{ duration: 0.7, delay: index * 0.15, ease: [0.22, 1, 0.36, 1] }}
+      onMouseEnter={onHover}
+      onMouseLeave={onLeave}
+    >
+      <motion.div
+        className="flex flex-col h-full"
+        animate={{
+          scale: isActive ? 1.02 : 1,
+          y: isActive ? -4 : 0,
+        }}
+        transition={{ duration: 0.35, ease: [0.25, 0.46, 0.45, 0.94] }}
+        style={{
+          backgroundColor: '#FFFFFF',
+          borderRadius: '4px',
+          padding: '32px',
+          borderTop: `3px solid ${accent.color}`,
+          boxShadow: isActive
+            ? '0 16px 48px rgba(0,0,0,0.08), 0 2px 8px rgba(0,0,0,0.04)'
+            : '0 1px 4px rgba(0,0,0,0.03)',
+          transition: 'box-shadow 0.4s ease, background-color 0.3s ease',
+        }}
+      >
+        {/* Category + number */}
+        <div className="flex items-center justify-between mb-5">
+          <span
+            className="font-body"
+            style={{
+              fontSize: '11px',
+              fontWeight: 600,
+              textTransform: 'uppercase',
+              letterSpacing: '0.1em',
+              color: accent.color,
+              backgroundColor: accent.bg,
+              padding: '4px 10px',
+              borderRadius: '2px',
+            }}
+          >
+            {d.tag}
+          </span>
+          <span
+            className="font-heading"
+            style={{
+              fontSize: '28px',
+              fontWeight: 300,
+              fontStyle: 'italic',
+              color: isActive ? accent.color : '#E0E0E8',
+              lineHeight: 1,
+              transition: 'color 0.35s ease',
+            }}
+          >
+            0{index + 1}
+          </span>
+        </div>
+
+        {/* Title — serif for editorial feel */}
+        <h3
+          className="font-heading mb-3"
+          style={{
+            fontSize: 'clamp(20px, 2vw, 24px)',
+            fontWeight: 500,
+            lineHeight: 1.25,
+            color: '#060608',
+          }}
+        >
+          {d.title}
+        </h3>
+
+        {/* Context */}
+        <p
+          className="flex-1 font-body"
+          style={{
+            fontSize: '14px',
+            color: isActive ? '#4A4A5A' : '#8A8A98',
+            lineHeight: 1.65,
+            transition: 'color 0.35s ease',
+          }}
+        >
+          {d.context}
+        </p>
+
+        {/* Result block */}
+        <div
+          style={{
+            marginTop: '20px',
+            paddingTop: '16px',
+            borderTop: `1px solid ${isActive ? accent.color + '20' : '#E8E8EE'}`,
+            transition: 'border-color 0.35s ease',
+          }}
+        >
+          <div className="flex items-start gap-3">
+            <div
+              style={{
+                width: '3px',
+                height: '100%',
+                minHeight: '32px',
+                backgroundColor: accent.color,
+                borderRadius: '2px',
+                opacity: isActive ? 0.7 : 0.2,
+                transition: 'opacity 0.35s ease',
+                flexShrink: 0,
+              }}
+            />
+            <div>
+              <p
+                className="font-body"
+                style={{
+                  fontSize: '10px',
+                  fontWeight: 600,
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.1em',
+                  color: accent.color,
+                  marginBottom: '4px',
+                  opacity: isActive ? 1 : 0.5,
+                  transition: 'opacity 0.35s ease',
+                }}
+              >
+                Résultat
+              </p>
+              <p
+                className="font-body"
+                style={{
+                  fontSize: '14px',
+                  fontWeight: 600,
+                  color: '#060608',
+                  lineHeight: 1.45,
+                }}
+              >
+                {d.result}
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* CTA */}
+        <Link
+          to="/contact"
+          className="group/link inline-flex items-center gap-2 mt-5 font-body"
+          style={{
+            color: accent.color,
+            fontSize: '13px',
+            fontWeight: 500,
+            textDecoration: 'none',
+            opacity: isActive ? 1 : 0.45,
+            transition: 'opacity 0.35s ease',
+          }}
+        >
+          <span
+            style={{
+              display: 'inline-block',
+              width: isActive ? '20px' : '0px',
+              height: '1px',
+              backgroundColor: accent.color,
+              transition: 'width 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), margin 0.4s ease',
+              marginRight: isActive ? '6px' : '0px',
+            }}
+          />
+          <span className="group-hover/link:underline">Dossier similaire ?</span>
+          <ArrowRight size={12} />
+        </Link>
+      </motion.div>
+    </motion.div>
+  );
+}
+
+function DossiersSection() {
+  const [hoveredIdx, setHoveredIdx] = useState<number | null>(null);
+
+  return (
+    <section style={{ backgroundColor: '#F5F5F7', padding: 'clamp(64px, 8vw, 112px) 0' }}>
       <div className="max-w-[1280px] mx-auto px-5 md:px-10 lg:px-20">
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-12">
+        {/* Header — editorial asymmetric */}
+        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-6">
           <div>
-            <ScrollReveal><p className="eyebrow mb-3">Mes Dossiers</p></ScrollReveal>
+            <ScrollReveal><p className="eyebrow mb-4">Dossiers</p></ScrollReveal>
             <BlurReveal
               as="h2"
               className="font-heading"
-              style={{ fontSize: 'clamp(26px, 3vw, 40px)', fontWeight: 400, fontStyle: 'italic', lineHeight: 1.3, color: '#060608' }}
+              style={{
+                fontSize: 'clamp(32px, 4.5vw, 52px)',
+                fontWeight: 400,
+                fontStyle: 'italic',
+                lineHeight: 1.15,
+                color: '#060608',
+              }}
               baseOpacity={0.15}
               enableBlur
               blurStrength={5}
             >
-              Des résultats concrets pour des enjeux complexes.
+              Des résultats concrets.
             </BlurReveal>
           </div>
           <ScrollReveal delay={0.1}>
-            <Link to="/dossiers" className="group inline-flex items-center gap-2 whitespace-nowrap font-body" style={{ color: '#002FA7', fontSize: '14px', fontWeight: 500, textDecoration: 'none' }}>
+            <Link
+              to="/dossiers"
+              className="group inline-flex items-center gap-2 whitespace-nowrap font-body"
+              style={{ color: '#002FA7', fontSize: '14px', fontWeight: 500, textDecoration: 'none' }}
+            >
               <span className="group-hover:underline">Voir tous les dossiers</span>
               <ArrowRight size={14} className="icon-bounce" />
             </Link>
           </ScrollReveal>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {/* Separator */}
+        <div style={{ height: '2px', backgroundColor: '#060608', marginBottom: 'clamp(36px, 5vw, 56px)' }} />
+
+        {/* Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-6">
           {dossiersVedette.map((d, i) => (
-            <motion.div
+            <DossierCard
               key={d.id}
-              initial={{ opacity: 0, y: 60, scale: 0.95, filter: 'blur(6px)' }}
-              whileInView={{ opacity: 1, y: 0, scale: 1, filter: 'blur(0px)' }}
-              viewport={{ once: false, margin: '-80px' }}
-              transition={{
-                duration: 0.8,
-                delay: i * 0.25,
-                ease: [0.22, 1, 0.36, 1],
-                filter: { duration: 0.5, delay: i * 0.25 },
-              }}
-            >
-              <div
-                className="flex flex-col card-hover h-full"
-                style={{ backgroundColor: '#FFFFFF', border: '1px solid #E0E0E8', borderRadius: '4px', padding: '28px', boxShadow: '0 2px 24px rgba(0,0,0,0.06)' }}
-              >
-                <span className="font-body inline-block" style={{ backgroundColor: '#E8EDFF', color: '#002FA7', fontSize: '11px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.08em', padding: '3px 9px', borderRadius: '3px' }}>
-                  {d.tag}
-                </span>
-                <h3 className="mt-3 mb-2 font-body" style={{ fontSize: '17px', fontWeight: 600, lineHeight: 1.4, color: '#060608' }}>{d.title}</h3>
-                <p className="flex-1 font-body" style={{ fontSize: '14px', color: '#6B6C7A', lineHeight: 1.6 }}>{d.context}</p>
-                <div style={{ borderTop: '1px solid #E0E0E8', margin: '16px 0' }} />
-                <p className="eyebrow mb-1" style={{ fontSize: '10px', letterSpacing: '0.10em' }}>Résultat</p>
-                <p className="font-body mb-4" style={{ fontSize: '14px', fontWeight: 600, color: '#060608', lineHeight: 1.5 }}>{d.result}</p>
-                <Link to="/contact" className="group/link inline-flex items-center gap-1 mt-auto font-body" style={{ color: '#002FA7', fontSize: '13px', fontWeight: 500, textDecoration: 'none' }}>
-                  <span className="group-hover/link:underline">→ Dossier similaire ?</span>
-                </Link>
-              </div>
-            </motion.div>
+              d={d}
+              index={i}
+              isActive={hoveredIdx === null || hoveredIdx === i}
+              onHover={() => setHoveredIdx(i)}
+              onLeave={() => setHoveredIdx(null)}
+            />
           ))}
         </div>
 
-        <div className="text-center mt-12 flex flex-col items-center gap-3">
+        {/* Bottom CTA */}
+        <div className="text-center mt-14 flex flex-col items-center gap-3">
           <ScrollReveal>
             <Link to="/dossiers" className="btn-outline transition-all hover:scale-[1.01]" style={{ padding: '14px 32px' }}>
               Voir tous mes dossiers
             </Link>
           </ScrollReveal>
           <ScrollReveal delay={0.06}>
-            <p className="font-body" style={{ fontSize: '13px', color: '#6B6C7A' }}>6 dossiers illustrés · anonymisés</p>
+            <p className="font-body" style={{ fontSize: '13px', color: '#6B6C7A' }}>
+              6 dossiers illustrés · anonymisés
+            </p>
           </ScrollReveal>
         </div>
       </div>
